@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Airbnb Stay Estimator</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="background-wrapper">
+        <div class="glass-card">
+            <header>
+                <h1>Stay Estimator</h1>
+                <p>Find the perfect Airbnb match for your budget</p>
+            </header>
+            
+            <form id="estimator-form">
+                <div class="input-group">
+                    <label for="nights">Number of Nights</label>
+                    <input type="number" id="nights" name="nights" min="1" value="1" required>
+                </div>
+                
+                <div class="input-group">
+                    <label for="guests">Number of Guests</label>
+                    <input type="number" id="guests" name="guests" min="1" value="1" required>
+                </div>
+                
+                <div class="input-group">
+                    <label for="budget">Max Budget per Night ($)</label>
+                    <input type="number" id="budget" name="budget" min="1" value="100" required>
+                </div>
+                
+                <button type="submit" class="submit-btn">Estimate Stay</button>
+            </form>
+
+            <div id="results-section" class="hidden">
+                <hr>
+                <h2>Recommendation</h2>
+                <div class="result-highlight">
+                    <span id="result-type" class="room-type">Room Type</span>
+                </div>
+                
+                <div class="receipt">
+                    <div class="receipt-row">
+                        <span>Base Cost</span>
+                        <span id="result-base">$0.00</span>
+                    </div>
+                    <div class="receipt-row">
+                        <span>Cleaning Fee</span>
+                        <span id="result-cleaning">$0.00</span>
+                    </div>
+                    <div class="receipt-row">
+                        <span>Service Fee</span>
+                        <span id="result-service">$0.00</span>
+                    </div>
+                    <div class="receipt-row total-row">
+                        <span>Total Estimated</span>
+                        <span id="result-total">$0.00</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="script.js"></script>
+</body>
+</html>
