@@ -3,67 +3,120 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Airbnb Stay Estimator</title>
+    <title>Airbnb Clone - Group Project</title>
     <link rel="stylesheet" href="style.css">
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <!-- Use Inter font to match Airbnb's circular typeface look -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Use FontAwesome for basic icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
-    <div class="background-wrapper">
-        <div class="glass-card">
-            <header>
-                <h1>Stay Estimator</h1>
-                <p>Find the perfect Airbnb match for your budget</p>
-            </header>
-            
-            <form id="estimator-form">
-                <div class="input-group">
-                    <label for="nights">Number of Nights</label>
-                    <input type="number" id="nights" name="nights" min="1" value="1" required>
-                </div>
-                
-                <div class="input-group">
-                    <label for="guests">Number of Guests</label>
-                    <input type="number" id="guests" name="guests" min="1" value="1" required>
-                </div>
-                
-                <div class="input-group">
-                    <label for="budget">Max Budget per Night ($)</label>
-                    <input type="number" id="budget" name="budget" min="1" value="100" required>
-                </div>
-                
-                <button type="submit" class="submit-btn">Estimate Stay</button>
-            </form>
-
-            <div id="results-section" class="hidden">
-                <hr>
-                <h2>Recommendation</h2>
-                <div class="result-highlight">
-                    <span id="result-type" class="room-type">Room Type</span>
-                </div>
-                
-                <div class="receipt">
-                    <div class="receipt-row">
-                        <span>Base Cost</span>
-                        <span id="result-base">$0.00</span>
-                    </div>
-                    <div class="receipt-row">
-                        <span>Cleaning Fee</span>
-                        <span id="result-cleaning">$0.00</span>
-                    </div>
-                    <div class="receipt-row">
-                        <span>Service Fee</span>
-                        <span id="result-service">$0.00</span>
-                    </div>
-                    <div class="receipt-row total-row">
-                        <span>Total Estimated</span>
-                        <span id="result-total">$0.00</span>
-                    </div>
-                </div>
+    <!-- Top Navigation Bar -->
+    <nav class="navbar">
+        <div class="nav-left">
+            <i class="fa-brands fa-airbnb logo-icon"></i>
+            <span class="logo-text">airbnb</span>
+        </div>
+        <div class="nav-center">
+            <div class="nav-item active">
+                <i class="fa-solid fa-globe"></i>
+                <span>All</span>
+            </div>
+            <div class="nav-item">
+                <i class="fa-solid fa-house"></i>
+                <span>Homes</span>
+            </div>
+            <div class="nav-item">
+                <i class="fa-solid fa-hot-tub-person"></i>
+                <span>Experiences</span>
+            </div>
+            <div class="nav-item">
+                <i class="fa-solid fa-bell-concierge"></i>
+                <span>Services</span>
             </div>
         </div>
-    </div>
-    
+        <div class="nav-right">
+            <a href="#" class="become-host">Become a host</a>
+            <button class="icon-btn"><i class="fa-solid fa-globe"></i></button>
+            <button class="profile-menu">
+                <i class="fa-solid fa-bars"></i>
+                <i class="fa-solid fa-circle-user avatar-icon"></i>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Search Bar Section -->
+    <header class="search-section">
+        <form id="search-form" class="search-pill">
+            <div class="search-field">
+                <label for="location">Where</label>
+                <input type="text" id="location" placeholder="Search destinations (e.g. Kuala Lumpur)" autocomplete="off">
+            </div>
+            <div class="divider"></div>
+            <div class="search-field">
+                <label for="checkin">When</label>
+                <input type="text" id="checkin" placeholder="Add dates" disabled>
+            </div>
+            <div class="divider"></div>
+            <div class="search-field">
+                <label for="guests">Who</label>
+                <input type="number" id="guests" placeholder="Add guests" min="1">
+            </div>
+            <button type="submit" class="search-btn">
+                <i class="fa-solid fa-magnifying-glass"></i>
+            </button>
+        </form>
+    </header>
+
+    <!-- Main Content Area -->
+    <main>
+        <!-- Default State: Homepage rows -->
+        <div id="home-view">
+            <section class="listing-section">
+                <div class="section-header">
+                    <h2>Popular homes in Malacca</h2>
+                    <div class="nav-arrows">
+                        <button class="arrow-btn"><i class="fa-solid fa-chevron-left"></i></button>
+                        <button class="arrow-btn"><i class="fa-solid fa-chevron-right"></i></button>
+                    </div>
+                </div>
+                <div class="horizontal-scroll" id="malacca-grid">
+                    <!-- Cards injected by JS -->
+                </div>
+            </section>
+
+            <section class="listing-section">
+                <div class="section-header">
+                    <h2>Available in Kuala Lumpur this weekend</h2>
+                    <div class="nav-arrows">
+                        <button class="arrow-btn"><i class="fa-solid fa-chevron-left"></i></button>
+                        <button class="arrow-btn"><i class="fa-solid fa-chevron-right"></i></button>
+                    </div>
+                </div>
+                <div class="horizontal-scroll" id="kl-grid">
+                    <!-- Cards injected by JS -->
+                </div>
+            </section>
+        </div>
+
+        <!-- Search Results State -->
+        <div id="search-view" class="hidden">
+            <section class="listing-section">
+                <div class="section-header">
+                    <h2 id="search-title">Search Results</h2>
+                </div>
+                <!-- Using a standard wrap grid for search results -->
+                <div class="wrap-grid" id="search-grid">
+                    <!-- Cards injected by JS -->
+                </div>
+                <div id="no-results" class="hidden empty-state">
+                    <h3>No exact matches found</h3>
+                    <p>Try changing or removing some of your filters.</p>
+                </div>
+            </section>
+        </div>
+    </main>
+
     <script src="script.js"></script>
 </body>
 </html>
