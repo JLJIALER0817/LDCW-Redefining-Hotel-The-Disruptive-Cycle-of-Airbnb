@@ -5,9 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Airbnb Clone - Group Project</title>
     <link rel="stylesheet" href="style.css">
-    <!-- Use Inter font to match Airbnb's circular typeface look -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <!-- Use FontAwesome for basic icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
@@ -47,68 +45,168 @@
 
     <!-- Search Bar Section -->
     <header class="search-section">
-        <form id="search-form" class="search-pill">
-            <div class="search-field">
-                <label for="location">Where</label>
-                <input type="text" id="location" placeholder="Search destinations (e.g. Kuala Lumpur)" autocomplete="off">
+        <div class="search-container">
+            <form id="search-form" class="search-pill">
+                <div class="search-field" id="where-field">
+                    <label for="location">Where</label>
+                    <input type="text" id="location" placeholder="Search destinations" autocomplete="off">
+                </div>
+                <div class="divider"></div>
+                <div class="search-field" id="when-field">
+                    <label>When</label>
+                    <input type="text" id="checkin" placeholder="Add dates" readonly>
+                </div>
+                <div class="divider"></div>
+                <div class="search-field" id="who-field">
+                    <label>Who</label>
+                    <input type="text" id="guests-display" placeholder="Add guests" readonly>
+                    <!-- Hidden actual input for guests -->
+                    <input type="hidden" id="guests" value="0">
+                </div>
+                <button type="submit" class="search-btn">
+                    <i class="fa-solid fa-magnifying-glass"></i> <span class="search-btn-text">Search</span>
+                </button>
+            </form>
+
+            <!-- Dropdown: When (Calendar) -->
+            <div class="dropdown-panel hidden" id="calendar-dropdown">
+                <div class="calendar-tabs">
+                    <button class="cal-tab active">Dates</button>
+                    <button class="cal-tab">Flexible</button>
+                </div>
+                <div class="calendar-wrapper">
+                    <!-- June 2026 -->
+                    <div class="month">
+                        <div class="month-header">
+                            <i class="fa-solid fa-chevron-left cal-arrow"></i>
+                            <strong>June 2026</strong>
+                            <div></div> <!-- spacing -->
+                        </div>
+                        <div class="weekdays">
+                            <span>S</span><span>M</span><span>T</span><span>W</span><span>T</span><span>F</span><span>S</span>
+                        </div>
+                        <div class="days">
+                            <!-- empty days -->
+                            <span class="empty"></span>
+                            <span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span>
+                            <span>7</span><span>8</span><span>9</span><span>10</span><span>11</span><span>12</span><span>13</span>
+                            <span class="past">14</span><span class="past">15</span><span class="past">16</span><span class="past">17</span><span class="past">18</span><span class="today">19</span><span>20</span>
+                            <span>21</span><span>22</span><span>23</span><span>24</span><span>25</span><span>26</span><span>27</span>
+                            <span>28</span><span>29</span><span>30</span>
+                        </div>
+                    </div>
+                    <!-- July 2026 -->
+                    <div class="month">
+                        <div class="month-header">
+                            <div></div> <!-- spacing -->
+                            <strong>July 2026</strong>
+                            <i class="fa-solid fa-chevron-right cal-arrow"></i>
+                        </div>
+                        <div class="weekdays">
+                            <span>S</span><span>M</span><span>T</span><span>W</span><span>T</span><span>F</span><span>S</span>
+                        </div>
+                        <div class="days">
+                            <span class="empty"></span><span class="empty"></span><span class="empty"></span>
+                            <span>1</span><span>2</span><span>3</span><span>4</span>
+                            <span>5</span><span>6</span><span>7</span><span>8</span><span>9</span><span>10</span><span>11</span>
+                            <span>12</span><span>13</span><span>14</span><span>15</span><span>16</span><span>17</span><span>18</span>
+                            <span>19</span><span>20</span><span>21</span><span>22</span><span>23</span><span>24</span><span>25</span>
+                            <span>26</span><span>27</span><span>28</span><span>29</span><span>30</span><span>31</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="calendar-footer">
+                    <button class="pill-btn active">Exact dates</button>
+                    <button class="pill-btn">± 1 day</button>
+                    <button class="pill-btn">± 2 days</button>
+                    <button class="pill-btn">± 3 days</button>
+                    <button class="pill-btn">± 7 days</button>
+                    <button class="pill-btn">± 14 days</button>
+                </div>
             </div>
-            <div class="divider"></div>
-            <div class="search-field">
-                <label for="checkin">When</label>
-                <input type="text" id="checkin" placeholder="Add dates" disabled>
+
+            <!-- Dropdown: Who (Guests) -->
+            <div class="dropdown-panel guests-panel hidden" id="guests-dropdown">
+                <div class="guest-row">
+                    <div class="guest-info">
+                        <strong>Adults</strong>
+                        <span>Ages 13 or above</span>
+                    </div>
+                    <div class="guest-controls">
+                        <button type="button" class="ctrl-btn minus" data-type="adults" disabled>-</button>
+                        <span class="count" id="count-adults">0</span>
+                        <button type="button" class="ctrl-btn plus" data-type="adults">+</button>
+                    </div>
+                </div>
+                <div class="guest-row">
+                    <div class="guest-info">
+                        <strong>Children</strong>
+                        <span>Ages 2 – 12</span>
+                    </div>
+                    <div class="guest-controls">
+                        <button type="button" class="ctrl-btn minus" data-type="children" disabled>-</button>
+                        <span class="count" id="count-children">0</span>
+                        <button type="button" class="ctrl-btn plus" data-type="children">+</button>
+                    </div>
+                </div>
+                <div class="guest-row">
+                    <div class="guest-info">
+                        <strong>Infants</strong>
+                        <span>Under 2</span>
+                    </div>
+                    <div class="guest-controls">
+                        <button type="button" class="ctrl-btn minus" data-type="infants" disabled>-</button>
+                        <span class="count" id="count-infants">0</span>
+                        <button type="button" class="ctrl-btn plus" data-type="infants">+</button>
+                    </div>
+                </div>
+                <div class="guest-row">
+                    <div class="guest-info">
+                        <strong>Pets</strong>
+                        <span>Bringing a service animal?</span>
+                    </div>
+                    <div class="guest-controls">
+                        <button type="button" class="ctrl-btn minus" data-type="pets" disabled>-</button>
+                        <span class="count" id="count-pets">0</span>
+                        <button type="button" class="ctrl-btn plus" data-type="pets">+</button>
+                    </div>
+                </div>
             </div>
-            <div class="divider"></div>
-            <div class="search-field">
-                <label for="guests">Who</label>
-                <input type="number" id="guests" placeholder="Add guests" min="1">
-            </div>
-            <button type="submit" class="search-btn">
-                <i class="fa-solid fa-magnifying-glass"></i>
-            </button>
-        </form>
+        </div>
     </header>
 
     <!-- Main Content Area -->
     <main>
-        <!-- Default State: Homepage rows -->
         <div id="home-view">
             <section class="listing-section">
                 <div class="section-header">
-                    <h2>Popular homes in Malacca</h2>
+                    <h2>Popular homes in Malacca <i class="fa-solid fa-arrow-right title-arrow"></i></h2>
                     <div class="nav-arrows">
                         <button class="arrow-btn"><i class="fa-solid fa-chevron-left"></i></button>
                         <button class="arrow-btn"><i class="fa-solid fa-chevron-right"></i></button>
                     </div>
                 </div>
-                <div class="horizontal-scroll" id="malacca-grid">
-                    <!-- Cards injected by JS -->
-                </div>
+                <div class="horizontal-scroll" id="malacca-grid"></div>
             </section>
 
             <section class="listing-section">
                 <div class="section-header">
-                    <h2>Available in Kuala Lumpur this weekend</h2>
+                    <h2>Available in Kuala Lumpur this weekend <i class="fa-solid fa-arrow-right title-arrow"></i></h2>
                     <div class="nav-arrows">
                         <button class="arrow-btn"><i class="fa-solid fa-chevron-left"></i></button>
                         <button class="arrow-btn"><i class="fa-solid fa-chevron-right"></i></button>
                     </div>
                 </div>
-                <div class="horizontal-scroll" id="kl-grid">
-                    <!-- Cards injected by JS -->
-                </div>
+                <div class="horizontal-scroll" id="kl-grid"></div>
             </section>
         </div>
 
-        <!-- Search Results State -->
         <div id="search-view" class="hidden">
             <section class="listing-section">
                 <div class="section-header">
                     <h2 id="search-title">Search Results</h2>
                 </div>
-                <!-- Using a standard wrap grid for search results -->
-                <div class="wrap-grid" id="search-grid">
-                    <!-- Cards injected by JS -->
-                </div>
+                <div class="wrap-grid" id="search-grid"></div>
                 <div id="no-results" class="hidden empty-state">
                     <h3>No exact matches found</h3>
                     <p>Try changing or removing some of your filters.</p>
@@ -116,6 +214,84 @@
             </section>
         </div>
     </main>
+
+    <!-- Disruptive Comparison Modal -->
+    <div id="comparison-modal" class="modal-overlay hidden">
+        <div class="modal-content">
+            <button class="modal-close" id="close-modal"><i class="fa-solid fa-xmark"></i></button>
+            <h2 class="modal-title">Why Airbnb Wins: The Disruptive Edge</h2>
+            
+            <div class="comparison-grid">
+                <!-- Left: Airbnb Property -->
+                <div class="comp-side airbnb-side">
+                    <div class="comp-badge">Your Selection</div>
+                    <img id="comp-img" src="" alt="Property" class="comp-img">
+                    <h3 id="comp-title">Property Title</h3>
+                    
+                    <div class="comp-stats">
+                        <div class="stat-row">
+                            <i class="fa-solid fa-users"></i>
+                            <span id="comp-guests">Up to X guests</span>
+                        </div>
+                        <div class="stat-row">
+                            <i class="fa-solid fa-money-bill-wave"></i>
+                            <strong>RM <span id="comp-price">0</span> / night</strong>
+                        </div>
+                    </div>
+                    
+                    <div class="comp-perks">
+                        <h4>Disruptive Advantages</h4>
+                        <ul>
+                            <li><i class="fa-solid fa-check text-green"></i> Entire private space</li>
+                            <li><i class="fa-solid fa-check text-green"></i> Full Kitchen & Washer</li>
+                            <li><i class="fa-solid fa-check text-green"></i> Everyone stays together</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="vs-divider">
+                    <div class="vs-circle">VS</div>
+                </div>
+
+                <!-- Right: Traditional Hotel -->
+                <div class="comp-side hotel-side">
+                    <div class="comp-badge hotel-badge">Traditional Hotel</div>
+                    <div class="hotel-icon-wrapper">
+                        <i class="fa-solid fa-hotel"></i>
+                    </div>
+                    <h3>Standard 4-Star Hotel</h3>
+                    
+                    <div class="comp-stats">
+                        <div class="stat-row">
+                            <i class="fa-solid fa-bed"></i>
+                            <span>Max 2 guests per room</span>
+                        </div>
+                        <div class="stat-row">
+                            <i class="fa-solid fa-door-open"></i>
+                            <span class="text-red">Need <strong id="hotel-rooms">X</strong> rooms</span>
+                        </div>
+                        <div class="stat-row">
+                            <i class="fa-solid fa-money-bill-wave"></i>
+                            <strong class="text-red">RM <span id="hotel-price">0</span> / night</strong>
+                        </div>
+                    </div>
+                    
+                    <div class="comp-perks">
+                        <h4>Traditional Limits</h4>
+                        <ul>
+                            <li><i class="fa-solid fa-xmark text-red"></i> No kitchen, small fridge</li>
+                            <li><i class="fa-solid fa-xmark text-red"></i> Group split across rooms</li>
+                            <li><i class="fa-solid fa-xmark text-red"></i> Expensive extra fees</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="savings-banner">
+                <h3>Total Savings per Night: <span id="total-savings" class="text-green">RM 0</span></h3>
+            </div>
+        </div>
+    </div>
 
     <script src="script.js"></script>
 </body>
