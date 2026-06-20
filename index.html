@@ -48,8 +48,13 @@
         <div class="search-container">
             <form id="search-form" class="search-pill">
                 <div class="search-field" id="where-field">
-                    <label for="location">Where</label>
-                    <input type="text" id="location" placeholder="Search destinations" autocomplete="off">
+                    <label>Where</label>
+                    <input type="text" id="location" placeholder="Search destinations" readonly>
+                </div>
+                <div class="divider"></div>
+                <div class="search-field" id="type-field">
+                    <label>Type</label>
+                    <input type="text" id="property-type" placeholder="Any type" readonly>
                 </div>
                 <div class="divider"></div>
                 <div class="search-field" id="when-field">
@@ -67,6 +72,29 @@
                     <i class="fa-solid fa-magnifying-glass"></i> <span class="search-btn-text">Search</span>
                 </button>
             </form>
+
+            <!-- Dropdown: Where (Location) -->
+            <div class="dropdown-panel hidden" id="location-dropdown">
+                <ul class="options-list" id="location-options">
+                    <li class="option-item" data-value="Anywhere"><i class="fa-solid fa-location-dot"></i> Anywhere in Malaysia</li>
+                    <li class="option-item" data-value="Kuala Lumpur"><i class="fa-solid fa-city"></i> Kuala Lumpur</li>
+                    <li class="option-item" data-value="Malacca"><i class="fa-solid fa-building"></i> Malacca</li>
+                    <li class="option-item" data-value="Penang"><i class="fa-solid fa-bridge-water"></i> Penang</li>
+                    <li class="option-item" data-value="Johor Bahru"><i class="fa-solid fa-shop"></i> Johor Bahru</li>
+                    <li class="option-item" data-value="Langkawi"><i class="fa-solid fa-umbrella-beach"></i> Langkawi</li>
+                    <li class="option-item" data-value="Sabah"><i class="fa-solid fa-mountain"></i> Sabah</li>
+                </ul>
+            </div>
+
+            <!-- Dropdown: Type -->
+            <div class="dropdown-panel hidden" id="type-dropdown">
+                <ul class="options-list" id="type-options">
+                    <li class="option-item" data-value="Any type"><i class="fa-solid fa-house-chimney"></i> Any type</li>
+                    <li class="option-item" data-value="Entire home"><i class="fa-solid fa-house"></i> Entire home</li>
+                    <li class="option-item" data-value="Shared room"><i class="fa-solid fa-bed"></i> Shared room</li>
+                    <li class="option-item" data-value="Luxury villa"><i class="fa-solid fa-gem"></i> Luxury villa</li>
+                </ul>
+            </div>
 
             <!-- Dropdown: When (Calendar) -->
             <div class="dropdown-panel hidden" id="calendar-dropdown">
@@ -288,8 +316,23 @@
             </div>
 
             <div class="savings-banner">
-                <h3>Total Savings per Night: <span id="total-savings" class="text-green">RM 0</span></h3>
+                <div class="savings-info">
+                    <h3>Total Savings: <span id="total-savings" class="text-green">RM 0</span></h3>
+                    <p>for <span id="stay-nights">0</span> nights</p>
+                </div>
+                <button id="book-now-btn" class="book-now-btn">Book Now</button>
             </div>
+        </div>
+    </div>
+
+    <!-- Booking Success Modal -->
+    <div id="success-modal" class="modal-overlay hidden" style="z-index: 2000;">
+        <div class="success-content">
+            <i class="fa-solid fa-circle-check success-icon"></i>
+            <h2>Booking Successful!</h2>
+            <p>You have successfully booked: <strong id="success-prop-name">Property Name</strong></p>
+            <p>Total Price: <strong class="text-green" id="success-total-price">RM 0</strong></p>
+            <button id="close-success" class="search-btn" style="margin: 20px auto 0; height: 40px; display: inline-flex;">Awesome!</button>
         </div>
     </div>
 

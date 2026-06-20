@@ -1,16 +1,18 @@
 // Mock Database
 const allProperties = [
-    { id: 1, location: 'Malacca', title: 'Condo in Malacca', price: 326, rating: 5.0, nights: 2, maxGuests: 4, isGuestFavorite: true, imgUrl: 'https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?q=80&w=600&auto=format&fit=crop' },
-    { id: 2, location: 'Malacca', title: 'Apartment in Malacca', price: 301, rating: 4.91, nights: 2, maxGuests: 2, isGuestFavorite: false, imgUrl: 'https://images.unsplash.com/photo-1502672260266-1c1de24227e8?q=80&w=600&auto=format&fit=crop' },
-    { id: 3, location: 'Malacca', title: 'Apartment in Malacca', price: 298, rating: 4.79, nights: 2, maxGuests: 3, isGuestFavorite: true, imgUrl: 'https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?q=80&w=600&auto=format&fit=crop' },
-    { id: 4, location: 'Malacca', title: 'Apartment in Malacca', price: 400, rating: 5.0, nights: 2, maxGuests: 5, isGuestFavorite: true, imgUrl: 'https://images.unsplash.com/photo-1484154218962-a197022b5858?q=80&w=600&auto=format&fit=crop' },
-    { id: 5, location: 'Malacca', title: 'Condo in Malacca', price: 290, rating: 4.85, nights: 2, maxGuests: 2, isGuestFavorite: true, imgUrl: 'https://images.unsplash.com/photo-1493809842364-78817add7ffb?q=80&w=600&auto=format&fit=crop' },
-    { id: 6, location: 'Kuala Lumpur', title: 'Apartment in Kuala Lumpur', price: 400, rating: 4.94, nights: 2, maxGuests: 4, isGuestFavorite: true, imgUrl: 'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?q=80&w=600&auto=format&fit=crop' },
-    { id: 7, location: 'Kuala Lumpur', title: 'Apartment in Cheras', price: 326, rating: 5.0, nights: 2, maxGuests: 2, isGuestFavorite: false, imgUrl: 'https://images.unsplash.com/photo-1564013799919-ab600027ffc6?q=80&w=600&auto=format&fit=crop' },
-    { id: 8, location: 'Kuala Lumpur', title: 'Apartment in Kuala Lumpur', price: 546, rating: 4.83, nights: 2, maxGuests: 6, isGuestFavorite: false, imgUrl: 'https://images.unsplash.com/photo-1449844908441-8829872d2607?q=80&w=600&auto=format&fit=crop' },
-    { id: 9, location: 'Kuala Lumpur', title: 'Apartment in Brickfields', price: 236, rating: 5.0, nights: 2, maxGuests: 2, isGuestFavorite: false, imgUrl: 'https://images.unsplash.com/photo-1513694203232-719a280e022f?q=80&w=600&auto=format&fit=crop' },
-    { id: 10, location: 'Kuala Lumpur', title: 'Condo in Kuala Lumpur', price: 628, rating: 4.97, nights: 2, maxGuests: 4, isGuestFavorite: true, imgUrl: 'https://images.unsplash.com/photo-1522771739844-6a9f6d5f14af?q=80&w=600&auto=format&fit=crop' }
+    { id: 1, location: 'Malacca', title: 'Condo in Malacca', propertyType: 'Entire home', pricePerNight: 163, rating: 5.0, maxGuests: 4, isGuestFavorite: true, imgUrl: 'https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?q=80&w=600&auto=format&fit=crop' },
+    { id: 2, location: 'Malacca', title: 'Apartment in Malacca', propertyType: 'Shared room', pricePerNight: 150, rating: 4.91, maxGuests: 2, isGuestFavorite: false, imgUrl: 'https://images.unsplash.com/photo-1502672260266-1c1de24227e8?q=80&w=600&auto=format&fit=crop' },
+    { id: 3, location: 'Malacca', title: 'Luxury Villa Malacca', propertyType: 'Luxury villa', pricePerNight: 450, rating: 4.79, maxGuests: 6, isGuestFavorite: true, imgUrl: 'https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?q=80&w=600&auto=format&fit=crop' },
+    { id: 4, location: 'Kuala Lumpur', title: 'KLCC View Condo', propertyType: 'Entire home', pricePerNight: 200, rating: 4.94, maxGuests: 4, isGuestFavorite: true, imgUrl: 'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?q=80&w=600&auto=format&fit=crop' },
+    { id: 5, location: 'Kuala Lumpur', title: 'Cozy Room in Cheras', propertyType: 'Shared room', pricePerNight: 80, rating: 5.0, maxGuests: 2, isGuestFavorite: false, imgUrl: 'https://images.unsplash.com/photo-1564013799919-ab600027ffc6?q=80&w=600&auto=format&fit=crop' },
+    { id: 6, location: 'Penang', title: 'Heritage House Penang', propertyType: 'Entire home', pricePerNight: 180, rating: 4.85, maxGuests: 5, isGuestFavorite: true, imgUrl: 'https://images.unsplash.com/photo-1493809842364-78817add7ffb?q=80&w=600&auto=format&fit=crop' },
+    { id: 7, location: 'Johor Bahru', title: 'JB City Apartment', propertyType: 'Entire home', pricePerNight: 120, rating: 4.83, maxGuests: 3, isGuestFavorite: false, imgUrl: 'https://images.unsplash.com/photo-1449844908441-8829872d2607?q=80&w=600&auto=format&fit=crop' },
+    { id: 8, location: 'Langkawi', title: 'Langkawi Beach Villa', propertyType: 'Luxury villa', pricePerNight: 600, rating: 4.97, maxGuests: 8, isGuestFavorite: true, imgUrl: 'https://images.unsplash.com/photo-1522771739844-6a9f6d5f14af?q=80&w=600&auto=format&fit=crop' },
+    { id: 9, location: 'Sabah', title: 'Mount Kinabalu Lodge', propertyType: 'Shared room', pricePerNight: 100, rating: 4.90, maxGuests: 2, isGuestFavorite: true, imgUrl: 'https://images.unsplash.com/photo-1513694203232-719a280e022f?q=80&w=600&auto=format&fit=crop' }
 ];
+
+let selectedNights = 1;
+let currentSelectedProperty = null;
 
 // === 1. Render & Heart Buttons ===
 function createCard(property) {
@@ -27,8 +29,11 @@ function createCard(property) {
             <div class="card-title">${property.title}</div>
             <div class="card-rating"><i class="fa-solid fa-star"></i> ${property.rating.toFixed(2)}</div>
         </div>
-        <div class="card-price">
-            <strong>RM ${property.price}</strong> <span>for ${property.nights} nights</span>
+        <div class="card-price" style="margin-top: 4px; font-size: 14px; color: var(--text-light);">
+            ${property.propertyType}
+        </div>
+        <div class="card-price" style="margin-top: 4px;">
+            <strong>RM ${property.pricePerNight}</strong> <span>night</span>
         </div>
     `;
 
@@ -86,28 +91,57 @@ document.querySelectorAll('.listing-section').forEach(section => {
 const whenField = document.getElementById('when-field');
 const whoField = document.getElementById('who-field');
 const whereField = document.getElementById('where-field');
+const typeField = document.getElementById('type-field');
 const calendarDropdown = document.getElementById('calendar-dropdown');
 const guestsDropdown = document.getElementById('guests-dropdown');
+const locationDropdown = document.getElementById('location-dropdown');
+const typeDropdown = document.getElementById('type-dropdown');
 const searchPill = document.querySelector('.search-pill');
 
 function closeAllDropdowns() {
     calendarDropdown.classList.add('hidden');
     guestsDropdown.classList.add('hidden');
+    locationDropdown.classList.add('hidden');
+    typeDropdown.classList.add('hidden');
     document.querySelectorAll('.search-field').forEach(el => el.classList.remove('active'));
     searchPill.classList.remove('active');
 }
 
 document.addEventListener('click', function(e) {
-    if (!searchPill.contains(e.target) && !calendarDropdown.contains(e.target) && !guestsDropdown.contains(e.target)) {
+    if (!searchPill.contains(e.target) && !calendarDropdown.contains(e.target) && !guestsDropdown.contains(e.target) && !locationDropdown.contains(e.target) && !typeDropdown.contains(e.target)) {
         closeAllDropdowns();
     }
 });
 
-whereField.addEventListener('click', () => {
+whereField.addEventListener('click', (e) => {
+    e.stopPropagation();
     closeAllDropdowns();
     whereField.classList.add('active');
     searchPill.classList.add('active');
-    document.getElementById('location').focus();
+    locationDropdown.classList.remove('hidden');
+});
+
+typeField.addEventListener('click', (e) => {
+    e.stopPropagation();
+    closeAllDropdowns();
+    typeField.classList.add('active');
+    searchPill.classList.add('active');
+    typeDropdown.classList.remove('hidden');
+});
+
+// Dropdown item selection
+document.querySelectorAll('#location-options .option-item').forEach(item => {
+    item.addEventListener('click', function() {
+        document.getElementById('location').value = this.getAttribute('data-value');
+        closeAllDropdowns();
+    });
+});
+
+document.querySelectorAll('#type-options .option-item').forEach(item => {
+    item.addEventListener('click', function() {
+        document.getElementById('property-type').value = this.getAttribute('data-value');
+        closeAllDropdowns();
+    });
 });
 
 whenField.addEventListener('click', (e) => {
@@ -155,9 +189,28 @@ function updateCalendarUI() {
         }
     });
 
-    if (!date1 && !date2) checkinInput.value = "";
-    else if (date1 && !date2) checkinInput.value = `${date1.text}`;
-    else if (date1 && date2) checkinInput.value = `${date1.text} - ${date2.text}`;
+    if (!date1 && !date2) {
+        checkinInput.value = "";
+        selectedNights = 1;
+    }
+    else if (date1 && !date2) {
+        checkinInput.value = `${date1.text}`;
+        selectedNights = 1;
+    }
+    else if (date1 && date2) {
+        checkinInput.value = `${date1.text} - ${date2.text}`;
+        const d1Month = Math.floor(date1.val / 100);
+        const d1Day = date1.val % 100;
+        const d2Month = Math.floor(date2.val / 100);
+        const d2Day = date2.val % 100;
+        
+        if (d1Month === d2Month) {
+            selectedNights = Math.abs(d1Day - d2Day);
+        } else {
+            selectedNights = (30 - d1Day) + d2Day;
+        }
+        if (selectedNights === 0) selectedNights = 1;
+    }
 }
 
 days.forEach(day => {
@@ -213,14 +266,79 @@ document.getElementById('search-form').addEventListener('submit', function(e) {
     e.preventDefault();
     closeAllDropdowns();
 
-    const searchInput = document.getElementById('location').value.toLowerCase();
+    const searchLocation = document.getElementById('location').value;
+    const searchType = document.getElementById('property-type').value;
     const guestsInput = parseInt(document.getElementById('guests').value) || 0;
 
-    const matchedProperties = allProperties.filter(p => {
-        const matchLocation = searchInput === '' || p.title.toLowerCase().includes(searchInput) || p.location.toLowerCase().includes(searchInput);
-        const matchGuests = guestsInput === 0 || p.maxGuests >= guestsInput;
-        return matchLocation && matchGuests;
-    });
+    const matchedProperties = [];
+
+    // Using switch and if/else as required by assignment rubric
+    for (let i = 0; i < allProperties.length; i++) {
+        let p = allProperties[i];
+        let locationMatch = false;
+        let typeMatch = false;
+
+        // Check Location using switch
+        if (searchLocation === "" || searchLocation === "Anywhere") {
+            locationMatch = true;
+        } else {
+            switch(searchLocation) {
+                case "Kuala Lumpur":
+                    if (p.location === "Kuala Lumpur") locationMatch = true;
+                    break;
+                case "Malacca":
+                    if (p.location === "Malacca") locationMatch = true;
+                    break;
+                case "Penang":
+                    if (p.location === "Penang") locationMatch = true;
+                    break;
+                case "Johor Bahru":
+                    if (p.location === "Johor Bahru") locationMatch = true;
+                    break;
+                case "Langkawi":
+                    if (p.location === "Langkawi") locationMatch = true;
+                    break;
+                case "Sabah":
+                    if (p.location === "Sabah") locationMatch = true;
+                    break;
+                default:
+                    locationMatch = false;
+            }
+        }
+
+        // Check Type using switch
+        if (searchType === "" || searchType === "Any type") {
+            typeMatch = true;
+        } else {
+            switch(searchType) {
+                case "Entire home":
+                    if (p.propertyType === "Entire home") typeMatch = true;
+                    break;
+                case "Shared room":
+                    if (p.propertyType === "Shared room") typeMatch = true;
+                    break;
+                case "Luxury villa":
+                    if (p.propertyType === "Luxury villa") typeMatch = true;
+                    break;
+                default:
+                    typeMatch = false;
+            }
+        }
+
+        // Check Guests using if/else
+        let guestMatch = false;
+        if (guestsInput === 0) {
+            guestMatch = true;
+        } else if (p.maxGuests >= guestsInput) {
+            guestMatch = true;
+        } else {
+            guestMatch = false;
+        }
+
+        if (locationMatch && typeMatch && guestMatch) {
+            matchedProperties.push(p);
+        }
+    }
 
     const homeView = document.getElementById('home-view');
     const searchView = document.getElementById('search-view');
@@ -247,44 +365,50 @@ const comparisonModal = document.getElementById('comparison-modal');
 const closeModalBtn = document.getElementById('close-modal');
 
 function openComparisonModal(property) {
+    currentSelectedProperty = property;
     // 1. Populate Airbnb Side
     document.getElementById('comp-img').src = property.imgUrl;
     document.getElementById('comp-title').textContent = property.title;
     document.getElementById('comp-guests').textContent = `Up to ${property.maxGuests} guests`;
     
-    // Airbnb Price per night calculation (price / nights in mock data)
-    const airbnbPricePerNight = Math.round(property.price / property.nights);
-    document.getElementById('comp-price').textContent = airbnbPricePerNight;
+    const airbnbTotalPrice = property.pricePerNight * selectedNights;
+    document.getElementById('comp-price').textContent = property.pricePerNight;
+    
+    document.getElementById('stay-nights').textContent = selectedNights;
 
-    // 2. Dynamic Hotel Calculation Logic
-    const HOTEL_PRICE_PER_ROOM = 250; // RM 250 per night for a standard 4-star room
+    // 2. Dynamic Hotel Calculation Logic using if/else
+    let HOTEL_PRICE_PER_ROOM;
+    if (property.location === "Kuala Lumpur" || property.location === "Penang") {
+        HOTEL_PRICE_PER_ROOM = 300;
+    } else if (property.location === "Langkawi" || property.location === "Sabah") {
+        HOTEL_PRICE_PER_ROOM = 350;
+    } else {
+        HOTEL_PRICE_PER_ROOM = 200;
+    }
     const GUESTS_PER_ROOM = 2;
     
-    // Calculate how many hotel rooms are needed based on Airbnb's max guests
     const roomsNeeded = Math.ceil(property.maxGuests / GUESTS_PER_ROOM);
-    const totalHotelPrice = roomsNeeded * HOTEL_PRICE_PER_ROOM;
+    const hotelPricePerNight = roomsNeeded * HOTEL_PRICE_PER_ROOM;
+    const totalHotelPrice = hotelPricePerNight * selectedNights;
 
-    // Populate Hotel Side
     document.getElementById('hotel-rooms').textContent = roomsNeeded;
-    document.getElementById('hotel-price').textContent = totalHotelPrice;
+    document.getElementById('hotel-price').textContent = hotelPricePerNight;
 
     // 3. Calculate Savings
-    const savings = totalHotelPrice - airbnbPricePerNight;
+    const savings = totalHotelPrice - airbnbTotalPrice;
     const savingsEl = document.getElementById('total-savings');
     
     if (savings > 0) {
         savingsEl.textContent = `RM ${savings}`;
         savingsEl.className = "text-green";
     } else {
-        savingsEl.textContent = `RM 0 (Hotel is cheaper for 1-2 pax)`;
+        savingsEl.textContent = `RM 0 (Hotel is cheaper)`;
         savingsEl.className = "text-red";
     }
 
-    // 4. Show Modal
     comparisonModal.classList.remove('hidden');
 }
 
-// Close Modal Events
 closeModalBtn.addEventListener('click', () => {
     comparisonModal.classList.add('hidden');
 });
@@ -293,4 +417,20 @@ comparisonModal.addEventListener('click', (e) => {
     if (e.target === comparisonModal) {
         comparisonModal.classList.add('hidden');
     }
+});
+
+// === 9. Booking Action ===
+document.getElementById('book-now-btn').addEventListener('click', () => {
+    comparisonModal.classList.add('hidden');
+    const successModal = document.getElementById('success-modal');
+    
+    const finalPrice = currentSelectedProperty.pricePerNight * selectedNights;
+    document.getElementById('success-prop-name').textContent = currentSelectedProperty.title;
+    document.getElementById('success-total-price').textContent = `RM ${finalPrice}`;
+    
+    successModal.classList.remove('hidden');
+});
+
+document.getElementById('close-success').addEventListener('click', () => {
+    document.getElementById('success-modal').classList.add('hidden');
 });
