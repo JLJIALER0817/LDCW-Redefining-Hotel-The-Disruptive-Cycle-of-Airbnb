@@ -58,7 +58,34 @@
         <div id="trips-list" class="trips-list">
             <!-- Booking Cards will be injected here by booking.js -->
         </div>
+
+        <h1 id="past-trips-title" class="page-title hidden" style="margin-top: 60px;">Past Trips</h1>
+        <div id="past-trips-list" class="trips-list">
+            <!-- Past Booking Cards will be injected here by booking.js -->
+        </div>
+
+        <h1 id="cancelled-trips-title" class="page-title hidden" style="margin-top: 60px;">Cancelled Trips</h1>
+        <div id="cancelled-trips-list" class="trips-list">
+            <!-- Cancelled Booking Cards will be injected here by booking.js -->
+        </div>
     </main>
+
+    <!-- Custom Cancel Confirmation Modal -->
+    <div id="cancel-modal" class="modal-overlay hidden">
+        <div class="cancel-modal-content">
+            <div class="cancel-modal-header">
+                <div class="cancel-icon">
+                    <i class="fa-solid fa-triangle-exclamation"></i>
+                </div>
+                <h2>Cancel Trip</h2>
+            </div>
+            <p>Are you sure you want to cancel this trip? This action cannot be undone, and your reservation will be refunded according to the host's cancellation policy.</p>
+            <div class="cancel-modal-actions">
+                <button id="cancel-modal-no" class="btn-keep">No, keep trip</button>
+                <button id="cancel-modal-yes" class="btn-cancel-confirm">Yes, cancel trip</button>
+            </div>
+        </div>
+    </div>
 
     <!-- Scripts -->
     <script src="booking.js"></script>

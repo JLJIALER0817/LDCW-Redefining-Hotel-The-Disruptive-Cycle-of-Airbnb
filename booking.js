@@ -46,31 +46,91 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // 3. Load and Render Bookings
-    const myBookings = JSON.parse(localStorage.getItem('myBookings')) || [];
-    const noTripsEl = document.getElementById('no-trips');
-    const tripsListEl = document.getElementById('trips-list');
+    function renderBookings() {
+        let myBookings = JSON.parse(localStorage.getItem('myBookings')) || [];
+        const noTripsEl = document.getElementById('no-trips');
+        const tripsListEl = document.getElementById('trips-list');
+        const pastTripsTitle = document.getElementById('past-trips-title');
+        const pastTripsListEl = document.getElementById('past-trips-list');
 
-    if (myBookings.length === 0) {
-        noTripsEl.classList.remove('hidden');
-    } else {
-        // Render bookings in reverse chronological order (newest first)
-        myBookings.reverse().forEach(booking => {
+        const cancelledTripsTitle = document.getElementById('cancelled-trips-title');
+        const cancelledTripsListEl = document.getElementById('cancelled-trips-list');
+
+        if (tripsListEl) tripsListEl.innerHTML = '';
+        if (pastTripsListEl) pastTripsListEl.innerHTML = '';
+        if (cancelledTripsListEl) cancelledTripsListEl.innerHTML = '';
+
+        if (myBookings.length === 0) {
+            if (noTripsEl) noTripsEl.classList.remove('hidden');
+            if (pastTripsTitle) pastTripsTitle.classList.add('hidden');
+            if (cancelledTripsTitle) cancelledTripsTitle.classList.add('hidden');
+            return;
+        }
+
+        if (noTripsEl) noTripsEl.classList.add('hidden');
+        
+        const today = new Date();
+        today.setHours(0,0,0,0);
+
+        let upcomingCount = 0;
+        let pastCount = 0;
+        let cancelledCount = 0;
+
+        // Iterate backwards to show newest first, but maintain original index for deletion
+        for (let i = myBookings.length - 1; i >= 0; i--) {
+            const booking = myBookings[i];
+            const isCancelled = booking.status === 'cancelled';
+            
+            // Determine if past based on checkout
+            let isPast = false;
+            if (booking.checkout && booking.checkout !== 'N/A') {
+                const checkoutParts = booking.checkout.split('/'); // MM/DD/YYYY
+                if (checkoutParts.length === 3) {
+                    const checkoutDate = new Date(checkoutParts[2], checkoutParts[0] - 1, checkoutParts[1]);
+                    if (checkoutDate < today) isPast = true;
+                }
+            }
+
             const card = document.createElement('div');
-            card.className = 'trip-card';
-            card.innerHTML = `
+            
+            if (isCancelled) {
+                card.className = 'trip-card cancelled-trip-card';
+            } else if (isPast) {
+                card.className = 'trip-card past-trip-card';
+            } else {
+                card.className = 'trip-card';
+            }
+            
+            let badgeHTML = '';
+            let priceHTML = `RM ${booking.totalPrice}`;
+            
+            if (isCancelled) {
+                badgeHTML = `<span class="cancelled-badge">Cancelled</span>`;
+                priceHTML = `<span style="text-decoration: line-through; color: var(--text-light);">RM ${booking.totalPrice}</span> (Refunded)`;
+            }
+
+            let cardHTML = `
                 <img src="${booking.imgUrl}" alt="${booking.title}" class="trip-img">
                 <div class="trip-info">
                     <div class="trip-header">
                         <div>
-                            <div class="trip-title">${booking.title}</div>
+                            <div class="trip-title">${booking.title} ${badgeHTML}</div>
                             <div class="trip-location">
                                 <i class="fa-solid fa-location-dot"></i> ${booking.location}
                             </div>
                         </div>
-                        <div class="trip-price">${booking.totalPrice}</div>
+                        <div class="trip-price">${priceHTML}</div>
                     </div>
                     
                     <div class="trip-details">
+                        <div class="detail-item">
+                            <span class="detail-label">Check-in</span>
+                            <span class="detail-value">${booking.checkin || 'N/A'}</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Checkout</span>
+                            <span class="detail-value">${booking.checkout || 'N/A'}</span>
+                        </div>
                         <div class="detail-item">
                             <span class="detail-label">Nights</span>
                             <span class="detail-value">${booking.nights} night${booking.nights > 1 ? 's' : ''}</span>
@@ -84,9 +144,86 @@ document.addEventListener('DOMContentLoaded', () => {
                             <span class="detail-value">${booking.dateBooked}</span>
                         </div>
                     </div>
-                </div>
             `;
-            tripsListEl.appendChild(card);
+            
+            if (!isPast && !isCancelled) {
+                cardHTML += `
+                    <div class="trip-footer">
+                        <button class="cancel-btn" data-index="${i}">Cancel Trip</button>
+                    </div>
+                `;
+            }
+            
+            cardHTML += `</div>`; // Close trip-info
+            card.innerHTML = cardHTML;
+
+            if (isCancelled) {
+                if (cancelledTripsListEl) cancelledTripsListEl.appendChild(card);
+                cancelledCount++;
+            } else if (isPast) {
+                if (pastTripsListEl) pastTripsListEl.appendChild(card);
+                pastCount++;
+            } else {
+                if (tripsListEl) tripsListEl.appendChild(card);
+                upcomingCount++;
+            }
+        }
+        
+        if (pastCount > 0) {
+            if (pastTripsTitle) pastTripsTitle.classList.remove('hidden');
+        } else {
+            if (pastTripsTitle) pastTripsTitle.classList.add('hidden');
+        }
+
+        if (cancelledCount > 0) {
+            if (cancelledTripsTitle) cancelledTripsTitle.classList.remove('hidden');
+        } else {
+            if (cancelledTripsTitle) cancelledTripsTitle.classList.add('hidden');
+        }
+        
+        if (upcomingCount === 0 && pastCount === 0 && cancelledCount === 0) {
+            if (noTripsEl) noTripsEl.classList.remove('hidden');
+        }
+        
+        // Attach Cancel Events using Custom Modal
+        const cancelModal = document.getElementById('cancel-modal');
+        const btnCancelNo = document.getElementById('cancel-modal-no');
+        const btnCancelYes = document.getElementById('cancel-modal-yes');
+        let tripToCancelIndex = null;
+
+        document.querySelectorAll('.cancel-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                tripToCancelIndex = this.getAttribute('data-index');
+                if (cancelModal) cancelModal.classList.remove('hidden');
+            });
         });
+
+        if (btnCancelNo && cancelModal) {
+            btnCancelNo.addEventListener('click', () => {
+                cancelModal.classList.add('hidden');
+                tripToCancelIndex = null;
+            });
+        }
+
+        if (btnCancelYes && cancelModal) {
+            // Remove previous event listener to avoid stacking
+            const newBtnCancelYes = btnCancelYes.cloneNode(true);
+            btnCancelYes.parentNode.replaceChild(newBtnCancelYes, btnCancelYes);
+            
+            newBtnCancelYes.addEventListener('click', () => {
+                if (tripToCancelIndex !== null) {
+                    let currentBookings = JSON.parse(localStorage.getItem('myBookings')) || [];
+                    if (currentBookings[tripToCancelIndex]) {
+                        currentBookings[tripToCancelIndex].status = 'cancelled';
+                    }
+                    localStorage.setItem('myBookings', JSON.stringify(currentBookings));
+                    cancelModal.classList.add('hidden');
+                    tripToCancelIndex = null;
+                    renderBookings();
+                }
+            });
+        }
     }
+
+    renderBookings();
 });

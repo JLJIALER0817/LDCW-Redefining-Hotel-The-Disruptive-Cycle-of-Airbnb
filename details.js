@@ -339,7 +339,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 nights: selectedNights,
                 totalPrice: finalPrice,
                 guests: `${totalGuests} guest${totalGuests > 1 ? 's' : ''}`,
-                dateBooked: new Date().toLocaleDateString()
+                dateBooked: new Date().toLocaleDateString(),
+                checkin: formatDateStr(checkinDate),
+                checkout: formatDateStr(checkoutDate)
             };
             
             const existingBookings = JSON.parse(localStorage.getItem('myBookings')) || [];

@@ -249,6 +249,8 @@
     box-shadow: 0 6px 16px rgba(0,0,0,0.12);
     position: sticky;
     top: 120px;
+    background: white;
+    z-index: 10;
 }
 
 .widget-header {
