@@ -296,6 +296,17 @@ body {
     .nav-center {
         gap: 15px;
     }
+    .search-bar-mini {
+        gap: 8px !important;
+        padding: 8px 12px !important;
+    }
+    .search-bar-mini .mini-text {
+        display: none !important;
+    }
+    .search-bar-mini .mini-text-light {
+        color: var(--text-dark) !important;
+        font-weight: 600;
+    }
     .nav-item span {
         display: none;
     }
@@ -312,15 +323,15 @@ body {
     /* Guests Dropdown Mobile */
     #guests-dropdown {
         width: 100%;
-        min-width: 300px;
-        position: fixed;
-        top: auto;
-        bottom: 0;
+        min-width: 0;
+        position: absolute;
+        top: calc(100% + 10px);
+        bottom: auto;
         left: 0;
-        right: 0;
-        border-radius: 24px 24px 0 0;
-        z-index: 200;
-        box-shadow: 0 -4px 16px rgba(0,0,0,0.1);
+        right: auto;
+        border-radius: 24px;
+        z-index: 2000;
+        box-shadow: 0 8px 28px rgba(0,0,0,0.15);
     }
 }
 

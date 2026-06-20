@@ -312,8 +312,9 @@ body {
     }
     
     .trip-details {
-        flex-direction: column;
-        gap: 12px;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 16px;
     }
     
     .cancel-modal-content {
