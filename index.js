@@ -5,10 +5,20 @@ document.addEventListener('DOMContentLoaded', () => {
     if (typeof setupNavProfile === 'function') setupNavProfile();
 
     // === 2. Render & Heart Buttons ===
-    function createCard(property) {
+    function createCard(property, customDateStr = null, customNights = null) {
         const badgeHTML = property.isGuestFavorite ? `<div class="guest-favorite-badge">Guest favorite</div>` : '';
         const card = document.createElement('div');
         card.className = 'property-card';
+        
+        let priceDisplay = `<strong>RM ${property.pricePerNight}</strong> <span>night</span>`;
+        let dateDisplay = property.propertyType;
+        
+        if (customDateStr && customNights) {
+            const totalPrice = property.pricePerNight * customNights;
+            priceDisplay = `<strong>RM ${totalPrice}</strong> <span style="text-decoration: underline;">for ${customNights} nights</span>`;
+            dateDisplay = `<span style="color: var(--text-dark);">${customDateStr}</span>`;
+        }
+        
         card.innerHTML = `
             <div class="image-container">
                 ${badgeHTML}
@@ -20,10 +30,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 <div class="card-rating"><i class="fa-solid fa-star"></i> ${property.rating.toFixed(2)}</div>
             </div>
             <div class="card-price" style="margin-top: 4px; font-size: 14px; color: var(--text-light);">
-                ${property.propertyType}
+                ${dateDisplay}
             </div>
             <div class="card-price" style="margin-top: 4px;">
-                <strong>RM ${property.pricePerNight}</strong> <span>night</span>
+                ${priceDisplay}
             </div>
         `;
 
@@ -168,6 +178,16 @@ document.addEventListener('DOMContentLoaded', () => {
     const viewFlexible = document.getElementById('calendar-view-flexible');
     const calFooter = document.getElementById('calendar-footer');
 
+    let isFlexibleSearch = false;
+    let flexStayLength = 'Week';
+    let flexMonth = 'July';
+
+    function updateFlexibleInput() {
+        if (checkinInput) {
+            checkinInput.value = `${flexStayLength} in ${flexMonth.substring(0,3)}`;
+        }
+    }
+
     if(tabDates && tabFlexible) {
         tabDates.addEventListener('click', (e) => {
             e.stopPropagation();
@@ -176,6 +196,8 @@ document.addEventListener('DOMContentLoaded', () => {
             viewFlexible.classList.add('hidden');
             viewDates.classList.remove('hidden');
             if(calFooter) calFooter.classList.remove('hidden');
+            isFlexibleSearch = false;
+            updateCalendarUI(); // restore exact dates
         });
         
         tabFlexible.addEventListener('click', (e) => {
@@ -185,6 +207,8 @@ document.addEventListener('DOMContentLoaded', () => {
             viewDates.classList.add('hidden');
             viewFlexible.classList.remove('hidden');
             if(calFooter) calFooter.classList.add('hidden');
+            isFlexibleSearch = true;
+            updateFlexibleInput();
         });
     }
 
@@ -194,11 +218,24 @@ document.addEventListener('DOMContentLoaded', () => {
             if (btn.classList.contains('stay-btn')) {
                 document.querySelectorAll('.stay-btn').forEach(b => b.classList.remove('active'));
                 btn.classList.add('active');
+                flexStayLength = btn.textContent.trim();
             } else {
-                btn.classList.toggle('active');
+                document.querySelectorAll('.month-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                flexMonth = btn.querySelector('span').textContent.trim();
             }
+            if (isFlexibleSearch) updateFlexibleInput();
         });
     });
+
+    const monthsScroll = document.querySelector('.months-scroll');
+    const monthsArrowBtn = document.querySelector('.months-arrow-btn');
+    if (monthsScroll && monthsArrowBtn) {
+        monthsArrowBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            monthsScroll.scrollBy({ left: 150, behavior: 'smooth' });
+        });
+    }
 
     // === 7. Calendar Range ===
     let date1 = null, date2 = null;
@@ -445,7 +482,28 @@ document.addEventListener('DOMContentLoaded', () => {
                 } else {
                     if (noResults) noResults.classList.add('hidden');
                     searchGrid.classList.remove('hidden');
-                    matchedProperties.forEach(p => searchGrid.appendChild(createCard(p)));
+                    
+                    let customDateStr = null;
+                    let customNights = null;
+
+                    if (isFlexibleSearch) {
+                        customDateStr = `${flexStayLength} in ${flexMonth.substring(0,3)}`;
+                        if (flexStayLength === 'Weekend') customNights = 2;
+                        else if (flexStayLength === 'Week') customNights = 7;
+                        else if (flexStayLength === 'Month') customNights = 30;
+                    } else if (date1 && date2) {
+                        customDateStr = `${date1.text} - ${date2.text}`;
+                        customNights = selectedNights;
+                    }
+
+                    // Save selectedNights to localStorage so details page knows
+                    if (customNights) {
+                        localStorage.setItem('selectedNights', customNights);
+                    } else {
+                        localStorage.setItem('selectedNights', 1);
+                    }
+
+                    matchedProperties.forEach(p => searchGrid.appendChild(createCard(p, customDateStr, customNights)));
                 }
             }
         });

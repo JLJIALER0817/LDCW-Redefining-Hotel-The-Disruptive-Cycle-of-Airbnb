@@ -47,7 +47,14 @@ document.addEventListener('DOMContentLoaded', () => {
     // Custom Widget Logic Variables
     let checkinDate = new Date();
     let checkoutDate = new Date();
-    checkoutDate.setDate(checkoutDate.getDate() + 1);
+    
+    // Read selected nights passed from Flexible search on homepage
+    let savedNights = localStorage.getItem('selectedNights');
+    if (savedNights) {
+        checkoutDate.setDate(checkoutDate.getDate() + parseInt(savedNights));
+    } else {
+        checkoutDate.setDate(checkoutDate.getDate() + 1);
+    }
     
     let guestCounts = { adults: 1, children: 0, infants: 0, pets: 0 };
     let totalGuests = 1;
@@ -270,19 +277,45 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('comp-price').textContent = property.pricePerNight;
         document.getElementById('stay-nights').textContent = selectedNights;
 
-        let HOTEL_PRICE_PER_ROOM;
-        if (property.location === "Kuala Lumpur" || property.location === "Penang") {
-            HOTEL_PRICE_PER_ROOM = 300;
-        } else if (property.location === "Langkawi" || property.location === "Sabah") {
-            HOTEL_PRICE_PER_ROOM = 350;
+        // Dynamic Comparison Engine
+        let hotelTierName = "Standard 4-Star Hotel";
+        let hotelImageUrl = "https://images.unsplash.com/photo-1566073771259-6a8506099945?q=80&w=600&auto=format&fit=crop";
+        let baseHotelPrice = 300; // default
+        let GUESTS_PER_ROOM = 2;
+        let roomsNeeded = 1;
+
+        if (property.propertyType === "Luxury villa") {
+            hotelTierName = "5-Star Luxury Resort";
+            hotelImageUrl = "https://images.unsplash.com/photo-1582719508461-905c673771fd?q=80&w=600&auto=format&fit=crop";
+            baseHotelPrice = 650;
+        } else if (property.propertyType === "Shared room") {
+            hotelTierName = "Budget Hostel / 2-Star Hotel";
+            hotelImageUrl = "https://images.unsplash.com/photo-1555854877-bab0e564b8d5?q=80&w=600&auto=format&fit=crop";
+            baseHotelPrice = 120;
         } else {
-            HOTEL_PRICE_PER_ROOM = 200;
+            // Entire home / Apartment
+            hotelTierName = "Standard 4-Star Hotel";
+            hotelImageUrl = "https://images.unsplash.com/photo-1566073771259-6a8506099945?q=80&w=600&auto=format&fit=crop";
+            
+            // Location modifier for standard hotels
+            if (property.location === "Kuala Lumpur" || property.location === "Penang") {
+                baseHotelPrice = 320;
+            } else if (property.location === "Langkawi" || property.location === "Sabah") {
+                baseHotelPrice = 380;
+            } else {
+                baseHotelPrice = 250;
+            }
         }
-        const GUESTS_PER_ROOM = 2;
-        
-        const roomsNeeded = Math.ceil(property.maxGuests / GUESTS_PER_ROOM);
-        const hotelPricePerNight = roomsNeeded * HOTEL_PRICE_PER_ROOM;
+
+        roomsNeeded = Math.ceil(property.maxGuests / GUESTS_PER_ROOM);
+        const hotelPricePerNight = roomsNeeded * baseHotelPrice;
         const totalHotelPrice = hotelPricePerNight * selectedNights;
+
+        // Update DOM for Hotel
+        const hotelTitleEl = document.getElementById('hotel-comp-title');
+        const hotelImgEl = document.getElementById('hotel-comp-img');
+        if (hotelTitleEl) hotelTitleEl.textContent = hotelTierName;
+        if (hotelImgEl) hotelImgEl.src = hotelImageUrl;
 
         document.getElementById('hotel-rooms').textContent = roomsNeeded;
         document.getElementById('hotel-price').textContent = hotelPricePerNight;
