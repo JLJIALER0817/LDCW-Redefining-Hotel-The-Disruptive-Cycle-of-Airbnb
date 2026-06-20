@@ -766,8 +766,19 @@
 }
 
 @media (max-width: 768px) {
+    .details-container {
+        padding: 0 20px;
+        margin-top: 20px;
+    }
+    
     .details-content-split {
         flex-direction: column;
+    }
+    
+    .booking-widget-container {
+        position: static;
+        width: 100%;
+        margin-top: 30px;
     }
     
     .photo-grid {
@@ -781,5 +792,21 @@
     
     .photo-main {
         height: 300px;
+        border-radius: 12px;
+    }
+    
+    /* Comparison modal */
+    .comp-container {
+        flex-direction: column;
+    }
+    
+    .comp-vs {
+        margin: 20px 0;
+    }
+    
+    /* Login prompt */
+    .login-prompt-content {
+        padding: 40px 20px;
+        margin: 20px;
     }
 }

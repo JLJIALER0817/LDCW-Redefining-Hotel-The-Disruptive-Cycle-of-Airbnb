@@ -284,3 +284,42 @@ body {
 
 .text-green { color: #008A05; }
 .text-red { color: #E00B41; }
+
+/* Responsive adjustments for shared components */
+@media (max-width: 768px) {
+    .navbar {
+        padding: 16px 20px;
+    }
+    .logo-text {
+        display: none;
+    }
+    .nav-center {
+        gap: 15px;
+    }
+    .nav-item span {
+        display: none;
+    }
+    .nav-item i {
+        font-size: 20px;
+    }
+    .become-host {
+        display: none;
+    }
+    .profile-dropdown {
+        width: 220px;
+        right: -20px;
+    }
+    /* Guests Dropdown Mobile */
+    #guests-dropdown {
+        width: 100%;
+        min-width: 300px;
+        position: fixed;
+        top: auto;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        border-radius: 24px 24px 0 0;
+        z-index: 200;
+        box-shadow: 0 -4px 16px rgba(0,0,0,0.1);
+    }
+}
