@@ -826,7 +826,13 @@
     }
 
     
-    /* Login prompt */
+    /* Login prompt and Success Modal */
+    .success-content {
+        width: 90%;
+        max-width: 400px;
+        padding: 30px 20px;
+    }
+    
     .login-prompt-content {
         padding: 40px 20px;
         margin: 20px;
