@@ -4,6 +4,11 @@ document.addEventListener('DOMContentLoaded', () => {
     // 1. Setup Nav Profile (from data.js)
     if (typeof setupNavProfile === 'function') setupNavProfile();
 
+    // Clear old search states so default homepage clicks don't inherit them
+    localStorage.removeItem('selectedNights');
+    localStorage.removeItem('flexMonth');
+    localStorage.removeItem('exactCheckinVal');
+
     // === 2. Render & Heart Buttons ===
     function createCard(property, customDateStr = null, customNights = null) {
         const badgeHTML = property.isGuestFavorite ? `<div class="guest-favorite-badge">Guest favorite</div>` : '';
@@ -240,6 +245,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // === 7. Calendar Range ===
     let date1 = null, date2 = null;
     let selectedNights = 1;
+    let flexDaysModifier = '';
     const days = document.querySelectorAll('.days span:not(.empty)');
     const checkinInput = document.getElementById('checkin');
 
@@ -316,6 +322,15 @@ document.addEventListener('DOMContentLoaded', () => {
             const parent = this.parentNode;
             parent.querySelectorAll('button').forEach(b => b.classList.remove('active'));
             this.classList.add('active');
+
+            if (this.classList.contains('pill-btn')) {
+                if (this.textContent.trim() === 'Exact dates') {
+                    flexDaysModifier = '';
+                } else {
+                    flexDaysModifier = ` ${this.textContent.trim()}`;
+                }
+                if (typeof updateCalendarUI === 'function') updateCalendarUI();
+            }
         });
     });
 
@@ -344,7 +359,7 @@ document.addEventListener('DOMContentLoaded', () => {
             selectedNights = 1;
         }
         else if (date1 && date2) {
-            checkinInput.value = `${date1.text} - ${date2.text}`;
+            checkinInput.value = `${date1.text} - ${date2.text}${flexDaysModifier}`;
             const d1Month = Math.floor(date1.val / 100);
             const d1Day = date1.val % 100;
             const d2Month = Math.floor(date2.val / 100);
@@ -492,15 +507,23 @@ document.addEventListener('DOMContentLoaded', () => {
                         else if (flexStayLength === 'Week') customNights = 7;
                         else if (flexStayLength === 'Month') customNights = 30;
                     } else if (date1 && date2) {
-                        customDateStr = `${date1.text} - ${date2.text}`;
+                        customDateStr = `${date1.text} - ${date2.text}${flexDaysModifier}`;
                         customNights = selectedNights;
                     }
-
-                    // Save selectedNights to localStorage so details page knows
+                    
+                    // Save states to localStorage so details page knows
                     if (customNights) {
                         localStorage.setItem('selectedNights', customNights);
                     } else {
                         localStorage.setItem('selectedNights', 1);
+                    }
+                    
+                    if (isFlexibleSearch) {
+                        localStorage.setItem('flexMonth', flexMonth);
+                        localStorage.removeItem('exactCheckinVal');
+                    } else if (date1) {
+                        localStorage.setItem('exactCheckinVal', date1.val);
+                        localStorage.removeItem('flexMonth');
                     }
 
                     matchedProperties.forEach(p => searchGrid.appendChild(createCard(p, customDateStr, customNights)));

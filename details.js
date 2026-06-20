@@ -46,7 +46,34 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Custom Widget Logic Variables
     let checkinDate = new Date();
-    let checkoutDate = new Date();
+    
+    // Attempt to set a smart checkin date based on search parameters
+    const flexMonthStr = localStorage.getItem('flexMonth');
+    const exactCheckinVal = localStorage.getItem('exactCheckinVal');
+    
+    if (flexMonthStr) {
+        // e.g. "July"
+        const monthNamesArr = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+        const monthIndex = monthNamesArr.findIndex(m => m === flexMonthStr || m.startsWith(flexMonthStr));
+        if (monthIndex !== -1) {
+            let year = new Date().getFullYear();
+            if (monthIndex < new Date().getMonth()) year++; // If it's a past month, assume next year
+            checkinDate = new Date(year, monthIndex, 1);
+        }
+    } else if (exactCheckinVal) {
+        // e.g. "205" = March 5 (Month index 2, day 5). Wait, val is `monthIndex * 100 + day`.
+        // Our monthNames in index.js are 'June 2026' = 0, 'July 2026' = 1, etc.
+        // It's a bit complex to reverse engineer exactly. Let's do a simple parse:
+        const val = parseInt(exactCheckinVal);
+        const day = val % 100;
+        const indexOffset = Math.floor(val / 100);
+        // Assuming base month is June 2026 (month 5 in JS, year 2026) based on our mock data
+        let baseDate = new Date(2026, 5, 1);
+        baseDate.setMonth(baseDate.getMonth() + indexOffset);
+        checkinDate = new Date(baseDate.getFullYear(), baseDate.getMonth(), day);
+    }
+    
+    let checkoutDate = new Date(checkinDate.getTime());
     
     // Read selected nights passed from Flexible search on homepage
     let savedNights = localStorage.getItem('selectedNights');
@@ -148,7 +175,8 @@ document.addEventListener('DOMContentLoaded', () => {
         container.innerHTML = '';
         
         const today = new Date();
-        const startMonth = new Date(today.getFullYear(), today.getMonth(), 1);
+        const refDate = tempCheckin || today;
+        const startMonth = new Date(refDate.getFullYear(), refDate.getMonth(), 1);
         
         for (let i = 0; i < 2; i++) {
             const m = new Date(startMonth.getFullYear(), startMonth.getMonth() + i, 1);
@@ -396,6 +424,51 @@ document.addEventListener('DOMContentLoaded', () => {
     if (closeLoginBtn) {
         closeLoginBtn.addEventListener('click', () => {
             document.getElementById('login-prompt-modal').classList.add('hidden');
+        });
+    }
+
+    // === Description & Amenities Modals ===
+    const descModal = document.getElementById('desc-modal');
+    const amenitiesModal = document.getElementById('amenities-modal');
+    const descBtn = document.querySelector('.property-description .show-more-btn');
+    const amenitiesBtn = document.querySelector('.amenities-section .show-more-btn');
+    const closeDescBtn = document.getElementById('close-desc-modal');
+    const closeAmenitiesBtn = document.getElementById('close-amenities-modal');
+
+    if (descBtn && descModal) {
+        descBtn.addEventListener('click', () => {
+            descModal.classList.remove('hidden');
+        });
+    }
+    if (closeDescBtn) {
+        closeDescBtn.addEventListener('click', () => {
+            descModal.classList.add('hidden');
+        });
+    }
+    if (amenitiesBtn && amenitiesModal) {
+        amenitiesBtn.addEventListener('click', () => {
+            amenitiesModal.classList.remove('hidden');
+        });
+    }
+    if (closeAmenitiesBtn) {
+        closeAmenitiesBtn.addEventListener('click', () => {
+            amenitiesModal.classList.add('hidden');
+        });
+    }
+
+    // === Reviews Modal ===
+    const reviewsModal = document.getElementById('reviews-modal');
+    const reviewsBtn = document.querySelector('.reviews-section > .show-more-btn');
+    const closeReviewsBtn = document.getElementById('close-reviews-modal');
+
+    if (reviewsBtn && reviewsModal) {
+        reviewsBtn.addEventListener('click', () => {
+            reviewsModal.classList.remove('hidden');
+        });
+    }
+    if (closeReviewsBtn) {
+        closeReviewsBtn.addEventListener('click', () => {
+            reviewsModal.classList.add('hidden');
         });
     }
 });
