@@ -544,13 +544,20 @@ main {
 
 /* Responsive adjustments for Home Page */
 @media (max-width: 768px) {
+    .search-section {
+        padding: 20px 15px;
+    }
+    .search-container {
+        width: 100%;
+        max-width: none;
+    }
     .search-pill {
         flex-direction: column;
         height: auto;
         border-radius: 24px;
-        overflow: hidden;
         width: 100%;
-        max-width: 400px;
+        max-width: none;
+        overflow: hidden; /* It's okay to keep this if dropdowns are fixed */
     }
     .search-field {
         height: 60px;
@@ -558,10 +565,7 @@ main {
         width: 100%;
     }
     .search-field input {
-        width: 100%;
-    }
-    #where-field input, #type-field input {
-        width: 100%;
+        width: 100% !important; /* Override fixed widths */
     }
     .divider {
         width: 100%;
@@ -569,29 +573,185 @@ main {
     }
     .search-btn {
         margin: 10px auto;
-        width: 90%;
+        width: calc(100% - 20px);
         justify-content: center;
+        border-radius: 20px;
     }
-    .hero-container {
-        padding: 0 20px;
+    
+    /* Make section headings smaller */
+    .section-header h2 {
+        font-size: 22px;
     }
-    .properties-grid {
-        grid-template-columns: 1fr;
-        padding: 0 20px 40px;
+    .section-header {
+        margin-bottom: 16px;
     }
-    .dropdown-panel {
-        top: 60px;
+    
+    /* Make property cards and their text smaller */
+    .property-card {
+        min-width: 240px;
+        width: 240px;
+    }
+    .wrap-grid .property-card {
+        width: 240px;
+        margin: 0 auto;
+    }
+    .card-title, .card-price, .card-rating {
+        font-size: 14px;
+    }
+    .guest-favorite-badge {
+        font-size: 12px;
+        padding: 4px 10px;
+    }
+    
+    /* === Full-Screen Mobile Search Modal === */
+    .search-section:has(.search-field.active) {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: #f7f7f7;
+        z-index: 3000;
+        padding: 40px 20px 20px !important;
+        overflow-y: auto;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-start;
+    }
+
+    .search-section:has(.search-field.active) .search-container {
         width: 100%;
-        left: 0 !important;
-        border-radius: 0 0 24px 24px;
+        max-width: none;
+        display: flex;
+        flex-direction: column;
     }
+
+    /* Break the search-pill so its children become flex items of search-container */
+    .search-section:has(.search-field.active) .search-pill {
+        display: contents; 
+    }
+
+    /* Hide dividers in modal mode */
+    .search-section:has(.search-field.active) .divider {
+        display: none;
+    }
+
+    /* Style the INACTIVE fields as collapsed pills */
+    .search-section:has(.search-field.active) .search-field:not(.active) {
+        background: var(--white);
+        border-radius: 16px;
+        box-shadow: 0 3px 12px rgba(0,0,0,0.05);
+        height: 60px;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 20px;
+        margin-bottom: 12px;
+    }
+    
+    .search-section:has(.search-field.active) .search-field:not(.active) label {
+        font-size: 14px;
+        font-weight: 600;
+        color: var(--text-light);
+    }
+    .search-section:has(.search-field.active) .search-field:not(.active) input {
+        text-align: right;
+        font-weight: 600;
+    }
+
+    /* Style the ACTIVE field as the expanded card header */
+    .search-section:has(.search-field.active) .search-field.active {
+        background: var(--white);
+        border-radius: 24px 24px 0 0;
+        box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+        height: auto;
+        padding: 24px 20px 10px;
+        flex-direction: column;
+        align-items: flex-start;
+        margin-bottom: 0;
+        z-index: 20;
+    }
+
+    .search-section:has(.search-field.active) .search-field.active label {
+        font-size: 24px;
+        font-weight: 700;
+        color: var(--text-dark);
+        margin-bottom: 16px;
+    }
+    .search-section:has(.search-field.active) .search-field.active input {
+        display: none; /* Hide the input in the expanded state, the dropdown shows the UI */
+    }
+
+    /* Interleave fields and dropdowns using Flex Order! */
+    .search-section:has(.search-field.active) #where-field { order: 1; }
+    .search-section:has(.search-field.active) #location-dropdown { order: 2; }
+    
+    .search-section:has(.search-field.active) #type-field { order: 3; }
+    .search-section:has(.search-field.active) #type-dropdown { order: 4; }
+    
+    .search-section:has(.search-field.active) #when-field { order: 5; }
+    .search-section:has(.search-field.active) #calendar-dropdown { order: 6; }
+    
+    .search-section:has(.search-field.active) #who-field { order: 7; }
+    .search-section:has(.search-field.active) #guests-dropdown { order: 8; }
+    
+    .search-section:has(.search-field.active) .search-btn {
+        order: 9;
+        margin-top: auto;
+        border-radius: 8px;
+        height: 54px;
+        width: 100%;
+        background: var(--text-dark);
+        margin-bottom: 20px;
+    }
+    .search-section:has(.search-field.active) .search-btn-text {
+        font-size: 16px;
+    }
+
+    /* Connect the dropdown to the active field */
+    .search-section:has(.search-field.active) .dropdown-panel {
+        position: relative !important;
+        top: 0 !important;
+        left: 0 !important;
+        width: 100% !important;
+        box-shadow: 0 16px 24px rgba(0,0,0,0.08) !important;
+        border-radius: 0 0 24px 24px !important;
+        margin-bottom: 12px; /* space before next collapsed pill */
+        margin-top: 0;
+        padding: 10px 20px 24px !important;
+        z-index: 10 !important;
+        border-top: 1px solid #EBEBEB;
+    }
+
     #calendar-dropdown {
         transform: none;
         left: 0;
         width: 100%;
     }
-    .calendar-months-container {
+    
+    /* Stack calendar months vertically */
+    .calendar-wrapper {
         flex-direction: column;
+        gap: 20px;
         align-items: center;
+    }
+    .month {
+        width: 100%;
+        max-width: 320px;
+    }
+    
+    /* Fix Flexible dates layout for mobile */
+    .flexible-options {
+        flex-direction: column;
+        gap: 10px;
+        align-items: stretch;
+    }
+    .flexible-options .pill-btn {
+        text-align: center;
+    }
+    .flexible-months {
+        flex-wrap: wrap;
+        justify-content: center;
     }
 }

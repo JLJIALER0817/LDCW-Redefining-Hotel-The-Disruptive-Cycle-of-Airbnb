@@ -20,11 +20,13 @@
             <span class="logo-text">airbnb</span>
         </a>
         <div class="nav-center">
-            <!-- Details page doesn't necessarily need the center tabs active, but we can keep it for consistency -->
-            <div class="search-bar-mini" style="border: 1px solid var(--border); border-radius: 40px; padding: 10px 20px; box-shadow: 0 1px 2px rgba(0,0,0,0.08); font-size: 14px; font-weight: 500; cursor: pointer; display: flex; align-items: center; gap: 15px;">
-                <span style="border-right: 1px solid var(--border); padding-right: 15px;">Anywhere</span>
-                <span style="border-right: 1px solid var(--border); padding-right: 15px;">Any week</span>
-                <span style="color: var(--text-light); display: flex; align-items: center; gap: 10px;">Add guests <div style="background: var(--airbnb-red); color: white; width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center;"><i class="fa-solid fa-magnifying-glass" style="font-size: 12px;"></i></div></span>
+            <div class="nav-item active">
+                <i class="fa-solid fa-globe"></i>
+                <span>All</span>
+            </div>
+            <div class="nav-item">
+                <i class="fa-solid fa-house"></i>
+                <span>Homes</span>
             </div>
         </div>
         <div class="nav-right">
@@ -198,8 +200,9 @@
                         </div>
                     </div>
 
-                    <div class="widget-inputs">
-                        <div class="widget-dates" id="details-dates-btn" style="cursor: pointer;">
+                    <div style="position: relative;">
+                        <div class="widget-inputs">
+                            <div class="widget-dates" id="details-dates-btn" style="cursor: pointer;">
                             <div class="widget-date-field" style="border-right: 1px solid var(--border);">
                                 <label>CHECK-IN</label>
                                 <span id="widget-checkin-display">Add date</span>
@@ -302,6 +305,7 @@
                                 <button id="close-dates-btn" class="dark-btn">Close</button>
                             </div>
                         </div>
+                    </div>
                     </div>
 
                     <button class="reserve-btn" id="details-reserve-btn">Book</button>
@@ -557,8 +561,8 @@
 
     <!-- Description Modal -->
     <div id="desc-modal" class="modal-overlay hidden" style="z-index: 2000;">
-        <div class="modal-content" style="max-width: 780px; padding: 24px; max-height: 90vh; display: flex; flex-direction: column;">
-            <button class="modal-close" id="close-desc-modal" style="align-self: flex-start; margin-bottom: 20px; background: transparent; border: none; font-size: 18px; cursor: pointer;"><i class="fa-solid fa-xmark"></i></button>
+        <div class="modal-content desc-content">
+            <button class="modal-close" id="close-desc-modal"><i class="fa-solid fa-xmark"></i></button>
             <h2 style="font-size: 28px; margin-bottom: 24px;">About this space</h2>
             <div style="overflow-y: auto; flex-grow: 1; padding-right: 15px;">
                 <p style="margin-bottom: 20px; line-height: 1.6;">Sunset Villa was a brand new homestay located at beach side and we bring you the I'D with oriental, classic and peaceful environment. Behind the house Garden open door there is the beach and Jogging track. The perfect sea view for each room balcony and the SUNSET view. House facilities with BBQ , Steamboat & Karaoke system.( Alai Crystal Bay, Alai Ikan Bakar)</p>
@@ -589,8 +593,8 @@
 
     <!-- Amenities Modal -->
     <div id="amenities-modal" class="modal-overlay hidden" style="z-index: 2000;">
-        <div class="modal-content" style="max-width: 780px; padding: 24px; max-height: 90vh; display: flex; flex-direction: column;">
-            <button class="modal-close" id="close-amenities-modal" style="align-self: flex-start; margin-bottom: 20px; background: transparent; border: none; font-size: 18px; cursor: pointer;"><i class="fa-solid fa-xmark"></i></button>
+        <div class="modal-content amenities-content">
+            <button class="modal-close" id="close-amenities-modal"><i class="fa-solid fa-xmark"></i></button>
             <h2 style="font-size: 28px; margin-bottom: 24px;">What this place offers</h2>
             <div style="overflow-y: auto; flex-grow: 1; padding-right: 15px;">
                 <h4 style="font-size: 18px; margin-bottom: 16px;">Scenic views</h4>
@@ -632,10 +636,8 @@
 
     <!-- Reviews Modal -->
     <div id="reviews-modal" class="modal-overlay hidden" style="z-index: 2000;">
-        <div class="modal-content" style="max-width: 1032px; padding: 0; max-height: 90vh; display: flex; flex-direction: column;">
-            <div style="padding: 24px; position: sticky; top: 0; background: white; z-index: 10; border-radius: 12px 12px 0 0;">
-                <button class="modal-close" id="close-reviews-modal" style="background: transparent; border: none; font-size: 18px; cursor: pointer;"><i class="fa-solid fa-xmark"></i></button>
-            </div>
+        <div class="modal-content reviews-content">
+            <button class="modal-close" id="close-reviews-modal"><i class="fa-solid fa-xmark"></i></button>
             
             <div style="overflow-y: auto; flex-grow: 1; padding: 0 24px 24px 24px;">
                 <div class="reviews-header-large" style="margin-top: 20px;">

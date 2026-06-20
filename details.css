@@ -796,13 +796,35 @@
     }
     
     /* Comparison modal */
-    .comp-container {
+    .comparison-grid {
         flex-direction: column;
+        gap: 20px;
     }
     
-    .comp-vs {
-        margin: 20px 0;
+    .vs-divider {
+        width: 100%;
+        height: 40px;
+        margin: 10px 0;
     }
+    
+    .vs-divider::before {
+        width: 100%;
+        height: 1px;
+        top: 50%;
+        left: 0;
+        right: 0;
+    }
+    
+    .comp-side {
+        padding: 24px 16px;
+    }
+    
+    .savings-banner {
+        flex-direction: column;
+        text-align: center;
+        gap: 16px;
+    }
+
     
     /* Login prompt */
     .login-prompt-content {
@@ -1048,8 +1070,77 @@
 }
 
 @media (max-width: 768px) {
+    .details-container {
+        padding: 0 20px 80px;
+    }
+    .details-content-split {
+        flex-direction: column;
+        gap: 40px;
+    }
+    .booking-widget {
+        position: static;
+        width: 100%;
+        margin-top: 20px;
+    }
+    #details-calendar-popup {
+        width: 100%;
+        left: 0;
+        right: auto;
+        padding: 20px;
+    }
+    .calendar-months-container {
+        flex-direction: column;
+        gap: 20px;
+    }
+    .cal-inputs-col .widget-dates {
+        width: 100%;
+    }
+    .cal-header-row {
+        flex-direction: column;
+        gap: 15px;
+    }
+    .details-popup {
+        width: 100%;
+        left: 0;
+        right: auto;
+    }
+    
+    /* Modals should be floating and slightly smaller on mobile */
+    .modal-content {
+        width: 90%;
+        height: auto;
+        max-height: 85vh;
+        max-width: none;
+        border-radius: 16px;
+        padding: 50px 20px 20px;
+        overflow-y: auto;
+        margin: auto;
+    }
+    .modal-content p, .modal-content li {
+        font-size: 14px !important;
+        line-height: 1.5;
+    }
+    .modal-content h2 {
+        font-size: 22px !important;
+        margin-bottom: 16px !important;
+    }
+    .modal-content h4 {
+        font-size: 16px !important;
+    }
+    .modal-close {
+        top: 15px;
+        left: 15px;
+        right: auto;
+    }
+    
     .reviews-grid { grid-template-columns: 1fr; }
     .amenities-grid { grid-template-columns: 1fr; }
     .rating-bars-container { flex-wrap: wrap; }
-    .rating-score-col { border-left: none; padding-left: 0; width: 30%; }
+    .rating-score-col { border-left: none; padding-left: 0; width: 100%; margin-top: 20px; }
+    
+    /* Reduce reviews huge header on mobile */
+    .rating-huge { font-size: 64px; }
+    .text-gray { font-size: 32px; }
+    .guest-favorite-text h3 { font-size: 20px; }
+
 }
