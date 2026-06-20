@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Log In - Airbnb Clone</title>
+    <link rel="stylesheet" href="login.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="login-container">
+        <div class="login-card">
+            <div class="login-header">
+                <a href="index.html" class="back-btn"><i class="fa-solid fa-chevron-left"></i></a>
+                <h3>Log in or sign up</h3>
+                <div style="width: 32px;"></div> <!-- Spacer for centering -->
+            </div>
+            
+            <div class="login-body">
+                <h2>Welcome to Airbnb</h2>
+                
+                <form id="login-form">
+                    <div class="input-group">
+                        <div class="floating-label">
+                            <input type="text" id="email" placeholder=" " required autocomplete="off">
+                            <label for="email">Email or Phone number</label>
+                        </div>
+                    </div>
+                    
+                    <div class="input-group password-group hidden" id="password-section">
+                        <div class="floating-label">
+                            <input type="password" id="password" placeholder=" ">
+                            <label for="password">Password</label>
+                        </div>
+                    </div>
+                    
+                    <p class="terms">We'll call or text you to confirm your number. Standard message and data rates apply. <a href="#">Privacy Policy</a></p>
+                    
+                    <button type="submit" class="continue-btn" id="continue-btn">Continue</button>
+                </form>
+                
+                <div class="divider">
+                    <span>or</span>
+                </div>
+                
+                <div class="social-logins">
+                    <button class="social-btn">
+                        <i class="fa-brands fa-facebook" style="color: #1877F2;"></i>
+                        Continue with Facebook
+                    </button>
+                    <button class="social-btn">
+                        <i class="fa-brands fa-google" style="color: #DB4437;"></i>
+                        Continue with Google
+                    </button>
+                    <button class="social-btn">
+                        <i class="fa-brands fa-apple"></i>
+                        Continue with Apple
+                    </button>
+                    <button class="social-btn">
+                        <i class="fa-regular fa-envelope"></i>
+                        Continue with email
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Success Toast -->
+    <div id="toast" class="toast hidden">
+        <i class="fa-solid fa-circle-check"></i>
+        <span>Login Successful! Redirecting...</span>
+    </div>
+
+    <script src="login.js"></script>
+</body>
+</html>

@@ -11,10 +11,10 @@
 <body>
     <!-- Top Navigation Bar -->
     <nav class="navbar">
-        <div class="nav-left">
+        <a href="index.html" class="nav-left" style="text-decoration: none;">
             <i class="fa-brands fa-airbnb logo-icon"></i>
             <span class="logo-text">airbnb</span>
-        </div>
+        </a>
         <div class="nav-center">
             <div class="nav-item active">
                 <i class="fa-solid fa-globe"></i>
@@ -24,22 +24,23 @@
                 <i class="fa-solid fa-house"></i>
                 <span>Homes</span>
             </div>
-            <div class="nav-item">
-                <i class="fa-solid fa-hot-tub-person"></i>
-                <span>Experiences</span>
-            </div>
-            <div class="nav-item">
-                <i class="fa-solid fa-bell-concierge"></i>
-                <span>Services</span>
-            </div>
         </div>
         <div class="nav-right">
-            <a href="#" class="become-host">Become a host</a>
-            <button class="icon-btn"><i class="fa-solid fa-globe"></i></button>
-            <button class="profile-menu">
-                <i class="fa-solid fa-bars"></i>
-                <i class="fa-solid fa-circle-user avatar-icon"></i>
-            </button>
+            <div class="profile-dropdown-container">
+                <button class="profile-menu" id="profile-menu-btn">
+                    <i class="fa-solid fa-bars"></i>
+                    <i class="fa-solid fa-circle-user avatar-icon" id="profile-avatar-icon"></i>
+                </button>
+                
+                <div class="profile-dropdown hidden" id="profile-dropdown">
+                    <div class="dropdown-item">
+                        <i class="fa-regular fa-circle-question" style="font-size: 18px; margin-right: 12px; margin-left: 2px;"></i> Help Center
+                    </div>
+                    <div class="dropdown-item">Gift cards</div>
+                    <div class="dropdown-divider"></div>
+                    <a href="login.html" class="dropdown-item" id="login-logout-link" style="text-decoration: none; color: inherit;">Log in or sign up</a>
+                </div>
+            </div>
         </div>
     </nav>
 
@@ -99,10 +100,12 @@
             <!-- Dropdown: When (Calendar) -->
             <div class="dropdown-panel hidden" id="calendar-dropdown">
                 <div class="calendar-tabs">
-                    <button class="cal-tab active">Dates</button>
-                    <button class="cal-tab">Flexible</button>
+                    <button class="cal-tab active" id="tab-dates">Dates</button>
+                    <button class="cal-tab" id="tab-flexible">Flexible</button>
                 </div>
-                <div class="calendar-wrapper">
+                
+                <!-- Dates View -->
+                <div class="calendar-wrapper" id="calendar-view-dates">
                     <!-- June 2026 -->
                     <div class="month">
                         <div class="month-header">
@@ -116,8 +119,8 @@
                         <div class="days">
                             <!-- empty days -->
                             <span class="empty"></span>
-                            <span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span>
-                            <span>7</span><span>8</span><span>9</span><span>10</span><span>11</span><span>12</span><span>13</span>
+                            <span class="past">1</span><span class="past">2</span><span class="past">3</span><span class="past">4</span><span class="past">5</span><span class="past">6</span>
+                            <span class="past">7</span><span class="past">8</span><span class="past">9</span><span class="past">10</span><span class="past">11</span><span class="past">12</span><span class="past">13</span>
                             <span class="past">14</span><span class="past">15</span><span class="past">16</span><span class="past">17</span><span class="past">18</span><span class="today">19</span><span>20</span>
                             <span>21</span><span>22</span><span>23</span><span>24</span><span>25</span><span>26</span><span>27</span>
                             <span>28</span><span>29</span><span>30</span>
@@ -143,7 +146,55 @@
                         </div>
                     </div>
                 </div>
-                <div class="calendar-footer">
+
+                <!-- Flexible View -->
+                <div class="calendar-view-flexible hidden" id="calendar-view-flexible">
+                    <h3 class="flex-title">How long would you like to stay?</h3>
+                    <div class="stay-length-options">
+                        <button class="stay-btn">Weekend</button>
+                        <button class="stay-btn active">Week</button>
+                        <button class="stay-btn">Month</button>
+                    </div>
+                    
+                    <h3 class="flex-title">Go anytime</h3>
+                    <div class="months-carousel-wrapper">
+                        <div class="months-scroll">
+                            <button class="month-btn">
+                                <i class="fa-regular fa-calendar"></i>
+                                <span>June</span>
+                                <small>2026</small>
+                            </button>
+                            <button class="month-btn active">
+                                <i class="fa-regular fa-calendar"></i>
+                                <span>July</span>
+                                <small>2026</small>
+                            </button>
+                            <button class="month-btn">
+                                <i class="fa-regular fa-calendar"></i>
+                                <span>August</span>
+                                <small>2026</small>
+                            </button>
+                            <button class="month-btn">
+                                <i class="fa-regular fa-calendar"></i>
+                                <span>September</span>
+                                <small>2026</small>
+                            </button>
+                            <button class="month-btn">
+                                <i class="fa-regular fa-calendar"></i>
+                                <span>October</span>
+                                <small>2026</small>
+                            </button>
+                            <button class="month-btn">
+                                <i class="fa-regular fa-calendar"></i>
+                                <span>November</span>
+                                <small>2026</small>
+                            </button>
+                        </div>
+                        <button class="months-arrow-btn"><i class="fa-solid fa-chevron-right"></i></button>
+                    </div>
+                </div>
+
+                <div class="calendar-footer" id="calendar-footer">
                     <button class="pill-btn active">Exact dates</button>
                     <button class="pill-btn">± 1 day</button>
                     <button class="pill-btn">± 2 days</button>
@@ -284,9 +335,7 @@
                 <!-- Right: Traditional Hotel -->
                 <div class="comp-side hotel-side">
                     <div class="comp-badge hotel-badge">Traditional Hotel</div>
-                    <div class="hotel-icon-wrapper">
-                        <i class="fa-solid fa-hotel"></i>
-                    </div>
+                    <img src="https://images.unsplash.com/photo-1566073771259-6a8506099945?q=80&w=600&auto=format&fit=crop" alt="Traditional Hotel" class="comp-img">
                     <h3>Standard 4-Star Hotel</h3>
                     
                     <div class="comp-stats">

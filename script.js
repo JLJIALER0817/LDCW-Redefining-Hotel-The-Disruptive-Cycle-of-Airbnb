@@ -1,7 +1,7 @@
 // Mock Database
 const allProperties = [
     { id: 1, location: 'Malacca', title: 'Condo in Malacca', propertyType: 'Entire home', pricePerNight: 163, rating: 5.0, maxGuests: 4, isGuestFavorite: true, imgUrl: 'https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?q=80&w=600&auto=format&fit=crop' },
-    { id: 2, location: 'Malacca', title: 'Apartment in Malacca', propertyType: 'Shared room', pricePerNight: 150, rating: 4.91, maxGuests: 2, isGuestFavorite: false, imgUrl: 'https://images.unsplash.com/photo-1502672260266-1c1de24227e8?q=80&w=600&auto=format&fit=crop' },
+    { id: 2, location: 'Malacca', title: 'Apartment in Malacca', propertyType: 'Shared room', pricePerNight: 150, rating: 4.91, maxGuests: 2, isGuestFavorite: false, imgUrl: 'https://images.unsplash.com/photo-1554995207-c18c203602cb?q=80&w=600&auto=format&fit=crop' },
     { id: 3, location: 'Malacca', title: 'Luxury Villa Malacca', propertyType: 'Luxury villa', pricePerNight: 450, rating: 4.79, maxGuests: 6, isGuestFavorite: true, imgUrl: 'https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?q=80&w=600&auto=format&fit=crop' },
     { id: 4, location: 'Kuala Lumpur', title: 'KLCC View Condo', propertyType: 'Entire home', pricePerNight: 200, rating: 4.94, maxGuests: 4, isGuestFavorite: true, imgUrl: 'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?q=80&w=600&auto=format&fit=crop' },
     { id: 5, location: 'Kuala Lumpur', title: 'Cozy Room in Cheras', propertyType: 'Shared room', pricePerNight: 80, rating: 5.0, maxGuests: 2, isGuestFavorite: false, imgUrl: 'https://images.unsplash.com/photo-1564013799919-ab600027ffc6?q=80&w=600&auto=format&fit=crop' },
@@ -160,11 +160,121 @@ whoField.addEventListener('click', (e) => {
     guestsDropdown.classList.remove('hidden');
 });
 
+// === Flexible vs Dates Toggle ===
+const tabDates = document.getElementById('tab-dates');
+const tabFlexible = document.getElementById('tab-flexible');
+const viewDates = document.getElementById('calendar-view-dates');
+const viewFlexible = document.getElementById('calendar-view-flexible');
+const calFooter = document.getElementById('calendar-footer');
+
+if(tabDates && tabFlexible) {
+    tabDates.addEventListener('click', (e) => {
+        e.stopPropagation();
+        tabFlexible.classList.remove('active');
+        tabDates.classList.add('active');
+        viewFlexible.classList.add('hidden');
+        viewDates.classList.remove('hidden');
+        if(calFooter) calFooter.classList.remove('hidden');
+    });
+    
+    tabFlexible.addEventListener('click', (e) => {
+        e.stopPropagation();
+        tabDates.classList.remove('active');
+        tabFlexible.classList.add('active');
+        viewDates.classList.add('hidden');
+        viewFlexible.classList.remove('hidden');
+        if(calFooter) calFooter.classList.add('hidden');
+    });
+}
+
+document.querySelectorAll('.stay-btn, .month-btn').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        if (btn.classList.contains('stay-btn')) {
+            document.querySelectorAll('.stay-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+        } else {
+            btn.classList.toggle('active');
+        }
+    });
+});
+
+
 
 // === 5. Calendar Range ===
 let date1 = null, date2 = null;
-const days = document.querySelectorAll('.days span:not(.empty):not(.past)');
+const days = document.querySelectorAll('.days span:not(.empty)');
 const checkinInput = document.getElementById('checkin');
+
+// === Calendar Month Switching ===
+const monthNames = [
+    'June 2026', 'July 2026', 'August 2026', 'September 2026', 
+    'October 2026', 'November 2026', 'December 2026', 'January 2027',
+    'February 2027', 'March 2027', 'April 2027', 'May 2027'
+];
+let currentMonthOffset = 0;
+const leftArrow = document.querySelector('.fa-chevron-left.cal-arrow');
+const rightArrow = document.querySelector('.fa-chevron-right.cal-arrow');
+
+function updateCalendarMonths() {
+    const monthHeaders = document.querySelectorAll('.month-header strong');
+    if (monthHeaders.length >= 2) {
+        monthHeaders[0].textContent = monthNames[currentMonthOffset];
+        monthHeaders[1].textContent = monthNames[currentMonthOffset + 1];
+        
+        const firstMonthDays = document.querySelectorAll('.month:first-of-type .days span:not(.empty)');
+        if (currentMonthOffset === 0) {
+            const todayDate = new Date().getDate();
+            firstMonthDays.forEach(day => {
+                day.classList.remove('past');
+                day.classList.remove('today');
+                const val = parseInt(day.textContent);
+                if (val < todayDate) day.classList.add('past');
+                if (val === todayDate) day.classList.add('today');
+            });
+        } else {
+            firstMonthDays.forEach(day => {
+                day.classList.remove('past');
+                day.classList.remove('today');
+            });
+        }
+    }
+    
+    if (leftArrow) {
+        if (currentMonthOffset === 0) {
+            leftArrow.style.opacity = '0.2';
+            leftArrow.style.cursor = 'not-allowed';
+            leftArrow.style.pointerEvents = 'none';
+        } else {
+            leftArrow.style.opacity = '1';
+            leftArrow.style.cursor = 'pointer';
+            leftArrow.style.pointerEvents = 'auto';
+        }
+    }
+    
+    if (typeof updateCalendarUI === 'function') updateCalendarUI();
+}
+
+if (leftArrow && rightArrow) {
+    updateCalendarMonths();
+    
+    rightArrow.addEventListener('click', (e) => {
+        e.stopPropagation();
+        if (currentMonthOffset < monthNames.length - 2) {
+            currentMonthOffset++;
+            updateCalendarMonths();
+        }
+    });
+
+    leftArrow.addEventListener('click', (e) => {
+        e.stopPropagation();
+        if (currentMonthOffset > 0) {
+            currentMonthOffset--;
+            updateCalendarMonths();
+        }
+    });
+}
+
 
 document.querySelectorAll('.pill-btn, .cal-tab').forEach(btn => {
     btn.addEventListener('click', function() {
@@ -178,8 +288,9 @@ function updateCalendarUI() {
     days.forEach(day => {
         day.classList.remove('selected', 'in-range');
         const val = parseInt(day.textContent);
-        const isJune = day.closest('.month').querySelector('strong').textContent.includes('June');
-        const absVal = isJune ? 100 + val : 200 + val;
+        const monthText = day.closest('.month').querySelector('strong').textContent;
+        const monthIndex = monthNames.indexOf(monthText);
+        const absVal = monthIndex * 100 + val;
         
         if (date1 && absVal === date1.val) day.classList.add('selected');
         if (date2 && absVal === date2.val) day.classList.add('selected');
@@ -215,9 +326,13 @@ function updateCalendarUI() {
 
 days.forEach(day => {
     day.addEventListener('click', function() {
+        if (this.classList.contains('past')) return;
+        
         const val = parseInt(this.textContent);
-        const isJune = this.closest('.month').querySelector('strong').textContent.includes('June');
-        const dateObj = { val: isJune ? 100 + val : 200 + val, text: `${isJune ? "Jun" : "Jul"} ${val}` };
+        const monthText = this.closest('.month').querySelector('strong').textContent;
+        const monthIndex = monthNames.indexOf(monthText);
+        const shortMonth = monthText.substring(0, 3);
+        const dateObj = { val: monthIndex * 100 + val, text: `${shortMonth} ${val}` };
 
         if (!date1 || (date1 && date2)) { date1 = dateObj; date2 = null; } 
         else if (date1 && !date2) {
@@ -434,3 +549,47 @@ document.getElementById('book-now-btn').addEventListener('click', () => {
 document.getElementById('close-success').addEventListener('click', () => {
     document.getElementById('success-modal').classList.add('hidden');
 });
+
+// === 10. Login State & Avatar Update ===
+(function() {
+    const profileAvatar = document.getElementById('profile-avatar-icon');
+    const loginLogoutLink = document.getElementById('login-logout-link');
+    const profileMenuBtn = document.getElementById('profile-menu-btn');
+    const profileDropdown = document.getElementById('profile-dropdown');
+
+    // Toggle dropdown
+    if (profileMenuBtn && profileDropdown) {
+        profileMenuBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            profileDropdown.classList.toggle('hidden');
+        });
+
+        document.addEventListener('click', (e) => {
+            if (!profileDropdown.contains(e.target) && !profileMenuBtn.contains(e.target)) {
+                profileDropdown.classList.add('hidden');
+            }
+        });
+    }
+
+    if (localStorage.getItem('isLoggedIn') === 'true') {
+        // Change avatar
+        if (profileAvatar) {
+            const img = document.createElement('img');
+            img.src = "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?q=80&w=100&auto=format&fit=crop";
+            img.alt = "Profile";
+            img.style = "width: 30px; height: 30px; border-radius: 50%; object-fit: cover;";
+            profileAvatar.parentNode.replaceChild(img, profileAvatar);
+        }
+        
+        // Change link text to Log out
+        if (loginLogoutLink) {
+            loginLogoutLink.textContent = "Log out";
+            loginLogoutLink.href = "#";
+            loginLogoutLink.addEventListener('click', (e) => {
+                e.preventDefault();
+                localStorage.removeItem('isLoggedIn');
+                window.location.reload();
+            });
+        }
+    }
+})();
