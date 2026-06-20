@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Trips - Airbnb Clone</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- External CSS -->
+    <link rel="stylesheet" href="shared.css">
+    <link rel="stylesheet" href="booking.css">
+</head>
+<body>
+    <!-- Top Navigation Bar -->
+    <nav class="navbar">
+        <a href="index.html" class="nav-left" style="text-decoration: none;">
+            <i class="fa-brands fa-airbnb logo-icon"></i>
+            <span class="logo-text">airbnb</span>
+        </a>
+        <div class="nav-center">
+            <div class="nav-item active">
+                <i class="fa-solid fa-suitcase-rolling"></i>
+                <span>Trips</span>
+            </div>
+        </div>
+        <div class="nav-right">
+            <div class="profile-dropdown-container">
+                <button class="profile-menu" id="profile-menu-btn">
+                    <i class="fa-solid fa-bars"></i>
+                    <i class="fa-solid fa-circle-user avatar-icon" id="profile-avatar-icon"></i>
+                </button>
+                <div class="profile-dropdown hidden" id="profile-dropdown">
+                    <a href="index.html" class="dropdown-item" style="text-decoration: none; color: inherit;">Home</a>
+                    <div class="dropdown-divider"></div>
+                    <a href="#" class="dropdown-item" id="login-logout-link" style="text-decoration: none; color: inherit;">Log out</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="trips-container">
+        <h1 class="page-title">Upcoming Trips</h1>
+        
+        <div id="no-trips" class="no-trips hidden">
+            <div class="no-trips-content">
+                <div class="icon-wrapper">
+                    <i class="fa-solid fa-suitcase-rolling"></i>
+                </div>
+                <h2>No trips booked... yet!</h2>
+                <p>Time to dust off your bags and start planning your next adventure.</p>
+                <a href="index.html" class="start-searching-btn">Start searching</a>
+            </div>
+        </div>
+
+        <div id="trips-list" class="trips-list">
+            <!-- Booking Cards will be injected here by booking.js -->
+        </div>
+    </main>
+
+    <!-- Scripts -->
+    <script src="booking.js"></script>
+</body>
+</html>

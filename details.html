@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Property Details - Airbnb Clone</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- External CSS -->
+    <link rel="stylesheet" href="shared.css">
+    <link rel="stylesheet" href="details.css">
+</head>
+<body>
+    <!-- Top Navigation Bar (Same as index.html) -->
+    <nav class="navbar">
+        <a href="index.html" class="nav-left" style="text-decoration: none;">
+            <i class="fa-brands fa-airbnb logo-icon"></i>
+            <span class="logo-text">airbnb</span>
+        </a>
+        <div class="nav-center">
+            <!-- Details page doesn't necessarily need the center tabs active, but we can keep it for consistency -->
+            <div class="search-bar-mini" style="border: 1px solid var(--border); border-radius: 40px; padding: 10px 20px; box-shadow: 0 1px 2px rgba(0,0,0,0.08); font-size: 14px; font-weight: 500; cursor: pointer; display: flex; align-items: center; gap: 15px;">
+                <span style="border-right: 1px solid var(--border); padding-right: 15px;">Anywhere</span>
+                <span style="border-right: 1px solid var(--border); padding-right: 15px;">Any week</span>
+                <span style="color: var(--text-light); display: flex; align-items: center; gap: 10px;">Add guests <div style="background: var(--airbnb-red); color: white; width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center;"><i class="fa-solid fa-magnifying-glass" style="font-size: 12px;"></i></div></span>
+            </div>
+        </div>
+        <div class="nav-right">
+            <div class="profile-dropdown-container">
+                <button class="profile-menu" id="profile-menu-btn">
+                    <i class="fa-solid fa-bars"></i>
+                    <i class="fa-solid fa-circle-user avatar-icon" id="profile-avatar-icon"></i>
+                </button>
+                <div class="profile-dropdown hidden" id="profile-dropdown">
+                    <a href="index.html" class="dropdown-item" style="text-decoration: none; color: inherit;">Home</a>
+                    <a href="booking.html" class="dropdown-item" id="trips-link" style="text-decoration: none; color: inherit; display: none;">Trips</a>
+                    <div class="dropdown-divider"></div>
+                    <a href="login.html" class="dropdown-item" id="login-logout-link" style="text-decoration: none; color: inherit;">Log in or sign up</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Details Main Content -->
+    <main class="details-container">
+        <div class="details-header">
+            <h1 id="detail-title" class="detail-title">Loading Property...</h1>
+            <div class="details-actions">
+                <button class="action-btn"><i class="fa-solid fa-arrow-up-from-bracket"></i> Share</button>
+                <button class="action-btn"><i class="fa-regular fa-heart"></i> Save</button>
+            </div>
+        </div>
+
+        <div class="photo-grid">
+            <div class="photo-main">
+                <img id="img-main" src="" alt="Main Photo">
+            </div>
+            <div class="photo-sub">
+                <img id="img-sub-1" src="" alt="Photo 2">
+                <img id="img-sub-2" src="" alt="Photo 3" style="border-top-right-radius: 12px;">
+                <img id="img-sub-3" src="" alt="Photo 4">
+                <img id="img-sub-4" src="" alt="Photo 5" style="border-bottom-right-radius: 12px;">
+                <button class="show-all-btn"><i class="fa-solid fa-grip"></i> Show all photos</button>
+            </div>
+        </div>
+
+        <div class="details-content-split">
+            <!-- Left Content -->
+            <div class="details-left">
+                <h2 id="detail-subtitle" class="detail-subtitle">Entire home in Malaysia</h2>
+                <div class="detail-specs" id="detail-specs">
+                    X guests · X bedrooms · X beds · X baths
+                </div>
+
+                <div class="host-highlight-card">
+                    <div class="guest-favorite-badge-large">
+                        <i class="fa-solid fa-award"></i>
+                        <div class="gfb-text">
+                            <strong>Guest favorite</strong>
+                            <span>One of the most loved homes on Airbnb</span>
+                        </div>
+                    </div>
+                    <div class="rating-highlight">
+                        <strong id="detail-rating">4.95</strong>
+                        <div class="stars">★★★★★</div>
+                    </div>
+                    <div class="reviews-highlight">
+                        <strong>119</strong>
+                        <span style="text-decoration: underline;">Reviews</span>
+                    </div>
+                </div>
+
+                <div class="host-info-row">
+                    <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=100&auto=format&fit=crop" alt="Host" class="host-avatar">
+                    <div>
+                        <div style="font-weight: 600; font-size: 16px;">Hosted by Zeves</div>
+                        <div style="color: var(--text-light); font-size: 14px;">Superhost · 10 years hosting</div>
+                    </div>
+                </div>
+
+                <div class="details-divider"></div>
+
+                <div class="features-list">
+                    <div class="feature-item">
+                        <i class="fa-solid fa-key feature-icon"></i>
+                        <div>
+                            <div class="feature-title">Exceptional check-in experience</div>
+                            <div class="feature-desc">Recent guests gave the check-in process a 5-star rating.</div>
+                        </div>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fa-regular fa-image feature-icon"></i>
+                        <div>
+                            <div class="feature-title">Ocean and beach views</div>
+                            <div class="feature-desc">Guests say the views are lovely.</div>
+                        </div>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fa-solid fa-square-parking feature-icon"></i>
+                        <div>
+                            <div class="feature-title">Park for free</div>
+                            <div class="feature-desc">This is one of the few places in the area with free parking.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Content (Sticky Booking Widget) -->
+            <div class="details-right">
+                <div class="booking-widget">
+                    <div class="widget-header">
+                        <div class="widget-price">
+                            <span id="widget-price-total">RM 0</span> <span id="widget-price-nights" style="font-weight: 400; font-size: 16px; color: var(--text-dark);">for 1 night</span>
+                        </div>
+                    </div>
+
+                    <div class="widget-inputs">
+                        <div class="widget-dates" id="details-dates-btn" style="cursor: pointer;">
+                            <div class="widget-date-field" style="border-right: 1px solid var(--border);">
+                                <label>CHECK-IN</label>
+                                <span id="widget-checkin-display">Add date</span>
+                            </div>
+                            <div class="widget-date-field">
+                                <label>CHECKOUT</label>
+                                <span id="widget-checkout-display">Add date</span>
+                            </div>
+                        </div>
+                        <div class="widget-guests-field" id="details-guests-btn" style="cursor: pointer; position: relative;">
+                            <label>GUESTS</label>
+                            <div style="display: flex; justify-content: space-between; align-items: center;">
+                                <span id="widget-guests-display">1 guest</span>
+                                <i class="fa-solid fa-chevron-down" id="guests-chevron"></i>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Custom Guests Popup -->
+                    <div id="details-guests-popup" class="details-popup hidden">
+                        <div class="guest-row">
+                            <div class="guest-info">
+                                <strong>Adults</strong>
+                                <span>Age 13+</span>
+                            </div>
+                            <div class="guest-controls">
+                                <button type="button" class="ctrl-btn minus" data-type="adults" disabled>-</button>
+                                <span class="count" id="count-adults">1</span>
+                                <button type="button" class="ctrl-btn plus" data-type="adults">+</button>
+                            </div>
+                        </div>
+                        <div class="guest-row">
+                            <div class="guest-info">
+                                <strong>Children</strong>
+                                <span>Ages 2–12</span>
+                            </div>
+                            <div class="guest-controls">
+                                <button type="button" class="ctrl-btn minus" data-type="children" disabled>-</button>
+                                <span class="count" id="count-children">0</span>
+                                <button type="button" class="ctrl-btn plus" data-type="children">+</button>
+                            </div>
+                        </div>
+                        <div class="guest-row">
+                            <div class="guest-info">
+                                <strong>Infants</strong>
+                                <span>Under 2</span>
+                            </div>
+                            <div class="guest-controls">
+                                <button type="button" class="ctrl-btn minus" data-type="infants" disabled>-</button>
+                                <span class="count" id="count-infants">0</span>
+                                <button type="button" class="ctrl-btn plus" data-type="infants">+</button>
+                            </div>
+                        </div>
+                        <div class="guest-row">
+                            <div class="guest-info">
+                                <strong>Pets</strong>
+                                <span style="text-decoration: underline;">Bringing a service animal?</span>
+                            </div>
+                            <div class="guest-controls">
+                                <button type="button" class="ctrl-btn minus" data-type="pets" disabled>-</button>
+                                <span class="count" id="count-pets">0</span>
+                                <button type="button" class="ctrl-btn plus" data-type="pets">+</button>
+                            </div>
+                        </div>
+                        <p class="guest-max-text">This place has a maximum of <span id="max-guests-text">X</span> guests, not including infants. Pets aren't allowed.</p>
+                        <div class="guest-close-row">
+                            <button id="close-guests-btn">Close</button>
+                        </div>
+                    </div>
+                    
+                    <!-- Custom Calendar Popup -->
+                    <div id="details-calendar-popup" class="details-popup hidden">
+                        <div class="cal-header-row">
+                            <div class="cal-title-col">
+                                <h3>Select dates</h3>
+                                <p>Add your travel dates for exact pricing</p>
+                            </div>
+                            <div class="cal-inputs-col">
+                                <div class="widget-dates" style="border: 1px solid var(--text-dark); border-radius: 8px;">
+                                    <div class="widget-date-field" style="border-right: 1px solid var(--border);">
+                                        <label>CHECK-IN</label>
+                                        <span id="popup-checkin-display">Add date</span>
+                                    </div>
+                                    <div class="widget-date-field">
+                                        <label>CHECKOUT</label>
+                                        <span id="popup-checkout-display">Add date</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="calendar-months-container" id="calendar-months-container">
+                            <!-- Months injected via JS -->
+                        </div>
+                        
+                        <div class="cal-footer-row">
+                            <i class="fa-regular fa-keyboard" style="font-size: 20px;"></i>
+                            <div class="cal-footer-actions">
+                                <button id="clear-dates-btn">Clear dates</button>
+                                <button id="close-dates-btn" class="dark-btn">Close</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button class="reserve-btn" id="details-reserve-btn">Book</button>
+                    <div class="wont-be-charged">You won't be charged yet</div>
+                </div>
+                
+                <div style="text-align: center; margin-top: 20px;">
+                    <a href="#" style="color: var(--text-light); font-size: 14px; text-decoration: underline;"><i class="fa-solid fa-flag"></i> Report this listing</a>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Disruptive Comparison Modal (Copied from index.html) -->
+    <div id="comparison-modal" class="modal-overlay hidden">
+        <div class="modal-content">
+            <button class="modal-close" id="close-modal"><i class="fa-solid fa-xmark"></i></button>
+            <h2 class="modal-title">Why Airbnb Wins: The Disruptive Edge</h2>
+            
+            <div class="comparison-grid">
+                <!-- Left: Airbnb Property -->
+                <div class="comp-side airbnb-side">
+                    <div class="comp-badge">Your Selection</div>
+                    <img id="comp-img" src="" alt="Property" class="comp-img">
+                    <h3 id="comp-title">Property Title</h3>
+                    
+                    <div class="comp-stats">
+                        <div class="stat-row">
+                            <i class="fa-solid fa-users"></i>
+                            <span id="comp-guests">Up to X guests</span>
+                        </div>
+                        <div class="stat-row">
+                            <i class="fa-solid fa-money-bill-wave"></i>
+                            <strong>RM <span id="comp-price">0</span> / night</strong>
+                        </div>
+                    </div>
+                    
+                    <div class="comp-perks">
+                        <h4>Disruptive Advantages</h4>
+                        <ul>
+                            <li><i class="fa-solid fa-check text-green"></i> Entire private space</li>
+                            <li><i class="fa-solid fa-check text-green"></i> Full Kitchen & Washer</li>
+                            <li><i class="fa-solid fa-check text-green"></i> Everyone stays together</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="vs-divider">
+                    <div class="vs-circle">VS</div>
+                </div>
+
+                <!-- Right: Traditional Hotel -->
+                <div class="comp-side hotel-side">
+                    <div class="comp-badge hotel-badge">Traditional Hotel</div>
+                    <img src="https://images.unsplash.com/photo-1566073771259-6a8506099945?q=80&w=600&auto=format&fit=crop" alt="Traditional Hotel" class="comp-img">
+                    <h3>Standard 4-Star Hotel</h3>
+                    
+                    <div class="comp-stats">
+                        <div class="stat-row">
+                            <i class="fa-solid fa-bed"></i>
+                            <span>Max 2 guests per room</span>
+                        </div>
+                        <div class="stat-row">
+                            <i class="fa-solid fa-door-open"></i>
+                            <span class="text-red">Need <strong id="hotel-rooms">X</strong> rooms</span>
+                        </div>
+                        <div class="stat-row">
+                            <i class="fa-solid fa-money-bill-wave"></i>
+                            <strong class="text-red">RM <span id="hotel-price">0</span> / night</strong>
+                        </div>
+                    </div>
+                    
+                    <div class="comp-perks">
+                        <h4>Traditional Limits</h4>
+                        <ul>
+                            <li><i class="fa-solid fa-xmark text-red"></i> No kitchen, small fridge</li>
+                            <li><i class="fa-solid fa-xmark text-red"></i> Group split across rooms</li>
+                            <li><i class="fa-solid fa-xmark text-red"></i> Expensive extra fees</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="savings-banner">
+                <div class="savings-info">
+                    <h3>Total Savings: <span id="total-savings" class="text-green">RM 0</span></h3>
+                    <p>for <span id="stay-nights">0</span> nights</p>
+                </div>
+                <button id="book-now-btn" class="book-now-btn">Book Now</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Booking Success Modal -->
+    <div id="success-modal" class="modal-overlay hidden" style="z-index: 2000;">
+        <div class="success-content">
+            <i class="fa-solid fa-circle-check success-icon"></i>
+            <h2>Booking Successful!</h2>
+            <p>You have successfully booked: <strong id="success-prop-name">Property Name</strong></p>
+            <p>Total Price: <strong class="text-green" id="success-total-price">RM 0</strong></p>
+            <div style="display: flex; gap: 15px; justify-content: center; margin-top: 25px;">
+                <button id="close-success" class="cal-tab" style="height: 44px; padding: 0 20px; border-radius: 8px;">Close</button>
+                <a href="booking.html" class="search-btn" style="text-decoration: none; display: inline-flex; align-items: center; justify-content: center; height: 44px; padding: 0 20px; border-radius: 8px;">View Trips</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Login Prompt Modal -->
+    <div id="login-prompt-modal" class="modal-overlay hidden" style="z-index: 2000;">
+        <div class="success-content" style="padding-bottom: 30px;">
+            <div class="modal-close-icon" id="close-login-prompt" style="position: absolute; top: 20px; left: 20px; cursor: pointer; font-size: 16px;">
+                <i class="fa-solid fa-xmark"></i>
+            </div>
+            <i class="fa-regular fa-circle-user" style="font-size: 48px; color: var(--airbnb-red); margin-bottom: 20px;"></i>
+            <h2 style="margin-bottom: 15px;">Log in to book</h2>
+            <p style="color: var(--text-light); margin-bottom: 25px;">You need an account to complete this booking.</p>
+            <a href="login.html" class="search-btn" style="text-decoration: none; display: inline-flex; width: 100%; justify-content: center;">Log in or sign up</a>
+        </div>
+    </div>
+
+    <!-- Hidden inputs for shared logic -->
+    <input type="hidden" id="guests-display" value="1 guest">
+
+    <!-- Load base data and logic first -->
+    <script src="data.js"></script>
+    <!-- Load page specific logic -->
+    <script src="details.js"></script>
+</body>
+</html>

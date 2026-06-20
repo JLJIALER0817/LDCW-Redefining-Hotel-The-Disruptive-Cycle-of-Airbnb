@@ -4,7 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Airbnb Clone - Group Project</title>
-    <link rel="stylesheet" href="style.css">
+    <!-- External CSS -->
+    <link rel="stylesheet" href="shared.css">
+    <link rel="stylesheet" href="index.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
@@ -36,7 +38,7 @@
                     <div class="dropdown-item">
                         <i class="fa-regular fa-circle-question" style="font-size: 18px; margin-right: 12px; margin-left: 2px;"></i> Help Center
                     </div>
-                    <div class="dropdown-item">Gift cards</div>
+                    <a href="booking.html" class="dropdown-item" id="trips-link" style="text-decoration: none; color: inherit; display: none;">Trips</a>
                     <div class="dropdown-divider"></div>
                     <a href="login.html" class="dropdown-item" id="login-logout-link" style="text-decoration: none; color: inherit;">Log in or sign up</a>
                 </div>
@@ -294,97 +296,7 @@
         </div>
     </main>
 
-    <!-- Disruptive Comparison Modal -->
-    <div id="comparison-modal" class="modal-overlay hidden">
-        <div class="modal-content">
-            <button class="modal-close" id="close-modal"><i class="fa-solid fa-xmark"></i></button>
-            <h2 class="modal-title">Why Airbnb Wins: The Disruptive Edge</h2>
-            
-            <div class="comparison-grid">
-                <!-- Left: Airbnb Property -->
-                <div class="comp-side airbnb-side">
-                    <div class="comp-badge">Your Selection</div>
-                    <img id="comp-img" src="" alt="Property" class="comp-img">
-                    <h3 id="comp-title">Property Title</h3>
-                    
-                    <div class="comp-stats">
-                        <div class="stat-row">
-                            <i class="fa-solid fa-users"></i>
-                            <span id="comp-guests">Up to X guests</span>
-                        </div>
-                        <div class="stat-row">
-                            <i class="fa-solid fa-money-bill-wave"></i>
-                            <strong>RM <span id="comp-price">0</span> / night</strong>
-                        </div>
-                    </div>
-                    
-                    <div class="comp-perks">
-                        <h4>Disruptive Advantages</h4>
-                        <ul>
-                            <li><i class="fa-solid fa-check text-green"></i> Entire private space</li>
-                            <li><i class="fa-solid fa-check text-green"></i> Full Kitchen & Washer</li>
-                            <li><i class="fa-solid fa-check text-green"></i> Everyone stays together</li>
-                        </ul>
-                    </div>
-                </div>
-
-                <div class="vs-divider">
-                    <div class="vs-circle">VS</div>
-                </div>
-
-                <!-- Right: Traditional Hotel -->
-                <div class="comp-side hotel-side">
-                    <div class="comp-badge hotel-badge">Traditional Hotel</div>
-                    <img src="https://images.unsplash.com/photo-1566073771259-6a8506099945?q=80&w=600&auto=format&fit=crop" alt="Traditional Hotel" class="comp-img">
-                    <h3>Standard 4-Star Hotel</h3>
-                    
-                    <div class="comp-stats">
-                        <div class="stat-row">
-                            <i class="fa-solid fa-bed"></i>
-                            <span>Max 2 guests per room</span>
-                        </div>
-                        <div class="stat-row">
-                            <i class="fa-solid fa-door-open"></i>
-                            <span class="text-red">Need <strong id="hotel-rooms">X</strong> rooms</span>
-                        </div>
-                        <div class="stat-row">
-                            <i class="fa-solid fa-money-bill-wave"></i>
-                            <strong class="text-red">RM <span id="hotel-price">0</span> / night</strong>
-                        </div>
-                    </div>
-                    
-                    <div class="comp-perks">
-                        <h4>Traditional Limits</h4>
-                        <ul>
-                            <li><i class="fa-solid fa-xmark text-red"></i> No kitchen, small fridge</li>
-                            <li><i class="fa-solid fa-xmark text-red"></i> Group split across rooms</li>
-                            <li><i class="fa-solid fa-xmark text-red"></i> Expensive extra fees</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-
-            <div class="savings-banner">
-                <div class="savings-info">
-                    <h3>Total Savings: <span id="total-savings" class="text-green">RM 0</span></h3>
-                    <p>for <span id="stay-nights">0</span> nights</p>
-                </div>
-                <button id="book-now-btn" class="book-now-btn">Book Now</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Booking Success Modal -->
-    <div id="success-modal" class="modal-overlay hidden" style="z-index: 2000;">
-        <div class="success-content">
-            <i class="fa-solid fa-circle-check success-icon"></i>
-            <h2>Booking Successful!</h2>
-            <p>You have successfully booked: <strong id="success-prop-name">Property Name</strong></p>
-            <p>Total Price: <strong class="text-green" id="success-total-price">RM 0</strong></p>
-            <button id="close-success" class="search-btn" style="margin: 20px auto 0; height: 40px; display: inline-flex;">Awesome!</button>
-        </div>
-    </div>
-
-    <script src="script.js"></script>
+    <script src="data.js"></script>
+    <script src="index.js"></script>
 </body>
 </html>
