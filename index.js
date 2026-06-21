@@ -164,7 +164,9 @@ document.addEventListener('DOMContentLoaded', () => {
         item.addEventListener('click', function() {
             const locInput = document.getElementById('location');
             if (locInput) locInput.value = this.getAttribute('data-value');
-            closeAllDropdowns();
+            // Smoothly auto-advance to Type field
+            if (typeField) typeField.click();
+            else closeAllDropdowns();
         });
     });
 
@@ -172,7 +174,9 @@ document.addEventListener('DOMContentLoaded', () => {
         item.addEventListener('click', function() {
             const typeInput = document.getElementById('property-type');
             if (typeInput) typeInput.value = this.getAttribute('data-value');
-            closeAllDropdowns();
+            // Smoothly auto-advance to When (Dates) field
+            if (whenField) whenField.click();
+            else closeAllDropdowns();
         });
     });
 
@@ -410,6 +414,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 else {
                     date2 = dateObj;
                     if (date1.val > date2.val) { let t = date1; date1 = date2; date2 = t; }
+                    
+                    // Smoothly auto-advance to Who (Guests) field after selecting checkout
+                    setTimeout(() => {
+                        if (whoField) whoField.click();
+                    }, 300);
                 }
             }
             updateCalendarUI();
