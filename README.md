@@ -39,9 +39,7 @@ The purpose of this program is to practically demonstrate Airbnb's disruptive in
 
 ## 👥 Group Members
 *(Please fill in your group members' names and Student IDs before submission)*
-- Member 1 Name (ID: XXXXXX) - Group Leader
-- Member 2 Name (ID: XXXXXX)
-- Member 3 Name (ID: XXXXXX)
-- Member 4 Name (ID: XXXXXX)
-- Member 5 Name (ID: XXXXXX)
-- Member 6 Name (ID: XXXXXX)
+- Member 1 SYLVESTER LIM JUN YI (ID:253UT256K9) - Group Leader
+- Member 2 LEE JIA LER (ID: 253UT256JQ)
+- Member 3 CHONG KAI XIANG (ID: 253UT256KV)
+- Member 4 ONG WEI FOUNG (ID: 253UT256K0)
