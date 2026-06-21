@@ -9,6 +9,12 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
+    <!-- 
+      ========================================================
+      LOGIN MODAL CONTAINER
+      Wraps the entire login interface and centers it on the screen.
+      ========================================================
+    -->
     <div class="login-container">
         <div class="login-card">
             <div class="login-header">
@@ -20,6 +26,13 @@
             <div class="login-body">
                 <h2>Welcome to Airbnb</h2>
                 
+                <!-- 
+                  ========================================================
+                  LOGIN FORM
+                  Uses a progressive disclosure pattern: first asks for email, 
+                  then reveals the password field upon clicking "Continue".
+                  ========================================================
+                -->
                 <form id="login-form">
                     <div class="input-group">
                         <div class="floating-label">
@@ -44,6 +57,13 @@
                     <span>or</span>
                 </div>
                 
+                <!-- 
+                  ========================================================
+                  SOCIAL LOGINS
+                  Buttons for third-party authentication options.
+                  (UI only, currently not functional in this clone).
+                  ========================================================
+                -->
                 <div class="social-logins">
                     <button class="social-btn">
                         <i class="fa-brands fa-facebook" style="color: #1877F2;"></i>
@@ -66,7 +86,13 @@
         </div>
     </div>
     
-    <!-- Success Toast -->
+    <!-- 
+      ========================================================
+      SUCCESS TOAST NOTIFICATION
+      A small popup alert that appears at the top/bottom when 
+      the user successfully logs in, before redirecting.
+      ========================================================
+    -->
     <div id="toast" class="toast hidden">
         <i class="fa-solid fa-circle-check"></i>
         <span>Login Successful! Redirecting...</span>

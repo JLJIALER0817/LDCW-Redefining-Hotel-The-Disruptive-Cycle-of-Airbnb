@@ -1,4 +1,8 @@
 document.addEventListener('DOMContentLoaded', () => {
+    // ========================================================
+    // 1. DOM ELEMENTS
+    // Retrieve necessary form elements and UI components.
+    // ========================================================
     const loginForm = document.getElementById('login-form');
     const emailInput = document.getElementById('email');
     const passwordSection = document.getElementById('password-section');
@@ -8,6 +12,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
     let step = 1;
 
+    // ========================================================
+    // 2. TWO-STEP LOGIN LOGIC
+    // Simulates Airbnb's progressive login:
+    // Step 1: User enters email, clicks continue.
+    // Step 2: Password field appears, user enters password, logs in.
+    // ========================================================
     loginForm.addEventListener('submit', (e) => {
         e.preventDefault();
         
@@ -46,6 +56,11 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
+    // ========================================================
+    // 3. SOCIAL LOGIN (MOCK)
+    // Simulates a successful login if the user clicks any 
+    // of the third-party provider buttons (Facebook, Google).
+    // ========================================================
     // Handle social buttons (just mock functionality)
     document.querySelectorAll('.social-btn').forEach(btn => {
         btn.addEventListener('click', (e) => {

@@ -1,3 +1,16 @@
+/* 
+  ========================================================
+  LOGIN.CSS - AUTHENTICATION MODAL STYLES
+  ========================================================
+  This file manages the visual presentation of the Login/Signup 
+  page (login.html). It includes:
+  1. The centered Login Card overlay.
+  2. The custom Floating Label input fields (where the placeholder 
+     text shrinks and moves to the top when clicked).
+  3. The Social Login buttons styling.
+  4. The Success Toast Notification animations.
+  ========================================================
+*/
 :root {
     --primary-color: #FF385C;
     --text-dark: #222222;
