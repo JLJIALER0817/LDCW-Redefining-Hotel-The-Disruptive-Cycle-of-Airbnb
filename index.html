@@ -11,7 +11,13 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
-    <!-- Top Navigation Bar -->
+    <!-- 
+      ========================================================
+      TOP NAVIGATION BAR
+      Contains the Airbnb logo (left), view tabs (center), and 
+      the user profile dropdown (right) for login and trips.
+      ========================================================
+    -->
     <nav class="navbar">
         <a href="index.html" class="nav-left" style="text-decoration: none;">
             <i class="fa-brands fa-airbnb logo-icon"></i>
@@ -46,7 +52,14 @@
         </div>
     </nav>
 
-    <!-- Search Bar Section -->
+    <!-- 
+      ========================================================
+      SEARCH BAR SECTION (The "Pill")
+      This is the core interactive component. It contains inputs 
+      for Where, Type, When, and Who. Clicking an input opens 
+      its respective dropdown panel below.
+      ========================================================
+    -->
     <header class="search-section">
         <div class="search-container">
             <form id="search-form" class="search-pill">
@@ -286,7 +299,14 @@
         </div>
     </header>
 
-    <!-- Main Content Area -->
+    <!-- 
+      ========================================================
+      MAIN CONTENT AREA
+      Displays the property listings. It switches between two views:
+      1. #home-view: Shows horizontal scrolling categories.
+      2. #search-view: Shows a grid of search results when user searches.
+      ========================================================
+    -->
     <main>
         <div id="home-view">
             <section class="listing-section">
@@ -326,6 +346,13 @@
         </div>
     </main>
 
+    <!-- 
+      ========================================================
+      FOOTER
+      Standard Airbnb footer containing support links, 
+      hosting information, and social media links.
+      ========================================================
+    -->
     <footer class="airbnb-footer">
         <div class="footer-grid">
             <div class="footer-column">

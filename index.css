@@ -1,3 +1,16 @@
+/* 
+  ========================================================
+  INDEX.CSS - HOMEPAGE STYLES
+  ========================================================
+  This file handles the styling specifically for the homepage (index.html).
+  It includes:
+  1. The Search Bar "Pill" and its interactive state.
+  2. The Dropdown panels (Location, Calendar, Guests).
+  3. The Property Cards grid and horizontal scrolling layout.
+  4. Advanced mobile responsive CSS (using :has() pseudo-class) 
+     to transform the search bar into an expanding bottom-sheet on mobile.
+  ========================================================
+*/
 /* === Search Bar & Dropdowns === */
 .search-section {
     display: flex;

@@ -1,7 +1,11 @@
 // index.js
 
 document.addEventListener('DOMContentLoaded', () => {
-    // 1. Setup Nav Profile (from data.js)
+    // ========================================================
+    // 1. SETUP & INITIALIZATION
+    // Initialize user profile settings and clear temporary 
+    // search states to ensure a fresh homepage load.
+    // ========================================================
     if (typeof setupNavProfile === 'function') setupNavProfile();
 
     // Clear old search states so default homepage clicks don't inherit them
@@ -9,7 +13,11 @@ document.addEventListener('DOMContentLoaded', () => {
     localStorage.removeItem('flexMonth');
     localStorage.removeItem('exactCheckinVal');
 
-    // === 2. Render & Heart Buttons ===
+    // ========================================================
+    // 2. PROPERTY CARD RENDERING SYSTEM
+    // Function to dynamically generate HTML for a property card.
+    // Handles custom pricing if the user searches by dates.
+    // ========================================================
     function createCard(property, customDateStr = null, customNights = null) {
         const badgeHTML = property.isGuestFavorite ? `<div class="guest-favorite-badge">Guest favorite</div>` : '';
         const card = document.createElement('div');
@@ -68,7 +76,11 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     renderHomepage();
 
-    // === 3. Top Navbar Tabs Interaction ===
+    // ========================================================
+    // 3. TOP NAVIGATION TABS INTERACTION
+    // Handles clicking on "All", "Homes", etc., and shows alerts
+    // for features that are not yet implemented.
+    // ========================================================
     document.querySelectorAll('.nav-center .nav-item').forEach(item => {
         item.addEventListener('click', function() {
             document.querySelectorAll('.nav-center .nav-item').forEach(nav => nav.classList.remove('active'));
@@ -80,7 +92,11 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // === 4. Carousel Arrows ===
+    // ========================================================
+    // 4. CAROUSEL ARROWS LOGIC
+    // Enables horizontal scrolling for property grids on desktop
+    // when clicking the left/right chevron arrows.
+    // ========================================================
     document.querySelectorAll('.listing-section').forEach(section => {
         const scrollContainer = section.querySelector('.horizontal-scroll');
         const arrows = section.querySelectorAll('.arrow-btn');
@@ -90,7 +106,11 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // === 5. Dropdown Show/Hide Logic ===
+    // ========================================================
+    // 5. SEARCH BAR DROPDOWN LOGIC
+    // Manages the visibility of the dropdown panels (Where, Type, 
+    // When, Who) ensuring only one panel is open at a time.
+    // ========================================================
     const whenField = document.getElementById('when-field');
     const whoField = document.getElementById('who-field');
     const whereField = document.getElementById('where-field');
