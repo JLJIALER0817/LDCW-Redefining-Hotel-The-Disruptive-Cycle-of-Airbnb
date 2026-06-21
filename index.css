@@ -805,4 +805,26 @@ main {
         flex-wrap: wrap;
         justify-content: center;
     }
+
+    /* Make Exact Dates footer scrollable horizontally on mobile */
+    .calendar-footer {
+        overflow-x: auto;
+        padding-bottom: 8px; /* For scrollbar if visible */
+        flex-wrap: nowrap; /* Force single line */
+        -webkit-overflow-scrolling: touch; /* Smooth scroll on iOS */
+    }
+    
+    .calendar-footer::-webkit-scrollbar {
+        display: none; /* Hide scrollbar for a cleaner look */
+    }
+
+    .calendar-footer .pill-btn {
+        flex: 0 0 auto; /* Prevent shrinking */
+        font-size: 13px; /* Slightly smaller text */
+        padding: 6px 12px;
+    }
+
+    .calendar-footer .pill-btn.active {
+        padding: 5px 11px; /* Adjust for the 2px border */
+    }
 }
