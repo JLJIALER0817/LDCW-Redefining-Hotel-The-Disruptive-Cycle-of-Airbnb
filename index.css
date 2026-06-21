@@ -557,6 +557,9 @@ main {
 
 /* Responsive adjustments for Home Page */
 @media (max-width: 768px) {
+    main {
+        padding: 20px 15px 80px;
+    }
     .search-section {
         padding: 20px 15px;
     }
@@ -604,9 +607,16 @@ main {
         min-width: 240px;
         width: 240px;
     }
+    
+    /* Search Results grid: 2 items per row on mobile */
+    .wrap-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+    }
     .wrap-grid .property-card {
-        width: 240px;
-        margin: 0 auto;
+        width: 100%;
+        min-width: unset;
+        margin: 0;
     }
     .card-title, .card-price, .card-rating {
         font-size: 14px;
