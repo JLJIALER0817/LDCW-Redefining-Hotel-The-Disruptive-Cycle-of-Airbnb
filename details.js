@@ -1,7 +1,11 @@
 // details.js
 
 document.addEventListener('DOMContentLoaded', () => {
-    // 1. Get Property ID from URL
+    // ========================================================
+    // 1. URL PARAMETER EXTRACTION
+    // Extracts the property ID from the URL string (e.g., ?id=2)
+    // to determine which property to display.
+    // ========================================================
     const urlParams = new URLSearchParams(window.location.search);
     const propertyId = parseInt(urlParams.get('id'));
 
@@ -19,7 +23,11 @@ document.addEventListener('DOMContentLoaded', () => {
         return;
     }
 
-    // 3. Populate Page Details
+    // ========================================================
+    // 2. DATA POPULATION
+    // Injects the property's data (title, specs, rating, images)
+    // into the HTML DOM elements dynamically.
+    // ========================================================
     document.title = `${property.title} - Airbnb Clone`;
     document.getElementById('detail-title').textContent = property.title;
     document.getElementById('detail-subtitle').textContent = `${property.propertyType} in ${property.location}, Malaysia`;
@@ -44,7 +52,11 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('img-sub-4').src = subImages[3];
     document.getElementById('max-guests-text').textContent = property.maxGuests;
 
-    // Custom Widget Logic Variables
+    // ========================================================
+    // 3. BOOKING WIDGET INITIALIZATION
+    // Sets up initial dates and parses any search queries 
+    // passed over from the homepage via localStorage.
+    // ========================================================
     let checkinDate = new Date();
     
     // Attempt to set a smart checkin date based on search parameters
