@@ -13,7 +13,13 @@
     <link rel="stylesheet" href="booking.css">
 </head>
 <body>
-    <!-- Top Navigation Bar -->
+    <!-- 
+      ========================================================
+      TOP NAVIGATION BAR
+      Consistent styling with index.html, but simplified.
+      Contains the logo and user profile dropdown.
+      ========================================================
+    -->
     <nav class="navbar">
         <a href="index.html" class="nav-left" style="text-decoration: none;">
             <i class="fa-brands fa-airbnb logo-icon"></i>
@@ -40,7 +46,15 @@
         </div>
     </nav>
 
-    <!-- Main Content -->
+    <!-- 
+      ========================================================
+      MAIN CONTENT (TRIPS DASHBOARD)
+      Displays dynamically injected trip cards divided into:
+      1. Upcoming Trips (or an empty state if none exist)
+      2. Past Trips
+      3. Cancelled Trips
+      ========================================================
+    -->
     <main class="trips-container">
         <h1 class="page-title">Upcoming Trips</h1>
         
@@ -70,7 +84,13 @@
         </div>
     </main>
 
-    <!-- Custom Cancel Confirmation Modal -->
+    <!-- 
+      ========================================================
+      CANCEL CONFIRMATION MODAL
+      A hidden popup that appears when a user clicks the "Cancel" 
+      button on an upcoming trip. Requires user confirmation.
+      ========================================================
+    -->
     <div id="cancel-modal" class="modal-overlay hidden">
         <div class="cancel-modal-content">
             <div class="cancel-modal-header">

@@ -1,7 +1,11 @@
 // booking.js
 
 document.addEventListener('DOMContentLoaded', () => {
-    // 1. Check Login State
+    // ========================================================
+    // 1. AUTHENTICATION CHECK
+    // Verifies if the user is logged in via localStorage.
+    // Redirects to the login page if not authenticated.
+    // ========================================================
     const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
     if (!isLoggedIn) {
         alert('Please log in to view your trips.');
@@ -9,7 +13,11 @@ document.addEventListener('DOMContentLoaded', () => {
         return;
     }
 
-    // 2. Setup Profile Dropdown
+    // ========================================================
+    // 2. PROFILE DROPDOWN LOGIC
+    // Handles the toggling of the user profile menu and 
+    // replacing the generic avatar with a logged-in user image.
+    // ========================================================
     const profileAvatar = document.getElementById('profile-avatar-icon');
     const loginLogoutLink = document.getElementById('login-logout-link');
     const profileMenuBtn = document.getElementById('profile-menu-btn');
@@ -45,7 +53,11 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // 3. Load and Render Bookings
+    // ========================================================
+    // 3. LOAD AND RENDER BOOKINGS
+    // Retrieves bookings from localStorage and dynamically 
+    // generates HTML cards for Upcoming, Past, and Cancelled trips.
+    // ========================================================
     function renderBookings() {
         let myBookings = JSON.parse(localStorage.getItem('myBookings')) || [];
         const noTripsEl = document.getElementById('no-trips');

@@ -1,4 +1,17 @@
-/* booking.css */
+/* 
+  ========================================================
+  BOOKING.CSS - TRIPS DASHBOARD STYLES
+  ========================================================
+  This file manages the visual presentation of the user's 
+  "My Trips" page (booking.html). It includes:
+  1. The Empty State design ("No trips booked... yet!").
+  2. The responsive Booking Cards (showing Upcoming, Past, 
+     and Cancelled trip states with visual filters like grayscale).
+  3. The Cancel Trip Confirmation Modal (with pop-up animations).
+  4. Mobile Grid conversions for a compact trip-details layout.
+  ========================================================
+*/
+/* Reset and Container Styles */
 body {
     background-color: var(--background);
 }
