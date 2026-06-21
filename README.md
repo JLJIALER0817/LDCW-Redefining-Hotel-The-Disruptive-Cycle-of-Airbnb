@@ -37,6 +37,10 @@ The purpose of this program is to practically demonstrate Airbnb's disruptive in
 4. **Alternative Method**:
    - Simply double-click `index.html` to open it directly in your browser. (Note: Using Live Server is recommended for the best experience with local URL routing).
 
+## Viewing in Online
+1. click the link to viewing our program
+https://jljialer0817.github.io/LDCW-Redefining-Hotel-The-Disruptive-Cycle-of-Airbnb/
+
 ## 👥 Group Members
 *(Please fill in your group members' names and Student IDs before submission)*
 - Member 1 SYLVESTER LIM JUN YI (ID:253UT256K9) - Group Leader
