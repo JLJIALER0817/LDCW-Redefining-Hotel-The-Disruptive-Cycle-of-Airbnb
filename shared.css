@@ -1,12 +1,43 @@
+/* 
+  ========================================================
+  SHARED.CSS - GLOBAL STYLES AND VARIABLES
+  ========================================================
+  This file contains the global design system used across
+  all pages of the application. It includes:
+  1. CSS Custom Properties (variables) for theming.
+  2. Global reset and typography settings.
+  3. Shared Navigation Bar styles.
+  4. Shared Profile Dropdown styles.
+  5. Shared Guest Controls styles.
+  6. Shared Footer styles.
+  7. Responsive breakpoints for shared components.
+  ========================================================
+*/
+
+/* 
+  ========================================================
+  CSS VARIABLES (Design Tokens)
+  Defines the core color palette and design constants.
+  These are used throughout the project to maintain
+  visual consistency and enable easy theming.
+  ========================================================
+*/
 :root {
-    --primary-color: #FF385C; /* Airbnb Red */
-    --text-dark: #222222;
-    --text-light: #717171;
-    --border-color: #DDDDDD;
-    --bg-light: #F7F7F7;
-    --white: #FFFFFF;
+    --primary-color: #FF385C; /* Airbnb's signature red */
+    --text-dark: #222222;    /* Primary text color */
+    --text-light: #717171;   /* Secondary/muted text */
+    --border-color: #DDDDDD; /* Default border color */
+    --bg-light: #F7F7F7;     /* Light background for hover states */
+    --white: #FFFFFF;        /* Pure white for cards and surfaces */
 }
 
+/* 
+  ========================================================
+  GLOBAL RESET & BASE STYLES
+  Removes default browser margins/paddings and sets
+  a consistent box-sizing model and font stack.
+  ========================================================
+*/
 * {
     box-sizing: border-box;
     margin: 0;
@@ -17,10 +48,19 @@ body {
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, Roboto, Helvetica, Arial, sans-serif;
     color: var(--text-dark);
     background-color: var(--white);
-    -webkit-font-smoothing: antialiased;
+    -webkit-font-smoothing: antialiased; /* Smoother text rendering on WebKit browsers */
 }
 
-/* === Navbar === */
+/*
+  ========================================================
+  TOP NAVIGATION BAR STYLES
+  Consistent across all pages (index, details, booking).
+  Uses Flexbox for layout with three sections:
+  - Left: Logo
+  - Center: Navigation tabs (All, Homes)
+  - Right: Profile menu button
+  ========================================================
+*/
 .navbar {
     display: flex;
     align-items: center;
@@ -29,6 +69,11 @@ body {
     border-bottom: 1px solid var(--border-color);
 }
 
+/* 
+  LEFT SECTION - Logo
+  Airbnb brand styling with the signature red color.
+  The icon and text are positioned side by side.
+*/
 .nav-left {
     display: flex;
     align-items: center;
@@ -43,6 +88,11 @@ body {
     margin-right: 8px;
 }
 
+/* 
+  CENTER SECTION - Navigation Tabs
+  Horizontal list of page sections (All, Homes).
+  Active tab gets a bottom border indicator.
+*/
 .nav-center {
     display: flex;
     gap: 30px;
@@ -69,6 +119,11 @@ body {
     border-bottom: 2px solid var(--text-dark);
 }
 
+/* 
+  RIGHT SECTION - Profile Menu
+  Contains the "Become a Host" link and the profile dropdown.
+  The dropdown is positioned absolutely relative to its container.
+*/
 .nav-right {
     display: flex;
     align-items: center;
@@ -101,6 +156,12 @@ body {
     background-color: var(--bg-light);
 }
 
+/*
+  PROFILE DROPDOWN MENU
+  A floating panel that appears when the user clicks
+  the profile avatar button. Contains navigation links
+  and authentication actions.
+*/
 .profile-menu {
     display: flex;
     align-items: center;
@@ -122,6 +183,11 @@ body {
     color: var(--text-light);
 }
 
+/* 
+  DROPDOWN CONTAINER
+  Positions the dropdown menu relative to the profile button.
+  The actual menu drops down from the bottom of the button.
+*/
 .profile-dropdown-container {
     position: relative;
 }
@@ -162,6 +228,11 @@ body {
     margin: 8px 0;
 }
 
+/*
+  HOST PROMO SECTION IN DROPDOWN
+  A special styled item in the dropdown that promotes
+  hosting with a small image/illustration.
+*/
 .host-promo {
     align-items: flex-start;
     justify-content: space-between;
@@ -186,6 +257,11 @@ body {
     margin-left: 12px;
 }
 
+/*
+  SEARCH BUTTON
+  Primary call-to-action button used in the search bar.
+  Features Airbnb's signature red gradient/color.
+*/
 .search-btn {
     background-color: var(--primary-color);
     color: var(--white);
@@ -204,14 +280,27 @@ body {
 }
 
 .search-btn:hover {
-    background-color: #E00B41;
+    background-color: #E00B41; /* Darker red on hover */
 }
 
+/*
+  UTILITY CLASS
+  A global helper to hide elements without removing
+  them from the DOM. Used extensively for toggling
+  dropdowns, modals, and UI states.
+*/
 .hidden {
     display: none !important;
 }
 
-/* Guests Dropdown / Popup Shared */
+/*
+  ========================================================
+  SHARED GUEST CONTROLS
+  Used in both the homepage search bar and the details
+  page booking widget. Provides +/- buttons for
+  selecting guest counts.
+  ========================================================
+*/
 #guests-dropdown {
     right: 0;
     width: 400px;
@@ -225,11 +314,13 @@ body {
     border-bottom: 1px solid #EBEBEB;
 }
 
+/* Remove bottom border from the last row */
 .guest-row:last-child {
     border-bottom: none;
     padding-bottom: 0;
 }
 
+/* Remove top padding from the first row */
 .guest-row:first-child {
     padding-top: 0;
 }
@@ -282,16 +373,26 @@ body {
     text-align: center;
 }
 
+/*
+  UTILITY TEXT COLORS
+  Quick helpers for positive (green) and negative (red) states.
+  Used in comparison modal to show savings or losses.
+*/
 .text-green { color: #008A05; }
 .text-red { color: #E00B41; }
 
-/* Responsive adjustments for shared components */
+/*
+  ========================================================
+  RESPONSIVE BREAKPOINTS - SHARED COMPONENTS
+  Adapts the navigation bar and dropdowns for mobile devices.
+  ========================================================
+*/
 @media (max-width: 768px) {
     .navbar {
         padding: 16px 20px;
     }
     .logo-text {
-        display: none;
+        display: none; /* Hide text, show only the logo icon on mobile */
     }
     .nav-center {
         gap: 15px;
@@ -308,19 +409,19 @@ body {
         font-weight: 600;
     }
     .nav-item span {
-        display: none;
+        display: none; /* Hide text labels, show only icons */
     }
     .nav-item i {
         font-size: 20px;
     }
     .become-host {
-        display: none;
+        display: none; /* Hide "Become a Host" on mobile */
     }
     .profile-dropdown {
         width: 220px;
         right: -20px;
     }
-    /* Guests Dropdown Mobile */
+    /* Guests Dropdown Mobile - Full width */
     #guests-dropdown {
         width: 100%;
         min-width: 0;
@@ -335,7 +436,15 @@ body {
     }
 }
 
-/* === FOOTER === */
+/*
+  ========================================================
+  FOOTER STYLES
+  A standard Airbnb-style footer with three columns of links.
+  - Left: Support links
+  - Center: Hosting links
+  - Right: Company links
+  ========================================================
+*/
 .airbnb-footer {
     background-color: #f7f7f7;
     border-top: 1px solid #dddddd;
@@ -344,6 +453,7 @@ body {
     color: #222222;
     margin-top: 60px;
 }
+
 .footer-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -351,27 +461,38 @@ body {
     padding-bottom: 30px;
     border-bottom: 1px solid #dddddd;
 }
+
 .footer-column h4 {
     font-size: 14px;
     font-weight: 600;
     margin-bottom: 16px;
     margin-top: 0;
 }
+
 .footer-column ul {
     list-style: none;
     padding: 0;
     margin: 0;
 }
+
 .footer-column ul li {
     margin-bottom: 12px;
 }
+
 .footer-column ul li a {
     color: #222222;
     text-decoration: none;
 }
+
 .footer-column ul li a:hover {
     text-decoration: underline;
 }
+
+/*
+  FOOTER BOTTOM
+  Contains legal information, language selection,
+  currency, and social media links.
+*/
 .footer-bottom {
     display: flex;
     justify-content: space-between;
@@ -380,35 +501,42 @@ body {
     flex-wrap: wrap;
     gap: 20px;
 }
+
 .footer-left {
     display: flex;
     gap: 10px;
     align-items: center;
     flex-wrap: wrap;
 }
+
 .footer-left a {
     color: #222222;
     text-decoration: none;
 }
+
 .footer-left a:hover {
     text-decoration: underline;
 }
+
 .footer-right {
     display: flex;
     gap: 20px;
     align-items: center;
     font-weight: 600;
 }
+
 .footer-right a {
     color: #222222;
     text-decoration: none;
 }
+
 .footer-socials {
     display: flex;
     gap: 15px;
     font-size: 18px;
 }
 
+/* Mobile Footer - Stack columns vertically */
 @media (max-width: 768px) {
     .airbnb-footer {
         padding: 40px 20px;

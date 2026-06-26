@@ -11,7 +11,15 @@
      to transform the search bar into an expanding bottom-sheet on mobile.
   ========================================================
 */
-/* === Search Bar & Dropdowns === */
+
+/*
+  ========================================================
+  SEARCH BAR & DROPDOWNS
+  The search "pill" is a horizontal bar with 4 fields:
+  Where, Type, When, Who. Clicking a field opens its
+  respective dropdown panel below.
+  ========================================================
+*/
 .search-section {
     display: flex;
     justify-content: center;
@@ -36,9 +44,14 @@
 }
 
 .search-pill.active {
-    background: #EBEBEB;
+    background: #EBEBEB; /* Slightly darker when a dropdown is open */
 }
 
+/*
+  SEARCH FIELD
+  Each individual clickable field in the search bar.
+  When active (clicked), it expands and shows a dropdown.
+*/
 .search-field {
     display: flex;
     flex-direction: column;
@@ -84,13 +97,24 @@
     color: var(--text-light);
 }
 
+/*
+  DIVIDER
+  Vertical line separator between search fields.
+*/
 .divider {
     height: 32px;
     width: 1px;
     background-color: #DDDDDD;
 }
 
-/* Dropdown Base */
+/*
+  ========================================================
+  DROPDOWN PANELS
+  Floating panels that appear below the search bar when
+  a field is clicked. Each panel has a unique width and
+  position based on its content.
+  ========================================================
+*/
 .dropdown-panel {
     position: absolute;
     top: 80px;
@@ -105,15 +129,19 @@
     transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s ease;
 }
 
+/* 
+  Hidden state uses visibility and opacity instead of display: none
+  to enable smooth animations while keeping the element in the DOM.
+*/
 .dropdown-panel.hidden {
-    display: block !important; /* override the global .hidden display: none */
+    display: block !important; /* Override the global .hidden */
     opacity: 0;
     visibility: hidden;
     transform: translateY(-10px);
     pointer-events: none;
 }
 
-/* List Options (Location & Type) */
+/* Location & Type Dropdowns - List of options */
 .options-list {
     list-style: none;
     padding: 0;
@@ -141,16 +169,28 @@
     background: var(--bg-light);
 }
 
+/* Position each dropdown */
 #location-dropdown { left: 0; width: 300px; }
 #type-dropdown { left: 20%; width: 250px; }
 
-/* Calendar Dropdown */
+/*
+  ========================================================
+  CALENDAR DROPDOWN
+  The most complex dropdown with two views:
+  1. Exact Dates - Shows two months of a calendar for selecting check-in/out
+  2. Flexible - Shows stay length options and months for flexible travel
+  ========================================================
+*/
 #calendar-dropdown {
     left: 50%;
     transform: translateX(-50%);
     width: 850px;
 }
 
+/* 
+  Calendar Tabs 
+  Switches between "Dates" and "Flexible" views
+*/
 .calendar-tabs {
     display: flex;
     justify-content: center;
@@ -176,6 +216,11 @@
     box-shadow: 0 1px 3px rgba(0,0,0,0.1);
 }
 
+/*
+  CALENDAR WRAPPER
+  Displays two months side by side on desktop,
+  stacked vertically on mobile.
+*/
 .calendar-wrapper {
     display: flex;
     justify-content: space-between;
@@ -205,6 +250,11 @@
 }
 .cal-arrow:hover { background: var(--bg-light); }
 
+/*
+  CALENDAR GRID
+  7-column grid for days of the week and dates.
+  Supports states: selected, in-range, past, today, empty.
+*/
 .weekdays, .days {
     display: grid;
     grid-template-columns: repeat(7, 1fr);
@@ -242,10 +292,10 @@
 
 .days span.in-range {
     background-color: #EBEBEB;
-    border-radius: 0; /* flat edges for range */
+    border-radius: 0; /* Flat edges for range effect */
 }
 
-/* round edges for range start/end if they touch */
+/* Round the edges of the range start/end if they touch the week boundaries */
 .days span.in-range:nth-child(7n+1) { border-top-left-radius: 50%; border-bottom-left-radius: 50%; }
 .days span.in-range:nth-child(7n) { border-top-right-radius: 50%; border-bottom-right-radius: 50%; }
 
@@ -253,6 +303,11 @@
 .days .past { color: #DDDDDD; cursor: default; }
 .days .today { border: 1px solid var(--text-dark); }
 
+/*
+  CALENDAR FOOTER
+  Contains "Exact dates" and flexible date range buttons
+  (±1 day, ±2 days, etc.)
+*/
 .calendar-footer {
     display: flex;
     gap: 10px;
@@ -271,10 +326,17 @@
 .pill-btn.active {
     border: 2px solid var(--text-dark);
     font-weight: 600;
-    padding: 7px 15px; /* adjust for border */
+    padding: 7px 15px; /* Adjust for the 2px border */
 }
 
-/* Flexible View CSS */
+/*
+  ========================================================
+  FLEXIBLE VIEW STYLES
+  This view appears when "Flexible" tab is active.
+  Shows stay length options (Weekend, Week, Month)
+  and a horizontal carousel of months.
+  ========================================================
+*/
 .flex-title {
     text-align: center;
     font-size: 16px;
@@ -310,6 +372,7 @@
     font-weight: 600;
 }
 
+/* Months horizontal scroll carousel */
 .months-carousel-wrapper {
     position: relative;
     display: flex;
@@ -323,11 +386,11 @@
     gap: 12px;
     overflow-x: auto;
     scroll-behavior: smooth;
-    padding-bottom: 8px; /* For scrollbar if visible */
+    padding-bottom: 8px;
 }
 
 .months-scroll::-webkit-scrollbar {
-    display: none;
+    display: none; /* Hide scrollbar for cleaner look */
 }
 
 .month-btn {
@@ -370,6 +433,7 @@
     background: var(--bg-light);
 }
 
+/* Right arrow button for scrolling the month carousel */
 .months-arrow-btn {
     position: absolute;
     right: 0;
@@ -390,9 +454,11 @@
     background: var(--bg-light);
 }
 
-
-
-/* === Main Content & Grids === */
+/*
+  ========================================================
+  MAIN CONTENT & PROPERTY GRIDS
+  ========================================================
+*/
 main {
     padding: 20px 80px 80px;
 }
@@ -418,6 +484,7 @@ main {
     margin-left: 5px;
 }
 
+/* Navigation arrows for horizontal scroll */
 .nav-arrows {
     display: flex;
     gap: 10px;
@@ -445,18 +512,24 @@ main {
     transform: scale(0.95);
 }
 
+/*
+  PROPERTY CARDS CONTAINERS
+  Two layout modes:
+  1. horizontal-scroll: Horizontal scrolling carousel
+  2. wrap-grid: Standard grid wrapping to next line
+*/
 .horizontal-scroll {
     display: flex;
     gap: 24px;
     overflow-x: auto;
-    padding-bottom: 20px; 
-    scroll-behavior: smooth; /* Smooth scrolling for arrows */
+    padding-bottom: 20px;
+    scroll-behavior: smooth;
     scroll-snap-type: x mandatory;
-    scrollbar-width: none; 
+    scrollbar-width: none; /* Hide scrollbar in Firefox */
 }
 
 .horizontal-scroll::-webkit-scrollbar {
-    display: none; 
+    display: none; /* Hide scrollbar in WebKit browsers */
 }
 
 .wrap-grid {
@@ -465,20 +538,28 @@ main {
     gap: 24px;
 }
 
-/* === Property Card === */
+/*
+  ========================================================
+  PROPERTY CARD
+  Each individual listing card with image, title, price,
+  rating, and interactive heart button.
+  ========================================================
+*/
 .property-card {
     min-width: 280px;
-    width: 280px; 
+    width: 280px;
     scroll-snap-align: start;
     cursor: pointer;
     position: relative;
 }
 
+/* In grid view, cards should fill the full width of their grid cell */
 .wrap-grid .property-card {
     min-width: unset;
     width: 100%;
 }
 
+/* Image container with fixed aspect ratio (1:1 square) */
 .image-container {
     position: relative;
     width: 100%;
@@ -494,6 +575,7 @@ main {
     object-fit: cover;
 }
 
+/* "Guest favorite" badge positioned top-left */
 .guest-favorite-badge {
     position: absolute;
     top: 12px;
@@ -506,6 +588,7 @@ main {
     box-shadow: 0 2px 4px rgba(0,0,0,0.18);
 }
 
+/* Heart (like) button positioned top-right */
 .heart-btn {
     position: absolute;
     top: 12px;
@@ -515,19 +598,20 @@ main {
     color: rgba(0,0,0,0.5);
     font-size: 24px;
     cursor: pointer;
-    -webkit-text-stroke: 2px white; 
+    -webkit-text-stroke: 2px white; /* Creates a white outline effect */
     transition: transform 0.1s ease;
 }
 
 .heart-btn.liked {
     color: var(--primary-color);
-    -webkit-text-stroke: 0px; 
+    -webkit-text-stroke: 0px;
 }
 
 .heart-btn:active {
     transform: scale(0.8);
 }
 
+/* Card information: title and rating on same line */
 .card-info {
     display: flex;
     justify-content: space-between;
@@ -562,12 +646,17 @@ main {
     font-weight: 400;
 }
 
+/* Empty state when no search results match */
 .empty-state {
     padding: 60px 0;
     text-align: center;
 }
 
-/* Responsive adjustments for Home Page */
+/*
+  ========================================================
+  RESPONSIVE BREAKPOINTS - HOMEPAGE
+  ========================================================
+*/
 @media (max-width: 768px) {
     main {
         padding: 20px 15px 80px;
@@ -579,14 +668,22 @@ main {
         width: 100%;
         max-width: none;
     }
+    
+    /*
+      MOBILE SEARCH BAR
+      On mobile, the search pill transforms from a horizontal
+      bar into a vertical stack of fields that expands like
+      a bottom sheet modal.
+    */
     .search-pill {
         flex-direction: column;
         height: auto;
         border-radius: 24px;
         width: 100%;
         max-width: none;
-        overflow: hidden; /* It's okay to keep this if dropdowns are fixed */
+        overflow: hidden;
     }
+    
     .search-field {
         height: 60px;
         border-radius: 0;
@@ -606,7 +703,7 @@ main {
         border-radius: 20px;
     }
     
-    /* Make section headings smaller */
+    /* Make section headings smaller on mobile */
     .section-header h2 {
         font-size: 22px;
     }
@@ -614,13 +711,13 @@ main {
         margin-bottom: 16px;
     }
     
-    /* Make property cards and their text smaller */
+    /* Smaller property cards on mobile */
     .property-card {
         min-width: 240px;
         width: 240px;
     }
     
-    /* Search Results grid: 2 items per row on mobile */
+    /* Search results: 2 columns on mobile */
     .wrap-grid {
         grid-template-columns: 1fr 1fr;
         gap: 12px;
@@ -638,7 +735,13 @@ main {
         padding: 4px 10px;
     }
     
-    /* === Full-Screen Mobile Search Modal === */
+    /*
+      FULL-SCREEN MOBILE SEARCH MODAL
+      When a search field is active, the entire search section
+      becomes a fixed full-screen overlay with the search fields
+      expanded vertically. This uses the :has() pseudo-class
+      to detect when any .search-field has the .active class.
+    */
     .search-section:has(.search-field.active) {
         position: fixed;
         top: 0;
@@ -662,9 +765,12 @@ main {
         flex-direction: column;
     }
 
-    /* Break the search-pill so its children become flex items of search-container */
+    /* 
+      Break the search-pill so its children become direct
+      children of the search-container for better layout control.
+    */
     .search-section:has(.search-field.active) .search-pill {
-        display: contents; 
+        display: contents;
     }
 
     /* Hide dividers in modal mode */
@@ -672,7 +778,7 @@ main {
         display: none;
     }
 
-    /* Style the INACTIVE fields as collapsed pills */
+    /* Style inactive fields as collapsed pills */
     .search-section:has(.search-field.active) .search-field:not(.active) {
         background: var(--white);
         border-radius: 16px;
@@ -695,7 +801,7 @@ main {
         font-weight: 600;
     }
 
-    /* Style the ACTIVE field as the expanded card header */
+    /* Style the active field as the expanded card header */
     .search-section:has(.search-field.active) .search-field.active {
         background: var(--white);
         border-radius: 24px 24px 0 0;
@@ -715,24 +821,25 @@ main {
         margin-bottom: 16px;
     }
     .search-section:has(.search-field.active) .search-field.active input {
-        display: none; /* Hide the input in the expanded state, the dropdown shows the UI */
+        display: none; /* Hide the input in expanded state */
     }
 
-    /* Interleave fields and dropdowns using Flex Order! */
+    /*
+      FLEX ORDER - Controls the order of fields and dropdowns
+      on mobile. This creates the sequence:
+      Active Field -> its Dropdown -> Next Field -> its Dropdown, etc.
+    */
     .search-section:has(.search-field.active) #where-field { order: 1; }
     .search-section:has(.search-field.active) #location-dropdown { order: 2; }
-    
     .search-section:has(.search-field.active) #type-field { order: 3; }
     .search-section:has(.search-field.active) #type-dropdown { order: 4; }
-    
     .search-section:has(.search-field.active) #when-field { order: 5; }
     .search-section:has(.search-field.active) #calendar-dropdown { order: 6; }
-    
     .search-section:has(.search-field.active) #who-field { order: 7; }
     .search-section:has(.search-field.active) #guests-dropdown { order: 8; }
+    .search-section:has(.search-field.active) .search-btn { order: 9; }
     
     .search-section:has(.search-field.active) .search-btn {
-        order: 9;
         margin-top: auto;
         border-radius: 8px;
         height: 54px;
@@ -752,7 +859,7 @@ main {
         width: 100% !important;
         box-shadow: 0 16px 24px rgba(0,0,0,0.08) !important;
         border-radius: 0 0 24px 24px !important;
-        margin-bottom: 12px; /* space before next collapsed pill */
+        margin-bottom: 12px;
         margin-top: 0;
         padding: 10px 20px 24px !important;
         z-index: 10 !important;
@@ -775,13 +882,14 @@ main {
         visibility: hidden;
     }
 
+    /* Calendar dropdown on mobile - full width */
     #calendar-dropdown {
         transform: none;
         left: 0;
         width: 100%;
     }
     
-    /* Stack calendar months vertically */
+    /* Stack calendar months vertically on mobile */
     .calendar-wrapper {
         flex-direction: column;
         gap: 20px;
@@ -792,7 +900,7 @@ main {
         max-width: 320px;
     }
     
-    /* Fix Flexible dates layout for mobile */
+    /* Flexible options - vertical layout on mobile */
     .flexible-options {
         flex-direction: column;
         gap: 10px;
@@ -809,22 +917,22 @@ main {
     /* Make Exact Dates footer scrollable horizontally on mobile */
     .calendar-footer {
         overflow-x: auto;
-        padding-bottom: 8px; /* For scrollbar if visible */
-        flex-wrap: nowrap; /* Force single line */
-        -webkit-overflow-scrolling: touch; /* Smooth scroll on iOS */
+        padding-bottom: 8px;
+        flex-wrap: nowrap;
+        -webkit-overflow-scrolling: touch;
     }
     
     .calendar-footer::-webkit-scrollbar {
-        display: none; /* Hide scrollbar for a cleaner look */
+        display: none;
     }
 
     .calendar-footer .pill-btn {
-        flex: 0 0 auto; /* Prevent shrinking */
-        font-size: 13px; /* Slightly smaller text */
+        flex: 0 0 auto;
+        font-size: 13px;
         padding: 6px 12px;
     }
 
     .calendar-footer .pill-btn.active {
-        padding: 5px 11px; /* Adjust for the 2px border */
+        padding: 5px 11px;
     }
 }
