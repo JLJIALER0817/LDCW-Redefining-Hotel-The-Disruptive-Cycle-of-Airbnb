@@ -11,7 +11,12 @@
   4. Mobile Grid conversions for a compact trip-details layout.
   ========================================================
 */
-/* Reset and Container Styles */
+
+/*
+  ========================================================
+  RESET AND CONTAINER STYLES
+  ========================================================
+*/
 body {
     background-color: var(--background);
 }
@@ -28,7 +33,14 @@ body {
     margin-bottom: 30px;
 }
 
-/* Empty State */
+/*
+  ========================================================
+  EMPTY STATE
+  Displayed when the user has no bookings at all.
+  Features a centered content box with an icon, heading,
+  description, and call-to-action button to start searching.
+  ========================================================
+*/
 .no-trips {
     display: flex;
     justify-content: center;
@@ -76,13 +88,28 @@ body {
     background: #000;
 }
 
-/* Trips List */
+/*
+  ========================================================
+  TRIPS LIST
+  Container for all trip cards. Cards are stacked vertically
+  with a gap between each.
+  ========================================================
+*/
 .trips-list {
     display: flex;
     flex-direction: column;
     gap: 24px;
 }
 
+/*
+  ========================================================
+  TRIP CARD
+  Each booking displayed as a card with:
+  - Image (left side on desktop)
+  - Trip info (title, location, price, details)
+  - Footer with cancel button (for upcoming trips only)
+  ========================================================
+*/
 .trip-card {
     display: flex;
     background: #fff;
@@ -136,6 +163,11 @@ body {
     font-weight: 600;
 }
 
+/*
+  TRIP DETAILS GRID
+  Displays check-in, checkout, nights, guests, and booked date
+  as a horizontal row on desktop, and a 2-column grid on mobile.
+*/
 .trip-details {
     display: flex;
     gap: 24px;
@@ -162,6 +194,11 @@ body {
     font-weight: 500;
 }
 
+/*
+  TRIP FOOTER
+  Contains the "Cancel Trip" button for upcoming trips.
+  Positioned at the bottom right of the card.
+*/
 .trip-footer {
     display: flex;
     justify-content: flex-end;
@@ -187,16 +224,25 @@ body {
     background: #f7f7f7;
 }
 
+/*
+  ========================================================
+  TRIP CARD VARIANTS
+  ========================================================
+*/
+
+/* Past trips - reduced opacity and desaturated color */
 .past-trip-card {
     opacity: 0.7;
     filter: grayscale(0.5);
 }
 
+/* Cancelled trips - even more faded with a different background */
 .cancelled-trip-card {
     opacity: 0.6;
     background: #fdfdfd;
 }
 
+/* Badge shown on cancelled trip cards */
 .cancelled-badge {
     color: #E00B41;
     font-weight: 600;
@@ -208,7 +254,14 @@ body {
     display: inline-block;
 }
 
-/* Custom Cancel Modal */
+/*
+  ========================================================
+  CUSTOM CANCEL CONFIRMATION MODAL
+  A popup that appears when the user clicks "Cancel Trip".
+  Features a red warning icon, message, and two action buttons.
+  Animation: scales up and fades in using cubic-bezier easing.
+  ========================================================
+*/
 .modal-overlay {
     position: fixed;
     top: 0;
@@ -232,11 +285,13 @@ body {
     animation: modalPop 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
+/* Pop animation: starts slightly scaled down and fades in */
 @keyframes modalPop {
     0% { transform: scale(0.9); opacity: 0; }
     100% { transform: scale(1); opacity: 1; }
 }
 
+/* Modal header with warning icon centered */
 .cancel-modal-header {
     display: flex;
     flex-direction: column;
@@ -310,35 +365,46 @@ body {
     background: #c00836;
 }
 
+/*
+  ========================================================
+  RESPONSIVE BREAKPOINTS - BOOKING PAGE
+  ========================================================
+*/
 @media (max-width: 768px) {
     .trips-container {
         padding: 0 20px;
     }
     
+    /* Stack cards vertically (image on top, info below) */
     .trip-card {
         flex-direction: column;
     }
     
+    /* Image spans full width on mobile */
     .trip-img {
         width: 100%;
         height: 200px;
     }
     
+    /* Details grid becomes 2 columns on mobile */
     .trip-details {
         display: grid;
         grid-template-columns: 1fr 1fr;
         gap: 16px;
     }
     
+    /* Modal takes full width with margins */
     .cancel-modal-content {
         margin: 20px;
         padding: 24px;
     }
     
+    /* Modal buttons stack vertically on mobile */
     .cancel-modal-actions {
         flex-direction: column;
     }
     
+    /* Trip header stacks vertically */
     .trip-header {
         flex-direction: column;
         gap: 8px;
