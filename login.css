@@ -27,11 +27,13 @@
     --white: #FFFFFF;
 }
 
+
 * {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
 }
+
 
 /*
   ========================================================
@@ -41,6 +43,7 @@
   Flexbox centers the login card vertically and horizontally.
   ========================================================
 */
+
 body {
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, Roboto, Helvetica, Arial, sans-serif;
     color: var(--text-dark);

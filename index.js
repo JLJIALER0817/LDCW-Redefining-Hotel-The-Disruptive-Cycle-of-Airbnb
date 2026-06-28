@@ -681,11 +681,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 } else {
                     if (noResults) noResults.classList.add('hidden');
                     searchGrid.classList.remove('hidden');
-                    
                     // Build date display string for search results
                     let customDateStr = null;
                     let customNights = null;
-
                     if (isFlexibleSearch) {
                         customDateStr = `${flexStayLength} in ${flexMonth.substring(0,3)}`;
                         if (flexStayLength === 'Weekend') customNights = 2;
