@@ -914,7 +914,7 @@ main {
         justify-content: center;
     }
 
-    /* Make Exact Dates footer scrollable horizontally on mobile */
+    /*Make Exact Dates footer scrollable horizontally on mobile */
     .calendar-footer {
         overflow-x: auto;
         padding-bottom: 8px;
