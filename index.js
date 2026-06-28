@@ -1,4 +1,18 @@
-// index.js
+// ========================================================
+// INDEX.JS - HOMEPAGE INTERACTIVE LOGIC
+// ========================================================
+// This file handles all the interactive behavior for the
+// homepage (index.html). It includes:
+// 1. Profile dropdown management
+// 2. Property card rendering and navigation
+// 3. Search bar field toggling and dropdown management
+// 4. Calendar date selection (Exact Dates mode)
+// 5. Flexible date selection (Weekend/Week/Month mode)
+// 6. Guest counter management
+// 7. Search form submission and result filtering
+// 8. Carousel arrow navigation
+// 9. Top navigation tab interactions
+// ========================================================
 
 document.addEventListener('DOMContentLoaded', () => {
     // ========================================================
@@ -17,12 +31,19 @@ document.addEventListener('DOMContentLoaded', () => {
     // 2. PROPERTY CARD RENDERING SYSTEM
     // Function to dynamically generate HTML for a property card.
     // Handles custom pricing if the user searches by dates.
+    // Parameters:
+    //   - property: The property object from allProperties
+    //   - customDateStr: Optional date string for search results
+    //   - customNights: Optional number of nights for price calculation
+    // Returns: A DOM element (div.property-card)
     // ========================================================
     function createCard(property, customDateStr = null, customNights = null) {
+        // Generate guest favorite badge if applicable
         const badgeHTML = property.isGuestFavorite ? `<div class="guest-favorite-badge">Guest favorite</div>` : '';
         const card = document.createElement('div');
         card.className = 'property-card';
         
+        // Build price display - show per night or total with nights
         let priceDisplay = `<strong>RM ${property.pricePerNight}</strong> <span>night</span>`;
         let dateDisplay = property.propertyType;
         
@@ -32,6 +53,7 @@ document.addEventListener('DOMContentLoaded', () => {
             dateDisplay = `<span style="color: var(--text-dark);">${customDateStr}</span>`;
         }
         
+        // Build the card HTML structure
         card.innerHTML = `
             <div class="image-container">
                 ${badgeHTML}
@@ -50,14 +72,22 @@ document.addEventListener('DOMContentLoaded', () => {
             </div>
         `;
 
-        // Interactive Heart Button
+        // ========================================================
+        // INTERACTIVE HEART BUTTON
+        // Toggles the 'liked' class on click, with event propagation
+        // stopped to prevent navigating to the details page.
+        // ========================================================
         const heartBtn = card.querySelector('.heart-btn');
         heartBtn.addEventListener('click', (e) => {
             e.stopPropagation(); 
             heartBtn.classList.toggle('liked');
         });
 
-        // Navigate to Details Page
+        // ========================================================
+        // CARD NAVIGATION
+        // Clicking anywhere on the card (except the heart button)
+        // navigates to the property details page with the property ID.
+        // ========================================================
         card.addEventListener('click', () => {
             window.location.href = `details.html?id=${property.id}`;
         });
@@ -65,6 +95,11 @@ document.addEventListener('DOMContentLoaded', () => {
         return card;
     }
 
+    // ========================================================
+    // RENDER HOMEPAGE
+    // Populates the "Malacca" and "Kuala Lumpur" horizontal
+    // scroll sections with property cards.
+    // ========================================================
     function renderHomepage() {
         const malaccaGrid = document.getElementById('malacca-grid');
         const klGrid = document.getElementById('kl-grid');
@@ -96,6 +131,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // 4. CAROUSEL ARROWS LOGIC
     // Enables horizontal scrolling for property grids on desktop
     // when clicking the left/right chevron arrows.
+    // Each listing section has its own pair of arrows.
     // ========================================================
     document.querySelectorAll('.listing-section').forEach(section => {
         const scrollContainer = section.querySelector('.horizontal-scroll');
@@ -110,6 +146,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // 5. SEARCH BAR DROPDOWN LOGIC
     // Manages the visibility of the dropdown panels (Where, Type, 
     // When, Who) ensuring only one panel is open at a time.
+    // Clicking outside the search bar closes all dropdowns.
     // ========================================================
     const whenField = document.getElementById('when-field');
     const whoField = document.getElementById('who-field');
@@ -121,6 +158,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const typeDropdown = document.getElementById('type-dropdown');
     const searchPill = document.querySelector('.search-pill');
 
+    /**
+     * closeAllDropdowns - Hides all dropdown panels and removes
+     * the 'active' class from all search fields and the search pill.
+     */
     function closeAllDropdowns() {
         if (calendarDropdown) calendarDropdown.classList.add('hidden');
         if (guestsDropdown) guestsDropdown.classList.add('hidden');
@@ -130,6 +171,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (searchPill) searchPill.classList.remove('active');
     }
 
+    // Global click listener - close dropdowns when clicking outside the search area
     document.addEventListener('click', function(e) {
         if (searchPill && searchPill.contains(e.target)) return;
         if (calendarDropdown && calendarDropdown.contains(e.target)) return;
@@ -140,6 +182,9 @@ document.addEventListener('DOMContentLoaded', () => {
         closeAllDropdowns();
     });
 
+    // ========================================================
+    // WHERE FIELD - Opens location dropdown
+    // ========================================================
     if (whereField) {
         whereField.addEventListener('click', (e) => {
             e.stopPropagation();
@@ -150,6 +195,9 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // ========================================================
+    // TYPE FIELD - Opens type dropdown
+    // ========================================================
     if (typeField) {
         typeField.addEventListener('click', (e) => {
             e.stopPropagation();
@@ -160,6 +208,11 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // ========================================================
+    // LOCATION OPTIONS - Click handler
+    // Sets the location input value and auto-advances to the
+    // Type field for a smooth UX flow.
+    // ========================================================
     document.querySelectorAll('#location-options .option-item').forEach(item => {
         item.addEventListener('click', function() {
             const locInput = document.getElementById('location');
@@ -170,6 +223,11 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
+    // ========================================================
+    // TYPE OPTIONS - Click handler
+    // Sets the type input value and auto-advances to the
+    // When (Dates) field for a smooth UX flow.
+    // ========================================================
     document.querySelectorAll('#type-options .option-item').forEach(item => {
         item.addEventListener('click', function() {
             const typeInput = document.getElementById('property-type');
@@ -180,6 +238,9 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
+    // ========================================================
+    // WHEN FIELD - Opens calendar dropdown
+    // ========================================================
     if (whenField) {
         whenField.addEventListener('click', (e) => {
             e.stopPropagation();
@@ -190,6 +251,9 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // ========================================================
+    // WHO FIELD - Opens guests dropdown
+    // ========================================================
     if (whoField) {
         whoField.addEventListener('click', (e) => {
             e.stopPropagation();
@@ -200,7 +264,11 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // === 6. Flexible vs Dates Toggle ===
+    // ========================================================
+    // 6. FLEXIBLE VS DATES TOGGLE
+    // Switches between "Exact Dates" and "Flexible" modes
+    // in the calendar dropdown.
+    // ========================================================
     const tabDates = document.getElementById('tab-dates');
     const tabFlexible = document.getElementById('tab-flexible');
     const viewDates = document.getElementById('calendar-view-dates');
@@ -211,6 +279,10 @@ document.addEventListener('DOMContentLoaded', () => {
     let flexStayLength = 'Week';
     let flexMonth = 'July';
 
+    /**
+     * updateFlexibleInput - Updates the "When" field display
+     * to show the selected flexible stay length and month.
+     */
     function updateFlexibleInput() {
         if (checkinInput) {
             checkinInput.value = `${flexStayLength} in ${flexMonth.substring(0,3)}`;
@@ -218,6 +290,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     if(tabDates && tabFlexible) {
+        // Exact Dates tab
         tabDates.addEventListener('click', (e) => {
             e.stopPropagation();
             tabFlexible.classList.remove('active');
@@ -229,6 +302,7 @@ document.addEventListener('DOMContentLoaded', () => {
             updateCalendarUI(); // restore exact dates
         });
         
+        // Flexible tab
         tabFlexible.addEventListener('click', (e) => {
             e.stopPropagation();
             tabDates.classList.remove('active');
@@ -241,6 +315,11 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // ========================================================
+    // FLEXIBLE OPTIONS - Stay Length & Month Selection
+    // Clicking a stay button or month button updates the
+    // selection and refreshes the display.
+    // ========================================================
     document.querySelectorAll('.stay-btn, .month-btn').forEach(btn => {
         btn.addEventListener('click', (e) => {
             e.stopPropagation();
@@ -257,6 +336,10 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
+    // ========================================================
+    // MONTHS CAROUSEL SCROLL
+    // Clicking the arrow button scrolls the months horizontally.
+    // ========================================================
     const monthsScroll = document.querySelector('.months-scroll');
     const monthsArrowBtn = document.querySelector('.months-arrow-btn');
     if (monthsScroll && monthsArrowBtn) {
@@ -266,13 +349,18 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // === 7. Calendar Range ===
-    let date1 = null, date2 = null;
-    let selectedNights = 1;
-    let flexDaysModifier = '';
+    // ========================================================
+    // 7. CALENDAR RANGE SELECTION (Exact Dates)
+    // Handles selecting check-in and check-out dates with
+    // a range visualization (in-range class).
+    // ========================================================
+    let date1 = null, date2 = null;          // Selected date objects { val, text }
+    let selectedNights = 1;                   // Calculated number of nights
+    let flexDaysModifier = '';                // e.g., " ± 1 day" from pill buttons
     const days = document.querySelectorAll('.days span:not(.empty)');
     const checkinInput = document.getElementById('checkin');
 
+    // Month names array for the calendar navigation
     const monthNames = [
         'June 2026', 'July 2026', 'August 2026', 'September 2026', 
         'October 2026', 'November 2026', 'December 2026', 'January 2027',
@@ -282,12 +370,18 @@ document.addEventListener('DOMContentLoaded', () => {
     const leftArrow = document.querySelector('.fa-chevron-left.cal-arrow');
     const rightArrow = document.querySelector('.fa-chevron-right.cal-arrow');
 
+    /**
+     * updateCalendarMonths - Updates the displayed months in the
+     * calendar header based on the current month offset.
+     * Also manages the disabled state of the left arrow.
+     */
     function updateCalendarMonths() {
         const monthHeaders = document.querySelectorAll('.month-header strong');
         if (monthHeaders.length >= 2) {
             monthHeaders[0].textContent = monthNames[currentMonthOffset];
             monthHeaders[1].textContent = monthNames[currentMonthOffset + 1];
             
+            // Update "past" and "today" classes for the first month
             const firstMonthDays = document.querySelectorAll('.month:first-of-type .days span:not(.empty)');
             if (currentMonthOffset === 0) {
                 const todayDate = new Date().getDate();
@@ -306,6 +400,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
         
+        // Disable left arrow when at the first month
         if (leftArrow) {
             if (currentMonthOffset === 0) {
                 leftArrow.style.opacity = '0.2';
@@ -321,6 +416,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (typeof updateCalendarUI === 'function') updateCalendarUI();
     }
 
+    // Initialize calendar
     if (leftArrow && rightArrow) {
         updateCalendarMonths();
         
@@ -341,6 +437,11 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // ========================================================
+    // CALENDAR FOOTER PILL BUTTONS
+    // Handles "Exact dates" and flexible date range buttons
+    // (±1 day, ±2 days, etc.)
+    // ========================================================
     document.querySelectorAll('.pill-btn, .cal-tab').forEach(btn => {
         btn.addEventListener('click', function() {
             const parent = this.parentNode;
@@ -358,7 +459,13 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
+    /**
+     * updateCalendarUI - Highlights selected dates and date ranges
+     * in the calendar grid. Also updates the checkin input field
+     * with the selected date range text.
+     */
     function updateCalendarUI() {
+        // Clear previous selections
         days.forEach(day => {
             day.classList.remove('selected', 'in-range');
             const val = parseInt(day.textContent);
@@ -374,6 +481,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
 
+        // Update the "When" field display
         if (!date1 && !date2) {
             checkinInput.value = "";
             selectedNights = 1;
@@ -389,6 +497,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const d2Month = Math.floor(date2.val / 100);
             const d2Day = date2.val % 100;
             
+            // Calculate nights (approximate, assuming 30-day months)
             if (d1Month === d2Month) {
                 selectedNights = Math.abs(d1Day - d2Day);
             } else {
@@ -398,6 +507,13 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+    // ========================================================
+    // DAY CLICK HANDLER
+    // Users click on a day to select a date.
+    // First click: selects check-in
+    // Second click: selects check-out
+    // Clicking the same day again: deselects
+    // ========================================================
     days.forEach(day => {
         day.addEventListener('click', function() {
             if (this.classList.contains('past')) return;
@@ -408,14 +524,23 @@ document.addEventListener('DOMContentLoaded', () => {
             const shortMonth = monthText.substring(0, 3);
             const dateObj = { val: monthIndex * 100 + val, text: `${shortMonth} ${val}` };
 
-            if (!date1 || (date1 && date2)) { date1 = dateObj; date2 = null; } 
+            // Selection logic
+            if (!date1 || (date1 && date2)) { 
+                date1 = dateObj; 
+                date2 = null; 
+            } 
             else if (date1 && !date2) {
-                if (dateObj.val === date1.val) date1 = null;
-                else {
+                if (dateObj.val === date1.val) {
+                    date1 = null; // Deselect
+                } else {
                     date2 = dateObj;
-                    if (date1.val > date2.val) { let t = date1; date1 = date2; date2 = t; }
+                    if (date1.val > date2.val) { 
+                        let t = date1; 
+                        date1 = date2; 
+                        date2 = t; 
+                    }
                     
-                    // Smoothly auto-advance to Who (Guests) field after selecting checkout
+                    // Auto-advance to the "Who" (Guests) field after selecting checkout
                     setTimeout(() => {
                         if (whoField) whoField.click();
                     }, 300);
@@ -425,8 +550,17 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // === 8. Guest Counter ===
+    // ========================================================
+    // 8. GUEST COUNTER
+    // Manages the +/- buttons for Adults, Children, Infants, Pets.
+    // The total guest count is displayed in the "Who" field.
+    // ========================================================
     const guestCounts = { adults: 0, children: 0, infants: 0, pets: 0 };
+    
+    /**
+     * updateGuestDisplay - Updates the "Who" field display text
+     * based on the current guest counts.
+     */
     function updateGuestDisplay() {
         const totalGuests = guestCounts.adults + guestCounts.children;
         document.getElementById('guests').value = totalGuests;
@@ -440,6 +574,7 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('guests-display').value = displayText;
     }
 
+    // Add click listeners to all guest control buttons
     document.querySelectorAll('.ctrl-btn').forEach(btn => {
         btn.addEventListener('click', function(e) {
             e.stopPropagation(); 
@@ -453,17 +588,30 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // === 9. Search Submission ===
+    // ========================================================
+    // 9. SEARCH SUBMISSION
+    // When the user clicks the search button, the form submits.
+    // Filters properties based on Location, Type, and Guests.
+    // Switches from Home View to Search View with results.
+    // ========================================================
     const searchForm = document.getElementById('search-form');
     if (searchForm) {
         searchForm.addEventListener('submit', function(e) {
             e.preventDefault();
             closeAllDropdowns();
 
+            // Get search criteria from the form
             const searchLocation = document.getElementById('location').value;
             const searchType = document.getElementById('property-type').value;
             const guestsInput = parseInt(document.getElementById('guests').value) || 0;
 
+            // ========================================================
+            // FILTERING ENGINE
+            // Loops through allProperties and matches based on:
+            // - Location (exact match or "Anywhere")
+            // - Property Type (exact match or "Any type")
+            // - Guest capacity (must be >= requested guests)
+            // ========================================================
             const matchedProperties = [];
 
             for (let i = 0; i < allProperties.length; i++) {
@@ -471,6 +619,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 let locationMatch = false;
                 let typeMatch = false;
 
+                // Location matching
                 if (searchLocation === "" || searchLocation === "Anywhere") {
                     locationMatch = true;
                 } else {
@@ -485,6 +634,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     }
                 }
 
+                // Type matching
                 if (searchType === "" || searchType === "Any type") {
                     typeMatch = true;
                 } else {
@@ -496,6 +646,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     }
                 }
 
+                // Guest capacity matching
                 let guestMatch = false;
                 if (guestsInput === 0) {
                     guestMatch = true;
@@ -510,6 +661,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             }
 
+            // ========================================================
+            // DISPLAY RESULTS
+            // Switch from home view to search view and render results.
+            // ========================================================
             const homeView = document.getElementById('home-view');
             const searchView = document.getElementById('search-view');
             const searchGrid = document.getElementById('search-grid');
@@ -527,6 +682,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     if (noResults) noResults.classList.add('hidden');
                     searchGrid.classList.remove('hidden');
                     
+                    // Build date display string for search results
                     let customDateStr = null;
                     let customNights = null;
 
@@ -540,7 +696,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         customNights = selectedNights;
                     }
                     
-                    // Save states to localStorage so details page knows
+                    // Save states to localStorage so details page knows the search context
                     if (customNights) {
                         localStorage.setItem('selectedNights', customNights);
                     } else {
@@ -555,6 +711,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         localStorage.removeItem('flexMonth');
                     }
 
+                    // Render each matched property as a card
                     matchedProperties.forEach(p => searchGrid.appendChild(createCard(p, customDateStr, customNights)));
                 }
             }

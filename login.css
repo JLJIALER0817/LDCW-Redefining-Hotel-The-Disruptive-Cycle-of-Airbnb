@@ -11,6 +11,12 @@
   4. The Success Toast Notification animations.
   ========================================================
 */
+
+/*
+  ========================================================
+  CSS VARIABLES (Local overrides)
+  ========================================================
+*/
 :root {
     --primary-color: #FF385C;
     --text-dark: #222222;
@@ -27,10 +33,19 @@
     padding: 0;
 }
 
+/*
+  ========================================================
+  BODY STYLES
+  Full viewport background with a dark overlay gradient
+  and a blurred background image (using CSS fixed background).
+  Flexbox centers the login card vertically and horizontally.
+  ========================================================
+*/
 body {
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, Roboto, Helvetica, Arial, sans-serif;
     color: var(--text-dark);
-    background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('https://images.unsplash.com/photo-1499793983690-e29da59ef1c2?q=80&w=2000&auto=format&fit=crop') no-repeat center center fixed;
+    background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), 
+                url('https://images.unsplash.com/photo-1499793983690-e29da59ef1c2?q=80&w=2000&auto=format&fit=crop') no-repeat center center fixed;
     background-size: cover;
     -webkit-font-smoothing: antialiased;
     display: flex;
@@ -39,6 +54,12 @@ body {
     min-height: 100vh;
 }
 
+/*
+  ========================================================
+  LOGIN CONTAINER
+  Wraps the login card and centers it on the page.
+  ========================================================
+*/
 .login-container {
     width: 100%;
     display: flex;
@@ -47,6 +68,13 @@ body {
     padding: 20px;
 }
 
+/*
+  ========================================================
+  LOGIN CARD
+  White card with rounded corners, subtle shadow,
+  and a slide-up entrance animation.
+  ========================================================
+*/
 .login-card {
     width: 100%;
     max-width: 568px;
@@ -58,11 +86,22 @@ body {
     animation: slideUp 0.4s ease;
 }
 
+/*
+  SLIDE UP ANIMATION
+  The card fades in and moves up slightly from below.
+*/
 @keyframes slideUp {
     from { opacity: 0; transform: translateY(20px); }
     to { opacity: 1; transform: translateY(0); }
 }
 
+/*
+  ========================================================
+  LOGIN HEADER
+  Contains a back button (left), title (center), and
+  an empty spacer (right) for balanced alignment.
+  ========================================================
+*/
 .login-header {
     display: flex;
     justify-content: space-between;
@@ -94,6 +133,12 @@ body {
     background: var(--bg-light);
 }
 
+/*
+  ========================================================
+  LOGIN BODY
+  Contains the form, social buttons, and terms text.
+  ========================================================
+*/
 .login-body {
     padding: 32px 24px;
 }
@@ -104,7 +149,14 @@ body {
     margin-bottom: 24px;
 }
 
-/* Floating Label Inputs */
+/*
+  ========================================================
+  FLOATING LABEL INPUTS
+  A pattern where the label starts as placeholder text
+  inside the input, and floats to the top when the input
+  is focused or has content.
+  ========================================================
+*/
 .input-group {
     border: 1px solid var(--border-color);
     border-radius: 8px;
@@ -138,17 +190,31 @@ body {
     pointer-events: none;
 }
 
+/*
+  When input is focused OR has content (not empty),
+  the label moves up and shrinks in size.
+*/
 .floating-label input:focus ~ label,
 .floating-label input:not(:placeholder-shown) ~ label {
     top: 8px;
     font-size: 12px;
 }
 
+/*
+  Focus state adds a dark inset border ring
+  that appears inside the input border.
+*/
 .floating-label input:focus {
     box-shadow: inset 0 0 0 2px var(--text-dark);
     border-radius: 8px;
 }
 
+/*
+  ========================================================
+  TERMS TEXT
+  Small legal text with a privacy policy link.
+  ========================================================
+*/
 .terms {
     font-size: 12px;
     color: var(--text-dark);
@@ -161,6 +227,12 @@ body {
     font-weight: 600;
 }
 
+/*
+  ========================================================
+  CONTINUE BUTTON
+  Primary CTA button in Airbnb red.
+  ========================================================
+*/
 .continue-btn {
     width: 100%;
     background: var(--primary-color);
@@ -178,6 +250,12 @@ body {
     background: #E00B41;
 }
 
+/*
+  ========================================================
+  DIVIDER
+  A horizontal line with "or" text in the middle.
+  ========================================================
+*/
 .divider {
     display: flex;
     align-items: center;
@@ -198,6 +276,12 @@ body {
     padding: 0 16px;
 }
 
+/*
+  ========================================================
+  SOCIAL LOGIN BUTTONS
+  Third-party authentication buttons (Facebook, Google, Apple, Email)
+  ========================================================
+*/
 .social-logins {
     display: flex;
     flex-direction: column;
@@ -225,17 +309,29 @@ body {
     background: var(--bg-light);
 }
 
+/* Social icon positioned absolutely on the left */
 .social-btn i {
     position: absolute;
     left: 20px;
     font-size: 20px;
 }
 
+/*
+  ========================================================
+  UTILITY
+  ========================================================
+*/
 .hidden {
     display: none !important;
 }
 
-/* Toast */
+/*
+  ========================================================
+  SUCCESS TOAST NOTIFICATION
+  A small popup that appears at the bottom of the screen
+  when the user successfully logs in.
+  ========================================================
+*/
 .toast {
     position: fixed;
     bottom: 40px;
@@ -260,6 +356,10 @@ body {
     font-size: 18px;
 }
 
+/*
+  FADE IN ANIMATION
+  The toast slides up and fades in.
+*/
 @keyframes fadeIn {
     from { opacity: 0; transform: translate(-50%, 20px); }
     to { opacity: 1; transform: translate(-50%, 0); }
