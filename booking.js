@@ -1,4 +1,16 @@
-// booking.js
+// ========================================================
+// BOOKING.JS - TRIPS DASHBOARD INTERACTIVE LOGIC
+// ========================================================
+// This file handles all the interactive behavior for the
+// My Trips page (booking.html). It includes:
+// 1. Authentication check - redirects to login if not logged in
+// 2. Profile dropdown management with avatar replacement
+// 3. Loading bookings from localStorage
+// 4. Sorting bookings into Upcoming, Past, and Cancelled
+// 5. Rendering trip cards with status indicators
+// 6. Cancel trip functionality with confirmation modal
+// 7. Real-time status updates and re-rendering
+// ========================================================
 
 document.addEventListener('DOMContentLoaded', () => {
     // ========================================================
@@ -23,12 +35,14 @@ document.addEventListener('DOMContentLoaded', () => {
     const profileMenuBtn = document.getElementById('profile-menu-btn');
     const profileDropdown = document.getElementById('profile-dropdown');
 
+    // Toggle dropdown on button click
     if (profileMenuBtn && profileDropdown) {
         profileMenuBtn.addEventListener('click', (e) => {
             e.stopPropagation();
             profileDropdown.classList.toggle('hidden');
         });
 
+        // Close dropdown when clicking outside
         document.addEventListener('click', (e) => {
             if (!profileDropdown.contains(e.target) && !profileMenuBtn.contains(e.target)) {
                 profileDropdown.classList.add('hidden');
@@ -36,7 +50,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Update Avatar and Logout link
+    // Replace the avatar icon with a user image
     if (profileAvatar) {
         const img = document.createElement('img');
         img.src = "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?q=80&w=100&auto=format&fit=crop";
@@ -45,6 +59,7 @@ document.addEventListener('DOMContentLoaded', () => {
         profileAvatar.parentNode.replaceChild(img, profileAvatar);
     }
     
+    // Set up logout link
     if (loginLogoutLink) {
         loginLogoutLink.addEventListener('click', (e) => {
             e.preventDefault();
@@ -59,19 +74,21 @@ document.addEventListener('DOMContentLoaded', () => {
     // generates HTML cards for Upcoming, Past, and Cancelled trips.
     // ========================================================
     function renderBookings() {
+        // Load bookings from localStorage
         let myBookings = JSON.parse(localStorage.getItem('myBookings')) || [];
         const noTripsEl = document.getElementById('no-trips');
         const tripsListEl = document.getElementById('trips-list');
         const pastTripsTitle = document.getElementById('past-trips-title');
         const pastTripsListEl = document.getElementById('past-trips-list');
-
         const cancelledTripsTitle = document.getElementById('cancelled-trips-title');
         const cancelledTripsListEl = document.getElementById('cancelled-trips-list');
 
+        // Clear existing content
         if (tripsListEl) tripsListEl.innerHTML = '';
         if (pastTripsListEl) pastTripsListEl.innerHTML = '';
         if (cancelledTripsListEl) cancelledTripsListEl.innerHTML = '';
 
+        // Show empty state if no bookings
         if (myBookings.length === 0) {
             if (noTripsEl) noTripsEl.classList.remove('hidden');
             if (pastTripsTitle) pastTripsTitle.classList.add('hidden');
@@ -88,12 +105,13 @@ document.addEventListener('DOMContentLoaded', () => {
         let pastCount = 0;
         let cancelledCount = 0;
 
-        // Iterate backwards to show newest first, but maintain original index for deletion
+        // Iterate backwards to show newest first
+        // We use the original index for cancel operations
         for (let i = myBookings.length - 1; i >= 0; i--) {
             const booking = myBookings[i];
             const isCancelled = booking.status === 'cancelled';
             
-            // Determine if past based on checkout
+            // Determine if past based on checkout date
             let isPast = false;
             if (booking.checkout && booking.checkout !== 'N/A') {
                 const checkoutParts = booking.checkout.split('/'); // MM/DD/YYYY
@@ -103,8 +121,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             }
 
+            // Create the card element
             const card = document.createElement('div');
             
+            // Apply appropriate class based on status
             if (isCancelled) {
                 card.className = 'trip-card cancelled-trip-card';
             } else if (isPast) {
@@ -113,6 +133,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 card.className = 'trip-card';
             }
             
+            // Build card content
             let badgeHTML = '';
             let priceHTML = `RM ${booking.totalPrice}`;
             
@@ -134,6 +155,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         <div class="trip-price">${priceHTML}</div>
                     </div>
                     
+                    <!-- Trip Details Grid -->
                     <div class="trip-details">
                         <div class="detail-item">
                             <span class="detail-label">Check-in</span>
@@ -158,6 +180,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     </div>
             `;
             
+            // Add Cancel button only for upcoming trips (not past or cancelled)
             if (!isPast && !isCancelled) {
                 cardHTML += `
                     <div class="trip-footer">
@@ -169,6 +192,7 @@ document.addEventListener('DOMContentLoaded', () => {
             cardHTML += `</div>`; // Close trip-info
             card.innerHTML = cardHTML;
 
+            // Append to the appropriate list
             if (isCancelled) {
                 if (cancelledTripsListEl) cancelledTripsListEl.appendChild(card);
                 cancelledCount++;
@@ -181,6 +205,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
         
+        // Show/hide section titles based on counts
         if (pastCount > 0) {
             if (pastTripsTitle) pastTripsTitle.classList.remove('hidden');
         } else {
@@ -193,16 +218,22 @@ document.addEventListener('DOMContentLoaded', () => {
             if (cancelledTripsTitle) cancelledTripsTitle.classList.add('hidden');
         }
         
+        // Show empty state if no trips in any category
         if (upcomingCount === 0 && pastCount === 0 && cancelledCount === 0) {
             if (noTripsEl) noTripsEl.classList.remove('hidden');
         }
         
-        // Attach Cancel Events using Custom Modal
+        // ========================================================
+        // 4. CANCEL TRIP FUNCTIONALITY
+        // Attaches click handlers to all Cancel buttons.
+        // Uses a confirmation modal before proceeding.
+        // ========================================================
         const cancelModal = document.getElementById('cancel-modal');
         const btnCancelNo = document.getElementById('cancel-modal-no');
         const btnCancelYes = document.getElementById('cancel-modal-yes');
         let tripToCancelIndex = null;
 
+        // Clicking Cancel button shows the modal
         document.querySelectorAll('.cancel-btn').forEach(btn => {
             btn.addEventListener('click', function() {
                 tripToCancelIndex = this.getAttribute('data-index');
@@ -210,6 +241,7 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         });
 
+        // "No, keep trip" button - closes modal
         if (btnCancelNo && cancelModal) {
             btnCancelNo.addEventListener('click', () => {
                 cancelModal.classList.add('hidden');
@@ -217,8 +249,9 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         }
 
+        // "Yes, cancel trip" button - performs the cancellation
         if (btnCancelYes && cancelModal) {
-            // Remove previous event listener to avoid stacking
+            // Clone the button to remove any pre-existing listeners
             const newBtnCancelYes = btnCancelYes.cloneNode(true);
             btnCancelYes.parentNode.replaceChild(newBtnCancelYes, btnCancelYes);
             
@@ -226,16 +259,19 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (tripToCancelIndex !== null) {
                     let currentBookings = JSON.parse(localStorage.getItem('myBookings')) || [];
                     if (currentBookings[tripToCancelIndex]) {
+                        // Update status to 'cancelled'
                         currentBookings[tripToCancelIndex].status = 'cancelled';
                     }
                     localStorage.setItem('myBookings', JSON.stringify(currentBookings));
                     cancelModal.classList.add('hidden');
                     tripToCancelIndex = null;
+                    // Re-render the entire list
                     renderBookings();
                 }
             });
         }
     }
 
+    // Initial render
     renderBookings();
 });

@@ -1,10 +1,26 @@
-// details.js
+// ========================================================
+// DETAILS.JS - PROPERTY DETAILS PAGE INTERACTIVE LOGIC
+// ========================================================
+// This file handles all the interactive behavior for the
+// property details page (details.html). It includes:
+// 1. URL parameter extraction and property data loading
+// 2. Booking widget date selection and guest management
+// 3. Calendar rendering and range selection
+// 4. Price calculation and display updates
+// 5. Disruptive Comparison Modal with hotel cost comparison
+// 6. Booking confirmation and localStorage persistence
+// 7. Login prompt for unauthenticated users
+// 8. Description, Amenities, and Reviews modals
+// 9. Profile dropdown management
+// ========================================================
 
 document.addEventListener('DOMContentLoaded', () => {
     // ========================================================
     // 1. URL PARAMETER EXTRACTION
     // Extracts the property ID from the URL string (e.g., ?id=2)
     // to determine which property to display.
+    // If no ID is provided or the property is not found,
+    // redirects to the homepage.
     // ========================================================
     const urlParams = new URLSearchParams(window.location.search);
     const propertyId = parseInt(urlParams.get('id'));
@@ -15,7 +31,11 @@ document.addEventListener('DOMContentLoaded', () => {
         return;
     }
 
-    // 2. Find Property in Database
+    // ========================================================
+    // 2. FIND PROPERTY IN DATABASE
+    // Searches the allProperties array from data.js for the
+    // matching property ID.
+    // ========================================================
     const property = allProperties.find(p => p.id === propertyId);
     if (!property) {
         alert("Property not found!");
@@ -24,7 +44,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // ========================================================
-    // 2. DATA POPULATION
+    // 3. DATA POPULATION
     // Injects the property's data (title, specs, rating, images)
     // into the HTML DOM elements dynamically.
     // ========================================================
@@ -32,14 +52,17 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('detail-title').textContent = property.title;
     document.getElementById('detail-subtitle').textContent = `${property.propertyType} in ${property.location}, Malaysia`;
     
+    // Calculate bedrooms, beds, and baths based on max guests
     const bedrooms = Math.ceil(property.maxGuests / 2);
     const beds = property.maxGuests;
     const baths = Math.max(1, Math.floor(property.maxGuests / 2));
     document.getElementById('detail-specs').textContent = `${property.maxGuests} guests · ${bedrooms} bedrooms · ${beds} beds · ${baths} baths`;
     document.getElementById('detail-rating').textContent = property.rating.toFixed(2);
     
-    // Images
+    // Set the main image
     document.getElementById('img-main').src = property.imgUrl;
+    
+    // Set sub-images (using related Unsplash photos for variety)
     const subImages = [
         "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?q=80&w=400&auto=format&fit=crop",
         "https://images.unsplash.com/photo-1505693314120-0d443867891c?q=80&w=400&auto=format&fit=crop",
@@ -53,7 +76,7 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('max-guests-text').textContent = property.maxGuests;
 
     // ========================================================
-    // 3. BOOKING WIDGET INITIALIZATION
+    // 4. BOOKING WIDGET INITIALIZATION
     // Sets up initial dates and parses any search queries 
     // passed over from the homepage via localStorage.
     // ========================================================
@@ -64,7 +87,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const exactCheckinVal = localStorage.getItem('exactCheckinVal');
     
     if (flexMonthStr) {
-        // e.g. "July"
+        // Parse flexible month string (e.g., "July") from search
         const monthNamesArr = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
         const monthIndex = monthNamesArr.findIndex(m => m === flexMonthStr || m.startsWith(flexMonthStr));
         if (monthIndex !== -1) {
@@ -73,14 +96,12 @@ document.addEventListener('DOMContentLoaded', () => {
             checkinDate = new Date(year, monthIndex, 1);
         }
     } else if (exactCheckinVal) {
-        // e.g. "205" = March 5 (Month index 2, day 5). Wait, val is `monthIndex * 100 + day`.
+        // Parse exact date from search (format: monthIndex * 100 + day)
         // Our monthNames in index.js are 'June 2026' = 0, 'July 2026' = 1, etc.
-        // It's a bit complex to reverse engineer exactly. Let's do a simple parse:
         const val = parseInt(exactCheckinVal);
         const day = val % 100;
         const indexOffset = Math.floor(val / 100);
-        // Assuming base month is June 2026 (month 5 in JS, year 2026) based on our mock data
-        let baseDate = new Date(2026, 5, 1);
+        let baseDate = new Date(2026, 5, 1); // Base month: June 2026
         baseDate.setMonth(baseDate.getMonth() + indexOffset);
         checkinDate = new Date(baseDate.getFullYear(), baseDate.getMonth(), day);
     }
@@ -95,23 +116,33 @@ document.addEventListener('DOMContentLoaded', () => {
         checkoutDate.setDate(checkoutDate.getDate() + 1);
     }
     
+    // Guest counts state
     let guestCounts = { adults: 1, children: 0, infants: 0, pets: 0 };
     let totalGuests = 1;
 
-    // Elements
+    // ========================================================
+    // DOM ELEMENT REFERENCES
+    // ========================================================
     const datesBtn = document.getElementById('details-dates-btn');
     const guestsBtn = document.getElementById('details-guests-btn');
     const datesPopup = document.getElementById('details-calendar-popup');
     const guestsPopup = document.getElementById('details-guests-popup');
     const chevron = document.getElementById('guests-chevron');
     
-    // Popups Toggling
+    /**
+     * closePopups - Hides both the date and guest popups.
+     * Also resets the chevron icon to point down.
+     */
     function closePopups() {
         datesPopup.classList.add('hidden');
         guestsPopup.classList.add('hidden');
         if (chevron) chevron.classList.replace('fa-chevron-up', 'fa-chevron-down');
     }
 
+    // ========================================================
+    // POPUP TOGGLING
+    // Clicking a field toggles its popup and closes the other.
+    // ========================================================
     datesBtn.addEventListener('click', (e) => {
         e.stopPropagation();
         const isHidden = datesPopup.classList.contains('hidden');
@@ -129,7 +160,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // Close when clicking outside
+    // Close popups when clicking outside
     document.addEventListener('click', (e) => {
         if (!datesPopup.contains(e.target) && !guestsPopup.contains(e.target)) {
             closePopups();
@@ -139,12 +170,16 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('close-guests-btn').addEventListener('click', closePopups);
     document.getElementById('close-dates-btn').addEventListener('click', closePopups);
 
-    // GUESTS LOGIC
+    // ========================================================
+    // 5. GUESTS LOGIC
+    // Manages the + and - buttons for each guest type.
+    // Updates the display and disables buttons when limits are reached.
+    // ========================================================
     const updateGuestsDisplay = () => {
         totalGuests = guestCounts.adults + guestCounts.children;
         document.getElementById('widget-guests-display').textContent = `${totalGuests} guest${totalGuests > 1 ? 's' : ''}`;
         
-        // Update counters
+        // Update each counter
         for (const type in guestCounts) {
             document.getElementById(`count-${type}`).textContent = guestCounts[type];
             const minusBtn = document.querySelector(`.minus[data-type="${type}"]`);
@@ -155,12 +190,14 @@ document.addEventListener('DOMContentLoaded', () => {
                 else minusBtn.disabled = guestCounts[type] <= 0;
             }
             
+            // Disable plus button for adults/children if max guests reached
             if (plusBtn && (type === 'adults' || type === 'children')) {
                 plusBtn.disabled = totalGuests >= property.maxGuests;
             }
         }
     };
 
+    // Add event listeners to all guest control buttons
     document.querySelectorAll('#details-guests-popup .ctrl-btn').forEach(btn => {
         btn.addEventListener('click', (e) => {
             const type = e.target.getAttribute('data-type');
@@ -175,13 +212,24 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // CALENDAR LOGIC
-    let selectionStep = 0; // 0 = picking checkin, 1 = picking checkout
+    // ========================================================
+    // 6. CALENDAR LOGIC
+    // Renders two months of a calendar with date selection.
+    // Supports range selection (click for check-in, click for check-out).
+    // ========================================================
+    let selectionStep = 0; // 0 = picking check-in, 1 = picking check-out
     let tempCheckin = null;
     let tempCheckout = null;
 
+    /**
+     * formatDateStr - Formats a Date object as MM/DD/YYYY
+     */
     const formatDateStr = (date) => `${date.getMonth()+1}/${date.getDate()}/${date.getFullYear()}`;
 
+    /**
+     * renderCalendar - Renders two months of the calendar
+     * in the calendar popup. Highlights selected dates and ranges.
+     */
     function renderCalendar() {
         const container = document.getElementById('calendar-months-container');
         container.innerHTML = '';
@@ -198,10 +246,12 @@ document.addEventListener('DOMContentLoaded', () => {
             const firstDayIndex = m.getDay();
             const daysInMonth = new Date(m.getFullYear(), m.getMonth() + 1, 0).getDate();
             
+            // Empty cells for days before the 1st
             for (let j = 0; j < firstDayIndex; j++) {
                 daysHTML += `<span class="cal-day empty"></span>`;
             }
             
+            // Fill in the days of the month
             for (let day = 1; day <= daysInMonth; day++) {
                 const iterDate = new Date(m.getFullYear(), m.getMonth(), day);
                 iterDate.setHours(0,0,0,0);
@@ -236,7 +286,7 @@ document.addEventListener('DOMContentLoaded', () => {
             `;
         }
 
-        // Attach click events
+        // Attach click events to each selectable day
         container.querySelectorAll('.cal-day:not(.past):not(.empty)').forEach(dayEl => {
             dayEl.addEventListener('click', (e) => {
                 e.stopPropagation();
@@ -264,6 +314,10 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    /**
+     * updateDatesDisplay - Updates the date display fields
+     * and recalculates the total price based on selected nights.
+     */
     function updateDatesDisplay() {
         document.getElementById('widget-checkin-display').textContent = formatDateStr(checkinDate);
         document.getElementById('popup-checkin-display').textContent = formatDateStr(checkinDate);
@@ -271,13 +325,14 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('widget-checkout-display').textContent = formatDateStr(checkoutDate);
         document.getElementById('popup-checkout-display').textContent = formatDateStr(checkoutDate);
 
-        // Update Price
+        // Update price
         const diffDays = Math.max(1, Math.ceil((checkoutDate - checkinDate) / (1000 * 60 * 60 * 24)));
         selectedNights = diffDays;
         document.getElementById('widget-price-total').textContent = `RM ${property.pricePerNight * selectedNights}`;
         document.getElementById('widget-price-nights').textContent = `for ${selectedNights} night${selectedNights > 1 ? 's' : ''}`;
     }
 
+    // Clear dates button resets the selection
     document.getElementById('clear-dates-btn').addEventListener('click', (e) => {
         e.stopPropagation();
         tempCheckin = null;
@@ -286,14 +341,19 @@ document.addEventListener('DOMContentLoaded', () => {
         renderCalendar();
     });
 
-    // Initialization
+    // ========================================================
+    // INITIALIZATION - Set initial state and render
+    // ========================================================
     tempCheckin = checkinDate;
     tempCheckout = checkoutDate;
     updateGuestsDisplay();
     updateDatesDisplay();
     renderCalendar();
 
-    // 5. Connect "Book" button
+    // ========================================================
+    // 7. CONNECT "BOOK" BUTTON
+    // Clicking the Book button opens the Comparison Modal.
+    // ========================================================
     const reserveBtn = document.getElementById('details-reserve-btn');
     if (reserveBtn) {
         reserveBtn.addEventListener('click', () => {
@@ -301,14 +361,27 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // === 6. Setup Nav Profile (from data.js) ===
+    // ========================================================
+    // 8. SETUP NAV PROFILE (from data.js)
+    // Initializes the profile dropdown and login state.
+    // ========================================================
     if (typeof setupNavProfile === 'function') setupNavProfile();
 
-    // === 7. Disruptive Comparison Modal Logic ===
+    // ========================================================
+    // 9. DISRUPTIVE COMPARISON MODAL LOGIC
+    // Compares the Airbnb property cost against traditional hotels.
+    // Dynamically calculates hotel rooms needed and total cost.
+    // ========================================================
     const comparisonModal = document.getElementById('comparison-modal');
     const closeModalBtn = document.getElementById('close-modal');
 
+    /**
+     * openComparisonModal - Opens the comparison modal and populates
+     * it with dynamic data for both Airbnb and traditional hotels.
+     * @param {Object} property - The property being viewed.
+     */
     function openComparisonModal(property) {
+        // Populate Airbnb side
         document.getElementById('comp-img').src = property.imgUrl;
         document.getElementById('comp-title').textContent = property.title;
         document.getElementById('comp-guests').textContent = `Up to ${property.maxGuests} guests`;
@@ -317,13 +390,18 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('comp-price').textContent = property.pricePerNight;
         document.getElementById('stay-nights').textContent = selectedNights;
 
-        // Dynamic Comparison Engine
+        // ========================================================
+        // DYNAMIC COMPARISON ENGINE
+        // Calculates the equivalent hotel cost based on property type
+        // and location. Uses different hotel tiers and prices.
+        // ========================================================
         let hotelTierName = "Standard 4-Star Hotel";
         let hotelImageUrl = "https://images.unsplash.com/photo-1566073771259-6a8506099945?q=80&w=600&auto=format&fit=crop";
         let baseHotelPrice = 300; // default
-        let GUESTS_PER_ROOM = 2;
+        const GUESTS_PER_ROOM = 2;
         let roomsNeeded = 1;
 
+        // Determine hotel tier based on property type
         if (property.propertyType === "Luxury villa") {
             hotelTierName = "5-Star Luxury Resort";
             hotelImageUrl = "https://images.unsplash.com/photo-1582719508461-905c673771fd?q=80&w=600&auto=format&fit=crop";
@@ -347,11 +425,12 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
 
+        // Calculate how many hotel rooms are needed
         roomsNeeded = Math.ceil(property.maxGuests / GUESTS_PER_ROOM);
         const hotelPricePerNight = roomsNeeded * baseHotelPrice;
         const totalHotelPrice = hotelPricePerNight * selectedNights;
 
-        // Update DOM for Hotel
+        // Update DOM for Hotel side
         const hotelTitleEl = document.getElementById('hotel-comp-title');
         const hotelImgEl = document.getElementById('hotel-comp-img');
         if (hotelTitleEl) hotelTitleEl.textContent = hotelTierName;
@@ -360,6 +439,7 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('hotel-rooms').textContent = roomsNeeded;
         document.getElementById('hotel-price').textContent = hotelPricePerNight;
 
+        // Calculate and display savings
         const savings = totalHotelPrice - airbnbTotalPrice;
         const savingsEl = document.getElementById('total-savings');
         
@@ -374,6 +454,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (comparisonModal) comparisonModal.classList.remove('hidden');
     }
 
+    // Close modal handlers
     if (closeModalBtn) {
         closeModalBtn.addEventListener('click', () => {
             comparisonModal.classList.add('hidden');
@@ -388,10 +469,18 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // === 8. Booking Action ===
+    // ========================================================
+    // 10. BOOKING ACTION
+    // When "Book Now" is clicked in the comparison modal:
+    // - Checks if user is logged in
+    // - Creates a booking object with all details
+    // - Saves to localStorage
+    // - Shows success modal
+    // ========================================================
     const bookNowBtn = document.getElementById('book-now-btn');
     if (bookNowBtn) {
         bookNowBtn.addEventListener('click', () => {
+            // Check authentication
             if (localStorage.getItem('isLoggedIn') !== 'true') {
                 comparisonModal.classList.add('hidden');
                 document.getElementById('login-prompt-modal').classList.remove('hidden');
@@ -401,10 +490,12 @@ document.addEventListener('DOMContentLoaded', () => {
             comparisonModal.classList.add('hidden');
             const successModal = document.getElementById('success-modal');
             
+            // Calculate final price
             const finalPrice = property.pricePerNight * selectedNights;
             document.getElementById('success-prop-name').textContent = property.title;
             document.getElementById('success-total-price').textContent = `RM ${finalPrice}`;
             
+            // Create booking object
             const newBooking = {
                 title: property.title,
                 location: property.location,
@@ -417,6 +508,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 checkout: formatDateStr(checkoutDate)
             };
             
+            // Save to localStorage
             const existingBookings = JSON.parse(localStorage.getItem('myBookings')) || [];
             existingBookings.push(newBooking);
             localStorage.setItem('myBookings', JSON.stringify(existingBookings));
@@ -425,6 +517,9 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // ========================================================
+    // SUCCESS MODAL CLOSE
+    // ========================================================
     const closeSuccessBtn = document.getElementById('close-success');
     if (closeSuccessBtn) {
         closeSuccessBtn.addEventListener('click', () => {
@@ -432,6 +527,9 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // ========================================================
+    // LOGIN PROMPT MODAL CLOSE
+    // ========================================================
     const closeLoginBtn = document.getElementById('close-login-prompt');
     if (closeLoginBtn) {
         closeLoginBtn.addEventListener('click', () => {
@@ -439,7 +537,11 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // === Description & Amenities Modals ===
+    // ========================================================
+    // 11. DESCRIPTION & AMENITIES MODALS
+    // Opens modals for "Show more" buttons in the description
+    // and amenities sections.
+    // ========================================================
     const descModal = document.getElementById('desc-modal');
     const amenitiesModal = document.getElementById('amenities-modal');
     const descBtn = document.querySelector('.property-description .show-more-btn');
@@ -468,7 +570,11 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // === Reviews Modal ===
+    // ========================================================
+    // 12. REVIEWS MODAL
+    // Opens a modal with all reviews when "Show all reviews"
+    // is clicked.
+    // ========================================================
     const reviewsModal = document.getElementById('reviews-modal');
     const reviewsBtn = document.querySelector('.reviews-section > .show-more-btn');
     const closeReviewsBtn = document.getElementById('close-reviews-modal');
